@@ -31,9 +31,11 @@ fun Application.configureSecurity() {
     }
 }
 
+private const val JWT_LIFETIME = 1000L * 60L * 60L * 23L
+
 fun generateNewToken(id: Int, email: String): String =
     JWT.create()
         .withClaim("email", email)
         .withClaim("id", id)
-        .withExpiresAt(Date(System.currentTimeMillis() + 1000L * 60L * 60L * 23L))
+        .withExpiresAt(Date(System.currentTimeMillis() + JWT_LIFETIME))
         .sign(Algorithm.HMAC256(SECRET))
