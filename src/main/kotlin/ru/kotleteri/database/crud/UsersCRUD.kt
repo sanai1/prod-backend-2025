@@ -6,6 +6,7 @@ import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.transaction
 import ru.kotleteri.data.enums.DatabaseStatus
 import ru.kotleteri.data.models.base.UserModel
+import ru.kotleteri.database.suspendTransaction
 import ru.kotleteri.database.tables.UsersTable
 import java.sql.SQLIntegrityConstraintViolationException
 
@@ -19,9 +20,9 @@ object UsersCRUD {
             resultRow[UsersTable.password]
         )
 
-    fun create(user: UserModel): DatabaseStatus {
+    suspend fun create(user: UserModel): DatabaseStatus {
         try {
-            transaction {
+            suspendTransaction {
                 UsersTable.insert {
                     it[firstName] = user.firstName
                     it[lastName] = user.lastName
@@ -42,7 +43,7 @@ object UsersCRUD {
 
     }
 
-    fun read(id: Int) = transaction {
+    suspend fun read(id: Int) = suspendTransaction {
         UsersTable.selectAll()
             .where { UsersTable.id eq id }
             .singleOrNull()
@@ -50,7 +51,7 @@ object UsersCRUD {
             else resultRowToUserModel(it) }
     }
 
-    fun readByEmail(email: String) = transaction {
+    suspend fun readByEmail(email: String) = suspendTransaction {
         UsersTable.selectAll()
             .where { UsersTable.email eq email }
             .singleOrNull()
@@ -58,9 +59,9 @@ object UsersCRUD {
             else resultRowToUserModel(it) }
     }
 
-    fun update(user: UserModel): DatabaseStatus {
+    suspend fun update(user: UserModel): DatabaseStatus {
         try {
-            transaction {
+            suspendTransaction {
                 UsersTable.update({ UsersTable.id eq user.id }) {
                     it[firstName] = user.firstName
                     it[lastName] = user.lastName
@@ -79,9 +80,9 @@ object UsersCRUD {
         }
     }
 
-    fun updatePassword(user: UserModel): DatabaseStatus {
+    suspend fun updatePassword(user: UserModel): DatabaseStatus {
         try {
-            transaction {
+            suspendTransaction {
                 UsersTable.update({ UsersTable.id eq user.id }) {
                     it[password] = user.password
                 }
@@ -92,7 +93,7 @@ object UsersCRUD {
         }
     }
 
-    fun delete(id: Int) = transaction {
+    suspend fun delete(id: Int) = suspendTransaction {
         UsersTable.deleteWhere { UsersTable.id eq id }
     }
 }
