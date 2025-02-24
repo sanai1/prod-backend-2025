@@ -10,15 +10,15 @@ import ru.kotleteri.utils.Validate
 
 @Serializable
 data class RegisterRequestModel(
-    val first_name: String,
-    val last_name: String,
+    val firstName: String,
+    val lastName: String,
     val email: String,
     val password: String
 ) {
     fun validate(): Pair<String?, ValidateResult> { // field name and validation result for this field
         val validations = mapOf(
-            "firstName" to Validate.field(first_name, 1..32),
-            "lastName" to Validate.field(last_name, 1..32),
+            "firstName" to Validate.field(firstName, 1..32),
+            "lastName" to Validate.field(lastName, 1..32),
             "email" to Validate.field(email, 2..128, pattern = EMAIL_REGEX),
             "password" to Validate.field(password, 8..128, pattern = PASSWORD_REGEX)
         )
@@ -39,8 +39,8 @@ data class RegisterRequestModel(
     fun toUserModel() =
         UserModel(
             0,
-            first_name,
-            last_name,
+            firstName,
+            lastName,
             email,
             BCrypt.hashpw(password, BCrypt.gensalt())
         )
