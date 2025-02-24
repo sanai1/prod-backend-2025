@@ -3,6 +3,7 @@ package ru.kotleteri
 import io.ktor.client.request.*
 import io.ktor.http.*
 import io.ktor.server.testing.*
+import ru.kotleteri.module
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

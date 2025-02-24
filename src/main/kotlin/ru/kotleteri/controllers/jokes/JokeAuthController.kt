@@ -19,6 +19,7 @@ class JokeAuthController(call: ApplicationCall): AbstractAuthController(call) {
         call.respond(HttpStatusCode.OK, GetJokeResponseModel(
             email,
             joke.joke
-        ))
+        )
+        )
     }
 }

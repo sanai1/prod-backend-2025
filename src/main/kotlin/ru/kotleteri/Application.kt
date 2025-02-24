@@ -1,7 +1,7 @@
 package ru.kotleteri
 
-import database.DatabaseFactory
-import database.DatabaseInit
+import ru.kotleteri.database.DatabaseFactory
+import ru.kotleteri.database.DatabaseInit
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*

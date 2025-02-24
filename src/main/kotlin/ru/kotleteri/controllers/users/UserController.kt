@@ -22,13 +22,15 @@ class UserController(val call: ApplicationCall) {
 
         if (user == null) {
             call.respond(HttpStatusCode.Unauthorized,
-                ErrorResponse("User with this email and password doesn't exist"))
+                ErrorResponse("User with this email and password doesn't exist")
+            )
             return
         }
 
         if (!BCrypt.checkpw(loginRequest.password, user.password)){
             call.respond(HttpStatusCode.Unauthorized,
-                ErrorResponse("User with this email and password doesn't exist"))
+                ErrorResponse("User with this email and password doesn't exist")
+            )
             return
         }
 

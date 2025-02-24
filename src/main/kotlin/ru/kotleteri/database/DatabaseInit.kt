@@ -1,4 +1,4 @@
-package database
+package ru.kotleteri.database
 
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.Table
