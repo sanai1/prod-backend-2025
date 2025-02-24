@@ -1,0 +1,14 @@
+openapi: "3.1.0"
+info:
+  title: "example_2025 API"
+  description: "example_2025 API"
+  version: "1.0.0"
+servers:
+- url: "https://example_2025"
+paths:
+  /api/login:
+    post:
+      description: ""
+  /api/register:
+    post:
+      description: ""
