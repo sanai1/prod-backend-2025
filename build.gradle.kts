@@ -16,7 +16,7 @@ group = "ru.kotleteri"
 version = "0.0.1"
 
 application {
-    mainClass = "io.ktor.server.netty.EngineMain"
+    mainClass.set("ru.kotleteri.ApplicationKt")
 
     val isDevelopment: Boolean = project.ext.has("development")
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
@@ -38,6 +38,11 @@ dependencies {
     implementation("io.ktor:ktor-server-config-yaml")
     implementation("io.ktor:ktor-server-swagger")
 
+    // ktor client
+    implementation("io.ktor:ktor-client-core")
+    implementation("io.ktor:ktor-client-cio")
+    implementation("io.ktor:ktor-client-content-negotiation")
+
     // database
     implementation("org.jetbrains.exposed:exposed-core:$exposed_version")
     implementation("org.jetbrains.exposed:exposed-jdbc:$exposed_version")
@@ -54,4 +59,17 @@ dependencies {
     // tests
     testImplementation("io.ktor:ktor-server-test-host")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+}
+
+tasks.register("copyDependencies") {
+    doLast {
+        val libsDir = File("$buildDir/libs/libraries")
+        libsDir.mkdirs()
+
+        configurations.getByName("runtimeClasspath").files.forEach {
+            if (it.name.endsWith(".jar")) {
+                it.copyTo(File(libsDir, it.name))
+            }
+        }
+    }
 }

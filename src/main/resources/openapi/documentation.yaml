@@ -6,9 +6,140 @@ info:
 servers:
 - url: "https://example_2025"
 paths:
+  /api/joke:
+    get:
+      description: ""
+      responses:
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "Joke not found"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/GetJokeResponseModel"
   /api/login:
     post:
       description: ""
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequestModel"
+        required: true
+      responses:
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "User with this email and password doesn't exist"
+                Example#2:
+                  description: ""
+                  value:
+                    status: "User with this email and password doesn't exist"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/LoginResponseModel"
   /api/register:
     post:
       description: ""
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterRequestModel"
+        required: true
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: "Conflict"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "User with this email already exists"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+components:
+  schemas:
+    ErrorResponse:
+      type: "object"
+      properties:
+        status:
+          type: "string"
+      required:
+      - "status"
+    GetJokeResponseModel:
+      type: "object"
+      properties:
+        requester:
+          type: "string"
+        joke:
+          type: "string"
+      required:
+      - "requester"
+      - "joke"
+    LoginRequestModel:
+      type: "object"
+      properties:
+        email:
+          type: "string"
+        password:
+          type: "string"
+      required:
+      - "email"
+      - "password"
+    LoginResponseModel:
+      type: "object"
+      properties:
+        token:
+          type: "string"
+      required:
+      - "token"
+    RegisterRequestModel:
+      type: "object"
+      properties:
+        firstName:
+          type: "string"
+        lastName:
+          type: "string"
+        email:
+          type: "string"
+        password:
+          type: "string"
+      required:
+      - "firstName"
+      - "lastName"
+      - "email"
+      - "password"

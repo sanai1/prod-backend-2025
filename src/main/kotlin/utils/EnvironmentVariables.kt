@@ -5,6 +5,6 @@ val SECRET = System.getenv("SECRET")?.toString() ?: "081499836611D227B0B5F608C2B
 val SERVER_PORT = System.getenv("SERVER_PORT")?.toInt() ?: 8080
 
 //postgres
-val POSTGRES_URL = System.getenv("POSTGRES_URL")
-val POSTGRES_PASSWORD = System.getenv("POSTGRES_PASSWORD")
-val POSTGRES_USERNAME = System.getenv("POSTGRES_PORT")
+val POSTGRES_URL = System.getenv("POSTGRES_URL").toString()
+val POSTGRES_PASSWORD = System.getenv("POSTGRES_PASSWORD").toString()
+val POSTGRES_USERNAME = System.getenv("POSTGRES_USERNAME").toString()
