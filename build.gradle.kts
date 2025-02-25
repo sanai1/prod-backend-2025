@@ -73,3 +73,7 @@ tasks.register("copyDependencies") {
         }
     }
 }
+
+tasks.test {
+    useJUnitPlatform()
+}
