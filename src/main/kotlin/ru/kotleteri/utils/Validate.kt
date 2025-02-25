@@ -51,12 +51,11 @@ interface Validateable {
         return Pair(null, ValidateResult.Valid)
     }.getOrElse {
         if (it is ValidationException) {
-            return Pair(null, ValidateResult.valueOf(it.message!!.split(" ").last()))
+            return Pair(it.field, it.result)
         }
         throw it
     }
 }
 
-class ValidationException(message: String) : Exception(message) {
-    constructor(field: String?, result: ValidateResult) : this("Field $field is $result")
+class ValidationException(val field: String?, val result: ValidateResult) : Exception("Field $field is $result") {
 }
