@@ -41,6 +41,16 @@ object Validate {
         }
 
     }
+
+    fun field(field: KProperty0<Validateable?>, ignoreNull: Boolean = false) {
+        val fieldValue = field.get()
+        if (fieldValue == null) {
+            if (ignoreNull) return
+            throw ValidationException(field.name, ValidateResult.Null)
+        }
+
+        fieldValue.performValidation()
+    }
 }
 
 
