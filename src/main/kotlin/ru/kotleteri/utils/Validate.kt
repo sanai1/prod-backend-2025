@@ -48,8 +48,14 @@ object Validate {
             if (ignoreNull) return
             throw ValidationException(field.name, ValidateResult.Null)
         }
-
-        fieldValue.performValidation()
+        kotlin.runCatching {
+            fieldValue.performValidation()
+        }.onFailure {
+            if (it is ValidationException) {
+                throw ValidationException("${field.name}.${it.field}", it.result)
+            }
+            throw it
+        }
     }
 }
 
@@ -67,5 +73,4 @@ interface Validateable {
     }
 }
 
-class ValidationException(val field: String?, val result: ValidateResult) : Exception("Field $field is $result") {
-}
+class ValidationException(val field: String, val result: ValidateResult) : Exception("Field $field is $result")
