@@ -17,5 +17,6 @@ fun Application.configureHTTP() {
         allowHeader(HttpHeaders.AccessControlAllowOrigin)
 
         anyHost()
+
     }
 }

@@ -8,6 +8,7 @@ import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import io.ktor.server.response.*
 import ru.kotleteri.data.models.inout.ErrorResponse
+import ru.kotleteri.utils.JWT_LIFETIME
 import ru.kotleteri.utils.SECRET
 import java.util.*
 
@@ -31,7 +32,6 @@ fun Application.configureSecurity() {
     }
 }
 
-private const val JWT_LIFETIME = 1000L * 60L * 60L * 23L
 
 fun generateNewToken(id: Int, email: String): String =
     JWT.create()
