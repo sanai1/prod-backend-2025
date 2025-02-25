@@ -1,40 +1,62 @@
 package ru.kotleteri.utils
 
 import ru.kotleteri.data.enums.ValidateResult
+import kotlin.reflect.KProperty0
 
 object Validate {
-    fun field(field: String?,
-              length: IntRange? = null,
-              pattern: String? = null,
-              ignoreNull: Boolean = false): ValidateResult {
-        if (field == null) {
-            if (ignoreNull) return ValidateResult.Valid
-            return ValidateResult.Null
+    fun string(
+        field: KProperty0<String?>,
+        length: IntRange? = null,
+        pattern: String? = null,
+        ignoreNull: Boolean = false
+    ) {
+        val fieldValue = field.get()
+        if (fieldValue == null) {
+            if (ignoreNull) return
+            throw ValidationException(field.name, ValidateResult.Null)
         }
 
-        if (length != null && field.length !in length) {
-            return ValidateResult.InvalidLength
+        if (length != null && fieldValue.length !in length) {
+            throw ValidationException(field.name, ValidateResult.InvalidLength)
         }
 
-        if (pattern != null && !Regex(pattern).matches(field)) {
-            return ValidateResult.NotMatchesPattern
+        if (pattern != null && !Regex(pattern).matches(fieldValue)) {
+            throw ValidationException(field.name, ValidateResult.NotMatchesPattern)
         }
-
-        return ValidateResult.Valid
     }
 
-    fun number(number: Int?,
-               bounds: IntRange? = null,
-               ignoreNull: Boolean = false): ValidateResult {
-        if (number == null) {
-            if (ignoreNull) return ValidateResult.Valid
-            return ValidateResult.Null
+    fun number(
+        number: KProperty0<Int?>,
+        bounds: IntRange? = null,
+        ignoreNull: Boolean = false
+    ) {
+        val fieldValue = number.get()
+        if (fieldValue == null) {
+            if (ignoreNull) return
+            throw ValidationException(number.name, ValidateResult.Null)
         }
 
-        if (bounds != null && number !in bounds) {
-            return ValidateResult.OutOfBounds
+        if (bounds != null && fieldValue !in bounds) {
+            throw ValidationException(number.name, ValidateResult.OutOfBounds)
         }
 
-        return ValidateResult.Valid
     }
+}
+
+
+interface Validateable {
+    fun performValidation()
+    fun validate(): Pair<String?, ValidateResult> = runCatching {
+        performValidation()
+        return Pair(null, ValidateResult.Valid)
+    }.getOrElse {
+        if (it is ValidationException) {
+            return Pair(null, ValidateResult.valueOf(it.message!!.split(" ").last()))
+        }
+        throw it
+    }
+}
+
+class ValidationException(message: String) : Exception(message) {
+    constructor(field: String?, result: ValidateResult) : this("Field $field is $result")
 }
