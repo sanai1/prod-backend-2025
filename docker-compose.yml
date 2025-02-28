@@ -1,0 +1,13 @@
+services:
+  app:
+    build:
+      context: .
+    container_name: app
+    restart: unless-stopped
+    networks:
+      - main
+
+
+networks:
+  main:
+    driver: bridge
