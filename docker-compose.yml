@@ -1,12 +1,35 @@
+x-common: &env-common
+  environment:
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: postgres
+    POSTGRES_URL: "jdbc:postgresql://postgres:5432/prod"
+    POSTGRES_DB: prod
+
+
 services:
   app:
     build:
       context: .
-    container_name: app
     restart: unless-stopped
     networks:
       - main
+    <<: *env-common
+  postgres:
+    image: postgres:17.3
+    restart: unless-stopped
+    networks:
+      - main
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      retries: 5
+    <<: *env-common
 
+
+volumes:
+  pg_data:
 
 networks:
   main:

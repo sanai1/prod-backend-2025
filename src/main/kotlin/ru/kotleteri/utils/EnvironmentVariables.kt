@@ -7,4 +7,4 @@ val SERVER_PORT = System.getenv("SERVER_PORT")?.toInt() ?: 8080
 //postgres
 val POSTGRES_URL = System.getenv("POSTGRES_URL").toString()
 val POSTGRES_PASSWORD = System.getenv("POSTGRES_PASSWORD").toString()
-val POSTGRES_USERNAME = System.getenv("POSTGRES_USERNAME").toString()
+val POSTGRES_USER = System.getenv("POSTGRES_USER").toString()

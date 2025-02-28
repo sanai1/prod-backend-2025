@@ -12,7 +12,7 @@ import ru.kotleteri.plugins.configureSecurity
 import ru.kotleteri.plugins.configureSerialization
 import ru.kotleteri.utils.POSTGRES_PASSWORD
 import ru.kotleteri.utils.POSTGRES_URL
-import ru.kotleteri.utils.POSTGRES_USERNAME
+import ru.kotleteri.utils.POSTGRES_USER
 import ru.kotleteri.utils.SERVER_PORT
 
 fun main() {
@@ -40,7 +40,7 @@ fun connect() {
         DatabaseFactory.createHikariDataSource(
             POSTGRES_URL,
             "org.postgresql.Driver",
-            POSTGRES_USERNAME,
+            POSTGRES_USER,
             POSTGRES_PASSWORD
         ),
     )
