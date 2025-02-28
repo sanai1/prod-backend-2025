@@ -6,13 +6,14 @@ COPY gradle gradle
 COPY build.gradle.kts .
 COPY gradle.properties .
 COPY settings.gradle.kts .
-COPY src src
 
 RUN gradle copyDependencies -x test --no-daemon
 
+COPY src src
+
 RUN gradle build -x test --no-daemon --stacktrace
 
-FROM openjdk:17-oracle
+FROM amazoncorretto:21
 
 WORKDIR /app
 
