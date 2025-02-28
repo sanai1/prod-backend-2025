@@ -41,5 +41,5 @@
 #      --log-opt max-size=100m
 #      --name=$CI_PROJECT_NAME $OPT_DOCKER
 #      $IMAGE_NAME"
-    - ssh $SSH_ADDRESS "docker compose up -d"
+    - ssh $SSH_ADDRESS "cd /app && docker compose up -d"
     - ssh $SSH_ADDRESS "$PRUNE_COMMAND"
