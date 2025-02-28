@@ -34,7 +34,7 @@ class UserController(val call: ApplicationCall) {
             return
         }
 
-        val token = generateNewToken(user.id, user.email)
+        val token = generateNewToken(user.id, user.email, true)
 
         call.respond(HttpStatusCode.OK, LoginResponseModel(token))
     }
