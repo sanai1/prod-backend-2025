@@ -1,7 +1,7 @@
 x-common: &env-common
   environment:
     POSTGRES_USER: postgres
-    POSTGRES_PASSWORD: postgres
+    POSTGRES_PASSWORD: Vn0i4S2eUYalG9JY98cG
     POSTGRES_URL: "jdbc:postgresql://postgres:5432/prod"
     POSTGRES_DB: prod
 
@@ -20,6 +20,8 @@ services:
     restart: unless-stopped
     networks:
       - main
+    ports:
+      - "8001:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
     healthcheck:

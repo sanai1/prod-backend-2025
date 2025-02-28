@@ -57,8 +57,6 @@ dependencies {
     // logs
     implementation("ch.qos.logback:logback-classic:$logback_version")
 
-
-
     // tests
     testImplementation("io.ktor:ktor-server-test-host")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
