@@ -39,4 +39,4 @@
       --log-opt max-size=100m
       --name=$CI_PROJECT_NAME $OPT_DOCKER
       $IMAGE_NAME"
-#    - ssh $SSH_ADDRESS "$PRUNE_COMMAND"
+    - ssh $SSH_ADDRESS "$PRUNE_COMMAND"
