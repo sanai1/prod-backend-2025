@@ -6,28 +6,7 @@ info:
 servers:
 - url: "https://example_2025"
 paths:
-  /api/joke:
-    get:
-      description: ""
-      responses:
-        "404":
-          description: "Not Found"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                Example#1:
-                  description: ""
-                  value:
-                    status: "Joke not found"
-        "200":
-          description: "OK"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/GetJokeResponseModel"
-  /api/login:
+  /api/clients/login:
     post:
       description: ""
       requestBody:
@@ -58,7 +37,7 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/LoginResponseModel"
-  /api/register:
+  /api/clients/register:
     post:
       description: ""
       requestBody:
@@ -90,26 +69,73 @@ paths:
           content:
             '*/*':
               schema:
-                type: "object"
+                $ref: "#/components/schemas/LoginResponseModel"
+  /api/companies/login:
+    post:
+      description: ""
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequestModel"
+        required: true
+      responses:
+        "401":
+          description: "Unauthorized"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "User with this email and password doesn't exist"
+                Example#2:
+                  description: ""
+                  value:
+                    status: "User with this email and password doesn't exist"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/LoginResponseModel"
+  /api/companies/register:
+    post:
+      description: ""
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterCompanyRequestModel"
+        required: true
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "409":
+          description: "Conflict"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "User with this email already exists"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/LoginResponseModel"
 components:
   schemas:
-    ErrorResponse:
-      type: "object"
-      properties:
-        status:
-          type: "string"
-      required:
-      - "status"
-    GetJokeResponseModel:
-      type: "object"
-      properties:
-        requester:
-          type: "string"
-        joke:
-          type: "string"
-      required:
-      - "requester"
-      - "joke"
     LoginRequestModel:
       type: "object"
       properties:
@@ -120,6 +146,13 @@ components:
       required:
       - "email"
       - "password"
+    ErrorResponse:
+      type: "object"
+      properties:
+        status:
+          type: "string"
+      required:
+      - "status"
     LoginResponseModel:
       type: "object"
       properties:
@@ -141,5 +174,18 @@ components:
       required:
       - "firstName"
       - "lastName"
+      - "email"
+      - "password"
+    RegisterCompanyRequestModel:
+      type: "object"
+      properties:
+        name:
+          type: "string"
+        email:
+          type: "string"
+        password:
+          type: "string"
+      required:
+      - "name"
       - "email"
       - "password"
