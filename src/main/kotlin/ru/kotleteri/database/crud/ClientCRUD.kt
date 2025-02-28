@@ -23,22 +23,21 @@ object ClientCRUD {
             resultRow[ClientTable.password]
         )
 
-    suspend fun create(user: ClientModel): DatabaseStatus {
+    suspend fun create(user: ClientModel): DatabaseStatus = suspendTransaction {
         try {
-            suspendTransaction {
-                ClientTable.insert {
-                    it[firstName] = user.firstName
-                    it[lastName] = user.lastName
-                    it[email] = user.email
-                    it[password] = user.password
-                }
+            ClientTable.insert {
+                it[firstName] = user.firstName
+                it[lastName] = user.lastName
+                it[email] = user.email
+                it[password] = user.password
             }
-            return DatabaseStatus.Correct
+            return@suspendTransaction DatabaseStatus.Correct
         } catch (ex: ExposedSQLException) {
             val cause = ex.cause
-            return when (cause) {
+            return@suspendTransaction when (cause) {
                 is SQLIntegrityConstraintViolationException ->
                     DatabaseStatus.ConstraintViolation
+
                 else ->
                     DatabaseStatus.Incorrect
             }
@@ -50,49 +49,50 @@ object ClientCRUD {
         ClientTable.selectAll()
             .where { ClientTable.id eq id }
             .singleOrNull()
-            .let { if(it == null) null
-            else resultRowToClientModel(it) }
+            .let {
+                if (it == null) null
+                else resultRowToClientModel(it)
+            }
     }
 
     suspend fun readByEmail(email: String) = suspendTransaction {
         ClientTable.selectAll()
             .where { ClientTable.email eq email }
             .singleOrNull()
-            .let { if(it == null) null
-            else resultRowToClientModel(it) }
+            .let {
+                if (it == null) null
+                else resultRowToClientModel(it)
+            }
     }
 
-    suspend fun update(user: ClientTable): DatabaseStatus {
+    suspend fun update(user: ClientTable): DatabaseStatus = suspendTransaction {
         try {
-            suspendTransaction {
-                ClientTable.update({ ClientTable.id eq user.id }) {
-                    it[firstName] = user.firstName
-                    it[lastName] = user.lastName
-                    it[email] = user.email
-                }
+            ClientTable.update({ ClientTable.id eq user.id }) {
+                it[firstName] = user.firstName
+                it[lastName] = user.lastName
+                it[email] = user.email
             }
-            return DatabaseStatus.Correct
+            return@suspendTransaction DatabaseStatus.Correct
         } catch (e: ExposedSQLException) {
             val cause = e.cause
-            return when (cause) {
+            return@suspendTransaction when (cause) {
                 is SQLIntegrityConstraintViolationException ->
                     DatabaseStatus.ConstraintViolation
+
                 else ->
                     DatabaseStatus.Incorrect
             }
         }
     }
 
-    suspend fun updatePassword(user: ClientModel): DatabaseStatus {
+    suspend fun updatePassword(user: ClientModel): DatabaseStatus = suspendTransaction {
         try {
-            suspendTransaction {
-                ClientTable.update({ ClientTable.id eq user.id }) {
-                    it[password] = user.password
-                }
+            ClientTable.update({ ClientTable.id eq user.id }) {
+                it[password] = user.password
             }
-            return DatabaseStatus.Correct
+            return@suspendTransaction DatabaseStatus.Correct
         } catch (e: ExposedSQLException) {
-            return DatabaseStatus.Incorrect
+            return@suspendTransaction DatabaseStatus.Incorrect
         }
     }
 
