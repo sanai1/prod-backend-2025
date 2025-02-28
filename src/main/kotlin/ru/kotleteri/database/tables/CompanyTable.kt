@@ -4,8 +4,8 @@ import org.jetbrains.exposed.dao.id.IdTable
 import java.util.*
 
 object CompanyTable: IdTable<UUID> ("company") {
-    override val id = ClientTable.uuid("id").uniqueIndex().entityId()
+    override val id = uuid("id").uniqueIndex().entityId()
     val name = varchar("name", 50)
-    val email = ClientTable.varchar("email", 128)
+    val email = varchar("email", 128)
     val password = varchar("password", 60)
 }
