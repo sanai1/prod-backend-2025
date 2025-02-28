@@ -8,8 +8,7 @@ x-common: &env-common
 
 services:
   app:
-    build:
-      context: .
+    image: gitlab.prodcontest.ru:5050/team-10/backend
     restart: unless-stopped
     networks:
       - main
