@@ -8,4 +8,5 @@ abstract class AbstractAuthController(val call: ApplicationCall) {
     val principal = call.principal<JWTPrincipal>()
     val email = principal!!.payload.getClaim("email").asString()
     val id = principal!!.payload.getClaim("id").asInt()
+    val isClient = principal!!.payload.getClaim("isClient").asBoolean()
 }
