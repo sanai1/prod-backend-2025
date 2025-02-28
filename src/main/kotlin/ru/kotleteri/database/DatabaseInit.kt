@@ -13,9 +13,7 @@ object DatabaseInit {
 
     fun initialize() {
         transaction {
-            tables.forEach {
-                SchemaUtils.create(it)
-            }
+            SchemaUtils.createMissingTablesAndColumns(*tables.toTypedArray())
         }
     }
 }
