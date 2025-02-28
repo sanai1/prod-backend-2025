@@ -54,8 +54,6 @@ class ClientController(val call: ApplicationCall) {
         val client = registerRequest.toClientModel()
         val status = ClientCRUD.create(client)
 
-        println(status)
-
         if (status != DatabaseStatus.Correct){
             call.respond(HttpStatusCode.Conflict, ErrorResponse("User with this email already exists"))
             return

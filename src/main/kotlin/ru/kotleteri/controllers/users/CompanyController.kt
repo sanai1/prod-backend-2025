@@ -11,7 +11,6 @@ import ru.kotleteri.data.models.inout.ErrorResponse
 import ru.kotleteri.data.models.inout.clients.LoginRequestModel
 import ru.kotleteri.data.models.inout.clients.LoginResponseModel
 import ru.kotleteri.data.models.inout.clients.RegisterCompanyRequestModel
-import ru.kotleteri.data.models.inout.clients.RegisterRequestModel
 import ru.kotleteri.database.crud.CompanyCRUD
 import ru.kotleteri.plugins.generateNewToken
 
@@ -56,7 +55,7 @@ class CompanyController(val call: ApplicationCall) {
 
         val status = CompanyCRUD.create(company)
 
-        if (status == DatabaseStatus.ConstraintViolation){
+        if (status != DatabaseStatus.Correct){
             call.respond(HttpStatusCode.Conflict, ErrorResponse("User with this email already exists"))
             return
         }
