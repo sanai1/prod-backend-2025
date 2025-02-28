@@ -4,24 +4,33 @@ import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.plugins.swagger.*
 import io.ktor.server.routing.*
-import ru.kotleteri.controllers.jokes.JokeAuthController
-import ru.kotleteri.controllers.users.UserController
+import ru.kotleteri.controllers.users.ClientController
+import ru.kotleteri.controllers.users.CompanyController
 
 fun Application.configureRouting() {
     routing {
         route("/api"){
-            post("/register") {
-                UserController(call).register()
+
+            route("/clients"){
+                post("/register"){
+                    ClientController(call).register()
+                }
+                post("/login"){
+                    ClientController(call).login()
+                }
             }
 
-            post("/login") {
-                UserController(call).login()
+            route("/companies"){
+                post("/register"){
+                    CompanyController(call).register()
+                }
+                post("/login"){
+                    CompanyController(call).login()
+                }
             }
 
             authenticate {
-                get("/joke"){
-                    JokeAuthController(call).getJoke()
-                }
+
             }
 
             swaggerUI(

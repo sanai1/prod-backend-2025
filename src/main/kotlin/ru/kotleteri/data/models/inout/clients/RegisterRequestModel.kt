@@ -1,12 +1,13 @@
-package ru.kotleteri.data.models.inout.users
+package ru.kotleteri.data.models.inout.clients
 
 import kotlinx.serialization.Serializable
 import org.mindrot.jbcrypt.BCrypt
-import ru.kotleteri.data.models.base.UserModel
+import ru.kotleteri.data.models.base.ClientModel
 import ru.kotleteri.utils.EMAIL_REGEX
 import ru.kotleteri.utils.PASSWORD_REGEX
 import ru.kotleteri.utils.Validate
 import ru.kotleteri.utils.Validateable
+import java.util.*
 
 @Serializable
 data class RegisterRequestModel(
@@ -22,9 +23,9 @@ data class RegisterRequestModel(
         Validate.string(this::password, 8..128, pattern = PASSWORD_REGEX)
     }
 
-    fun toUserModel() =
-        UserModel(
-            0,
+    fun toClientModel() =
+        ClientModel(
+            UUID.randomUUID(),
             firstName,
             lastName,
             email,

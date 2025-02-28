@@ -1,4 +1,4 @@
-package ru.kotleteri.data.models.inout.users
+package ru.kotleteri.data.models.inout.clients
 
 import kotlinx.serialization.Serializable
 

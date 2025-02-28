@@ -8,27 +8,29 @@ import org.mindrot.jbcrypt.BCrypt
 import ru.kotleteri.data.enums.DatabaseStatus
 import ru.kotleteri.data.enums.ValidateResult
 import ru.kotleteri.data.models.inout.ErrorResponse
-import ru.kotleteri.data.models.inout.users.LoginRequestModel
-import ru.kotleteri.data.models.inout.users.LoginResponseModel
-import ru.kotleteri.data.models.inout.users.RegisterRequestModel
-import ru.kotleteri.database.crud.UsersCRUD
+import ru.kotleteri.data.models.inout.clients.LoginRequestModel
+import ru.kotleteri.data.models.inout.clients.LoginResponseModel
+import ru.kotleteri.data.models.inout.clients.RegisterRequestModel
+import ru.kotleteri.database.crud.ClientCRUD
 import ru.kotleteri.plugins.generateNewToken
 
-class UserController(val call: ApplicationCall) {
+class ClientController(val call: ApplicationCall) {
     suspend fun login(){
         val loginRequest = call.receive<LoginRequestModel>()
 
-        val user = UsersCRUD.readByEmail(loginRequest.email)
+        val user = ClientCRUD.readByEmail(loginRequest.email)
 
         if (user == null) {
-            call.respond(HttpStatusCode.Unauthorized,
+            call.respond(
+                HttpStatusCode.Unauthorized,
                 ErrorResponse("User with this email and password doesn't exist")
             )
             return
         }
 
         if (!BCrypt.checkpw(loginRequest.password, user.password)){
-            call.respond(HttpStatusCode.Unauthorized,
+            call.respond(
+                HttpStatusCode.Unauthorized,
                 ErrorResponse("User with this email and password doesn't exist")
             )
             return
@@ -49,13 +51,16 @@ class UserController(val call: ApplicationCall) {
             return
         }
 
-        val status = UsersCRUD.create(registerRequest.toUserModel())
+        val status = ClientCRUD.create(registerRequest.toClientModel())
 
         if (status == DatabaseStatus.ConstraintViolation){
             call.respond(HttpStatusCode.Conflict, ErrorResponse("User with this email already exists"))
             return
         }
 
-        call.respond(HttpStatusCode.OK)
+        val user = ClientCRUD.readByEmail(registerRequest.email)
+        val token = generateNewToken(user!!.id, user.email, true)
+
+        call.respond(HttpStatusCode.OK, LoginResponseModel(token))
     }
 }

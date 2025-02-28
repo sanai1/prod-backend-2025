@@ -18,7 +18,7 @@ fun Application.configureSecurity() {
             verifier(JWT.require(Algorithm.HMAC256(SECRET)).build())
             validate { credential ->
                 val email = credential.payload.getClaim("email").asString()
-                val id = credential.payload.getClaim("id").asInt()
+                val id = credential.payload.getClaim("id").asString()
                 val isClient = credential.payload.getClaim("isClient").asBoolean()
 
                 if (!email.isNullOrBlank())
@@ -34,10 +34,10 @@ fun Application.configureSecurity() {
 }
 
 
-fun generateNewToken(id: Int, email: String, isClient: Boolean): String =
+fun generateNewToken(id: UUID, email: String, isClient: Boolean): String =
     JWT.create()
         .withClaim("email", email)
-        .withClaim("id", id)
+        .withClaim("id", id.toString())
         .withClaim("isClient", isClient)
         .withExpiresAt(Date(System.currentTimeMillis() + JWT_LIFETIME))
         .sign(Algorithm.HMAC256(SECRET))
