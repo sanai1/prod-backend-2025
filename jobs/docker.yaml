@@ -18,7 +18,7 @@
   variables:
     OPT_DOCKER: ""
     DOCKERFILE_PATH: Dockerfile
-    IMAGE_TAG: $CI_COMMIT_SHA
+    IMAGE_TAG: "latest"
     IMAGE_NAME: $CI_REGISTRY_IMAGE:$CI_COMMIT_SHA
     DOCKER_HOST: tcp://docker:2376
     DOCKER_TLS_CERTDIR: "/certs"
