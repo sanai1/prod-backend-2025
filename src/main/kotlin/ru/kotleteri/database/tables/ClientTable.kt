@@ -8,5 +8,5 @@ object ClientTable: IdTable<UUID>("clients") {
     val firstName = varchar("first_name", 50)
     val lastName = varchar("last_name", 50)
     val email = varchar("email", 128)
-    val password = UsersTable.varchar("password", 60).uniqueIndex()
+    val password = varchar("password", 60)
 }
