@@ -52,15 +52,16 @@ class CompanyController(val call: ApplicationCall) {
             return
         }
 
-        val status = CompanyCRUD.create(registerRequest.toCompanyModel())
+        val company = registerRequest.toCompanyModel()
+
+        val status = CompanyCRUD.create(company)
 
         if (status == DatabaseStatus.ConstraintViolation){
             call.respond(HttpStatusCode.Conflict, ErrorResponse("User with this email already exists"))
             return
         }
 
-        val company = CompanyCRUD.readByEmail(registerRequest.email)
-        val token = generateNewToken(company!!.id, company.email, false)
+        val token = generateNewToken(company.id, company.email, false)
 
         call.respond(HttpStatusCode.OK, LoginResponseModel(token))
     }

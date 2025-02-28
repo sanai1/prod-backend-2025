@@ -51,15 +51,15 @@ class ClientController(val call: ApplicationCall) {
             return
         }
 
-        val status = ClientCRUD.create(registerRequest.toClientModel())
+        val client = registerRequest.toClientModel()
+        val status = ClientCRUD.create(client)
 
         if (status == DatabaseStatus.ConstraintViolation){
             call.respond(HttpStatusCode.Conflict, ErrorResponse("User with this email already exists"))
             return
         }
 
-        val user = ClientCRUD.readByEmail(registerRequest.email)
-        val token = generateNewToken(user!!.id, user.email, true)
+        val token = generateNewToken(client.id, client.email, true)
 
         call.respond(HttpStatusCode.OK, LoginResponseModel(token))
     }
