@@ -19,6 +19,7 @@ fun Application.configureSecurity() {
             validate { credential ->
                 val email = credential.payload.getClaim("email").asString()
                 val id = credential.payload.getClaim("id").asInt()
+                val isClient = credential.payload.getClaim("isClient").asBoolean()
 
                 if (!email.isNullOrBlank())
                     return@validate JWTPrincipal(credential.payload)
@@ -33,9 +34,10 @@ fun Application.configureSecurity() {
 }
 
 
-fun generateNewToken(id: Int, email: String): String =
+fun generateNewToken(id: Int, email: String, isClient: Boolean): String =
     JWT.create()
         .withClaim("email", email)
         .withClaim("id", id)
+        .withClaim("isClient", isClient)
         .withExpiresAt(Date(System.currentTimeMillis() + JWT_LIFETIME))
         .sign(Algorithm.HMAC256(SECRET))
