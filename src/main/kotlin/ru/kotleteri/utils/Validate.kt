@@ -25,11 +25,11 @@ object Validate {
         }
     }
 
-    fun number(
-        number: KProperty0<Int?>,
-        bounds: IntRange? = null,
+    fun <T> number(
+        number: KProperty0<T?>,
+        bounds: ClosedRange<T>? = null,
         ignoreNull: Boolean = false
-    ) {
+    ) where T : Number, T : Comparable<T> {
         val fieldValue = number.get()
         if (fieldValue == null) {
             if (ignoreNull) return
