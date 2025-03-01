@@ -15,7 +15,7 @@ class OfferController(call: ApplicationCall): AbstractAuthController(call) {
     suspend fun create() {
         val createRequest = call.receive<CreateRequestModel>()
 
-        if (!isClient) {
+        if (isClient) {
             call.respond(HttpStatusCode.Forbidden)
             return
         }
