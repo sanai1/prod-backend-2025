@@ -30,14 +30,12 @@ fun Application.configureRouting() {
                 }
             }
 
-            route("/offers") {
-                post("/create") {
-                    OfferController(call).create()
-                }
-            }
-
             authenticate {
-
+                route("/offers") {
+                    post("/create") {
+                        OfferController(call).create()
+                    }
+                }
             }
 
             swaggerUI(
