@@ -8,5 +8,6 @@ enum class ValidateResult {
     InvalidLength,
     Null,
     NotMatchesPattern,
-    OutOfBounds
+    OutOfBounds,
+    Invalid
 }

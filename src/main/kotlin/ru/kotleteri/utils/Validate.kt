@@ -57,19 +57,26 @@ object Validate {
             throw it
         }
     }
+
+    inline fun <T> custom(
+        field: KProperty0<T>,
+        crossinline validation: (T) -> Boolean
+    ) {
+        val result = validation(field.get())
+        if (!result) {
+            throw ValidationException(field.name, ValidateResult.Invalid)
+        }
+    }
 }
 
 
 interface Validateable {
     fun performValidation()
-    fun validate(): Pair<String?, ValidateResult> = runCatching {
+    fun validate(): Pair<String?, ValidateResult> = try {
         performValidation()
-        return Pair(null, ValidateResult.Valid)
-    }.getOrElse {
-        if (it is ValidationException) {
-            return Pair(it.field, it.result)
-        }
-        throw it
+        Pair(null, ValidateResult.Valid)
+    } catch (it: ValidationException) {
+        Pair(it.field, it.result)
     }
 }
 
