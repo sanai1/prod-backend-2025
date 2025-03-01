@@ -6,6 +6,7 @@ import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import org.jetbrains.exposed.sql.Database
+import ru.kotleteri.database.redis.RedisInit
 import ru.kotleteri.plugins.configureHTTP
 import ru.kotleteri.plugins.configureRouting
 import ru.kotleteri.plugins.configureSecurity
@@ -29,6 +30,7 @@ fun Application.module() {
         }
     }
     DatabaseInit.initialize()
+    RedisInit.initialize()
     configureSerialization()
     configureHTTP()
     configureSecurity()
