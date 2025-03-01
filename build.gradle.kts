@@ -51,6 +51,9 @@ dependencies {
     implementation("org.postgresql:postgresql:$postgres_version")
     implementation("com.zaxxer:HikariCP:$hikaricp_version")
 
+    //s3
+    implementation("software.amazon.awssdk:s3:2.20.103")
+
     // redis
     implementation("io.github.crackthecodeabhi:kreds:0.9.1")
 
