@@ -1,10 +1,9 @@
 package ru.kotleteri.database.crud
 
-import org.jetbrains.exposed.sql.ResultRow
-import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.selectAll
+import org.jetbrains.exposed.sql.*
 import ru.kotleteri.data.models.base.OperationModel
 import ru.kotleteri.database.suspendTransaction
+import ru.kotleteri.database.tables.OfferTable
 import ru.kotleteri.database.tables.OperationTable
 import java.util.*
 
@@ -26,9 +25,18 @@ object OperationCRUD {
         }
     }
 
-    suspend fun readForClient(clientId: UUID, limit: Int, offset: Long) = suspendTransaction {
+    suspend fun readForClient(clientId: UUID, limit: Int, offset: Long): List<OperationModel> = suspendTransaction {
         OperationTable.selectAll()
             .where { OperationTable.clientId eq clientId }
+            .limit(limit)
+            .offset(offset)
+            .map { resultRowToOperation(it) }
+    }
+
+    suspend fun readForCompany(companyId: UUID, limit: Int, offset: Long): List<OperationModel> = suspendTransaction {
+        OperationTable.rightJoin(OfferTable, onColumn = { OperationTable.offerId }, otherColumn = { OfferTable.id } )
+            .selectAll()
+            .where { OfferTable.companyId eq companyId }
             .limit(limit)
             .offset(offset)
             .map { resultRowToOperation(it) }
