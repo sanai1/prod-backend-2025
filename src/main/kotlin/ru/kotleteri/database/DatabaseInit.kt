@@ -6,13 +6,15 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import ru.kotleteri.database.tables.ClientTable
 import ru.kotleteri.database.tables.CompanyTable
 import ru.kotleteri.database.tables.OfferTable
+import ru.kotleteri.database.tables.OperationTable
 
 object DatabaseInit {
     private val tables: List<Table> =
         listOf(
             ClientTable,
             CompanyTable,
-            OfferTable
+            OfferTable,
+            OperationTable
         )
 
     fun initialize() {
