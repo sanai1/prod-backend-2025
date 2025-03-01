@@ -47,6 +47,13 @@ object OfferCRUD {
                 .map { resultRowToOffer(it) }
         }
 
+    suspend fun readAll(limit: Int, offset: Long) = suspendTransaction {
+        OfferTable.selectAll()
+            .offset(offset)
+            .limit(limit)
+            .map(::resultRowToOffer)
+    }
+
     suspend fun update(offer: OfferModel) =
         suspendTransaction {
             OfferTable.update({ OfferTable.id eq offer.id }) {

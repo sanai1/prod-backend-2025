@@ -4,6 +4,7 @@ import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.plugins.swagger.*
 import io.ktor.server.routing.*
+import ru.kotleteri.controllers.offer.OfferClientController
 import ru.kotleteri.controllers.offer.OfferController
 import ru.kotleteri.controllers.users.ClientController
 import ru.kotleteri.controllers.users.CompanyController
@@ -34,6 +35,11 @@ fun Application.configureRouting() {
                 route("/offers") {
                     post("/create") {
                         OfferController(call).create()
+                    }
+                    route("/client"){
+                        get {
+                            OfferClientController(call).getOffersList()
+                        }
                     }
                 }
             }

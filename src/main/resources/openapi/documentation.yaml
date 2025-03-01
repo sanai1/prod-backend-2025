@@ -134,6 +134,55 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/LoginResponseModel"
+  /api/offers/client:
+    get:
+      description: ""
+      parameters:
+      - name: "limit"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "offset"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "403":
+          description: "Forbidden"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "You are not client"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "Wrong offset"
+                Example#2:
+                  description: ""
+                  value:
+                    status: "Wrong limit"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/GetOfferResponseModel"
   /api/offers/create:
     post:
       description: ""
@@ -149,7 +198,12 @@ paths:
           content:
             '*/*':
               schema:
-                type: "object"
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "Authorized as client"
         "400":
           description: "Bad Request"
           content:
@@ -228,6 +282,31 @@ components:
       - "name"
       - "email"
       - "password"
+    GetOfferResponseModel:
+      type: "object"
+      properties:
+        id:
+          type: "string"
+        company_id:
+          type: "string"
+        title:
+          type: "string"
+        description:
+          type: "string"
+        discount:
+          type: "number"
+          format: "double"
+        start_date:
+          type: "string"
+        end_date:
+          type: "string"
+      required:
+      - "id"
+      - "company_id"
+      - "title"
+      - "description"
+      - "start_date"
+      - "end_date"
     CreateRequestModel:
       type: "object"
       properties:
@@ -245,6 +324,5 @@ components:
       required:
       - "title"
       - "description"
-      - "discount"
       - "startDate"
       - "endDate"
