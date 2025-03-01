@@ -9,6 +9,7 @@ import io.ktor.server.routing.*
 import ru.kotleteri.controllers.offer.OfferClientController
 import ru.kotleteri.controllers.offer.OfferController
 import ru.kotleteri.controllers.client.ClientController
+import ru.kotleteri.controllers.company.AuthCompanyController
 import ru.kotleteri.controllers.company.CompanyController
 import ru.kotleteri.controllers.offer.OfferCompanyController
 
@@ -58,6 +59,15 @@ fun Application.configureRouting() {
 
                         post("/scanQr") {
                             OfferCompanyController(call).receiveOfferQr()
+                        }
+
+                        route("/image"){
+                            post {
+                                AuthCompanyController(call).setPicture()
+                            }
+                            get {
+                                AuthCompanyController(call).getPicture()
+                            }
                         }
                     }
                 }

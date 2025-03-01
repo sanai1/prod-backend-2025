@@ -281,6 +281,72 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/components/schemas/GetOfferResponseModel"
+  /api/offers/company/image:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            image/jpeg:
+              schema:
+                type: "string"
+                format: "byte"
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "You are not company"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "Picture not found"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "Something went wrong"
+    post:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "You are not company"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "Something went wrong"
   /api/offers/company/scanQr:
     post:
       description: ""
