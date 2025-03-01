@@ -17,4 +17,4 @@ val REDIS_PORT = System.getenv("REDIS_PORT")?.toInt() ?: 6379
 val S3_URL = System.getenv("S3_URL")
 val S3_ACCESS_KEY = System.getenv("S3_ACCESS_KEY")
 val S3_SECRET_KEY = System.getenv("S3_SECRET_KEY")
-val S3_BUCKET = System.getenv("S3_BUCKET")
+val S3_BUCKET = System.getenv("MINIO_DEFAULT_BUCKETS")
