@@ -6,10 +6,10 @@ x-common: &env-common
     POSTGRES_DB: prod
     REDIS_HOST: redis
     REDIS_PORT: 6379
-    S3_ACCESS_KEY: "minioadmin"
-    S3_SECRET_KEY: "minioadmin"
-    S3_URL: "http://minio:9000"
-    MINIO_DEFAULT_BUCKETS: "bucket"
+    MINIO_ROOT_USER: "minioadmin"
+    MINIO_ROOT_PASSWORD: "minioadmin"
+    MINIO_ENDPOINT: "http://minio:9000"
+    BUCKET: "bucket"
 
 
 services:
@@ -29,6 +29,12 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      redis:
+        condition: service_started
+      minio:
+        condition: service_healthy
+      minio-setup:
+        condition: service_completed_successfully
     <<: *env-common
   postgres:
     image: postgres:17.3
@@ -50,16 +56,34 @@ services:
     networks:
       - main
   minio:
-    hostname: minio
-    image: bitnami/minio:2025
-    <<: *env-common
+    image: quay.io/minio/minio
+    container_name: minio
+    restart: unless-stopped
+    command: server /data --console-address ":9090"
     volumes:
-      - 'minio_data:/bitnami/minio/data'
+      - minio_data:/data
+    networks:
+      - main
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      retries: 5
+    <<: *env-common
+  minio-setup:
+    image: quay.io/minio/mc
+    depends_on:
+      minio:
+        condition: service_healthy
+    networks:
+      - main
+    entrypoint: [ "/bin/sh", "-c", "/minio-setup.sh" ]
+    volumes:
+      - ./minio-setup.sh:/minio-setup.sh
+    <<: *env-common
 
 
 volumes:
   minio_data:
-    driver: local
   pg_data:
 
 networks:

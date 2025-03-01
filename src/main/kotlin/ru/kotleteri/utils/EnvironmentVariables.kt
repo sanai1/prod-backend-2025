@@ -14,7 +14,7 @@ val REDIS_HOST = System.getenv("REDIS_HOST").toString()
 val REDIS_PORT = System.getenv("REDIS_PORT")?.toInt() ?: 6379
 
 //s3
-val S3_URL = System.getenv("S3_URL")
-val S3_ACCESS_KEY = System.getenv("S3_ACCESS_KEY")
-val S3_SECRET_KEY = System.getenv("S3_SECRET_KEY")
-val S3_BUCKET = System.getenv("MINIO_DEFAULT_BUCKETS")
+val S3_URL = System.getenv("MINIO_ENDPOINT")
+val S3_ACCESS_KEY = System.getenv("MINIO_ROOT_USER")
+val S3_SECRET_KEY = System.getenv("MINIO_ROOT_PASSWORD")
+val S3_BUCKET = System.getenv("BUCKET")
