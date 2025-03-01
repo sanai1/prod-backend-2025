@@ -4,6 +4,7 @@ import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.plugins.swagger.*
 import io.ktor.server.routing.*
+import ru.kotleteri.controllers.offer.OfferController
 import ru.kotleteri.controllers.users.ClientController
 import ru.kotleteri.controllers.users.CompanyController
 
@@ -26,6 +27,12 @@ fun Application.configureRouting() {
                 }
                 post("/login"){
                     CompanyController(call).login()
+                }
+            }
+
+            route("/offers") {
+                post("/create") {
+                    OfferController(call).create()
                 }
             }
 
