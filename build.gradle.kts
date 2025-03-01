@@ -51,6 +51,9 @@ dependencies {
     implementation("org.postgresql:postgresql:$postgres_version")
     implementation("com.zaxxer:HikariCP:$hikaricp_version")
 
+    // redis
+    implementation("io.github.crackthecodeabhi:kreds:0.9.1")
+
     // hash
     implementation("de.nycode:bcrypt:2.2.0")
     implementation("org.mindrot:jbcrypt:0.4")

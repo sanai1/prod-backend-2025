@@ -4,6 +4,8 @@ x-common: &env-common
     POSTGRES_PASSWORD: Vn0i4S2eUYalG9JY98cG
     POSTGRES_URL: "jdbc:postgresql://postgres:5432/prod"
     POSTGRES_DB: prod
+    REDIS_HOST: redis
+    REDIS_PORT: 6379
 
 
 services:
@@ -20,6 +22,9 @@ services:
       retries: 5
       start_period: 20s
       timeout: 10s
+    depends_on:
+      postgres:
+        condition: service_healthy
     <<: *env-common
   postgres:
     image: postgres:17.3
@@ -35,6 +40,12 @@ services:
       interval: 10s
       retries: 5
     <<: *env-common
+  redis:
+    image: redis:7.4
+    restart: unless-stopped
+    networks:
+      - main
+
 
 
 volumes:
