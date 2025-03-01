@@ -33,8 +33,6 @@ services:
         condition: service_started
       minio:
         condition: service_healthy
-      minio-setup:
-        condition: service_completed_successfully
     <<: *env-common
   postgres:
     image: postgres:17.3
@@ -69,16 +67,6 @@ services:
       interval: 10s
       retries: 5
     <<: *env-common
-  minio-setup:
-    image: quay.io/minio/mc
-    depends_on:
-      minio:
-        condition: service_healthy
-    networks:
-      - main
-    <<: *env-common
-    entrypoint: [ "/bin/sh", "-c", "\"sleep 10 && mc alias set myminio http://minio:9000 \$MINIO_ROOT_USER \$MINIO_ROOT_PASSWORD && mc mb myminio/\$BUCKET || true\"" ]
-
 
 volumes:
   minio_data:
