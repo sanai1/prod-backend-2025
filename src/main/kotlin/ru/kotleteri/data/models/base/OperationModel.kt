@@ -8,5 +8,9 @@ data class OperationModel(
     val clientId: UUID,
     val companyId: UUID,
     val offerId: UUID,
-    val timestamp: LocalDateTime
+    val timestamp: LocalDateTime,
+    val companyName: String,
+    val offerTitle: String,
+    val clientAge: Int,
+    val clientGender: String
 )

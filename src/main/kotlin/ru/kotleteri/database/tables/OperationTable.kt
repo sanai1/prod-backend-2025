@@ -10,6 +10,10 @@ object OperationTable: IdTable<UUID>("operations") {
     val companyId = uuid("company_id")
     val offerId = uuid("offer_id")
     val timestamp = datetime("timestamp")
+    val companyName = varchar("company_name", 50)
+    val offerTitle = varchar("offer_title", 50)
+    val clientAge = integer("client_age")
+    val clientGender = varchar("client_gender", 6)
 
 
 }

@@ -2,7 +2,6 @@ package ru.kotleteri.database.crud
 
 import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.insert
-import org.jetbrains.exposed.sql.rightJoin
 import org.jetbrains.exposed.sql.selectAll
 import ru.kotleteri.data.models.base.OperationModel
 import ru.kotleteri.database.suspendTransaction
@@ -18,6 +17,10 @@ object OperationCRUD {
             companyId = resultRow[OperationTable.companyId],
             offerId = resultRow[OperationTable.offerId],
             timestamp = resultRow[OperationTable.timestamp],
+            companyName = resultRow[OperationTable.companyName],
+            offerTitle = resultRow[OperationTable.offerTitle],
+            clientAge = resultRow[OperationTable.clientAge],
+            clientGender = resultRow[OperationTable.clientGender]
         )
 
     suspend fun create(operation: OperationModel) = suspendTransaction {
@@ -27,6 +30,10 @@ object OperationCRUD {
             it[companyId] = operation.companyId
             it[offerId] = operation.offerId
             it[timestamp] = operation.timestamp
+            it[companyName] = operation.companyName
+            it[offerTitle] = operation.offerTitle
+            it[clientAge] = operation.clientAge
+            it[clientGender] = operation.clientGender
         }
     }
 
