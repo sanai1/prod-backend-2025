@@ -101,10 +101,20 @@ object ClientCRUD {
     }
 
     suspend fun addExtension(clientId: UUID, age: Int, gender: Gender) = suspendTransaction {
-        ClientExtensionTable.insert {
-            it[ClientExtensionTable.clientId] = clientId
-            it[ClientExtensionTable.age] = age
-            it[ClientExtensionTable.gender] = gender
+        if (ClientExtensionTable.selectAll()
+            .where { ClientExtensionTable.clientId eq clientId }.count() > 0){
+
+            ClientExtensionTable.update ({ ClientExtensionTable.clientId eq clientId }) {
+                it[ClientExtensionTable.age] = age
+                it[ClientExtensionTable.gender] = gender
+            }
+
+        } else{
+            ClientExtensionTable.insert {
+                it[ClientExtensionTable.clientId] = clientId
+                it[ClientExtensionTable.age] = age
+                it[ClientExtensionTable.gender] = gender
+            }
         }
     }
 }
