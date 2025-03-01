@@ -41,10 +41,12 @@ object OfferCRUD {
                 ?.let { resultRowToOffer(it) }
         }
 
-    suspend fun readByCompanyId(companyId: UUID) =
+    suspend fun readByCompanyId(companyId: UUID, limit: Int, offset: Long) =
         suspendTransaction {
             OfferTable.selectAll()
                 .where { OfferTable.companyId eq companyId }
+                .offset(offset)
+                .limit(limit)
                 .map { resultRowToOffer(it) }
         }
 

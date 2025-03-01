@@ -183,6 +183,55 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/components/schemas/GetOfferResponseModel"
+  /api/offers/company:
+    get:
+      description: ""
+      parameters:
+      - name: "limit"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "offset"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "403":
+          description: "Forbidden"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "You are not company"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "Wrong offset"
+                Example#2:
+                  description: ""
+                  value:
+                    status: "Wrong limit"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/GetOfferResponseModel"
   /api/offers/create:
     post:
       description: ""

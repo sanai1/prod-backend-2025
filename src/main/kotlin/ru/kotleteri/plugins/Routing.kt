@@ -10,6 +10,7 @@ import ru.kotleteri.controllers.offer.OfferClientController
 import ru.kotleteri.controllers.offer.OfferController
 import ru.kotleteri.controllers.client.ClientController
 import ru.kotleteri.controllers.company.CompanyController
+import ru.kotleteri.controllers.offer.OfferCompanyController
 
 fun Application.configureRouting() {
     routing {
@@ -45,6 +46,11 @@ fun Application.configureRouting() {
                     route("/client"){
                         get {
                             OfferClientController(call).getOffersList()
+                        }
+                    }
+                    route("/company"){
+                        get {
+                            OfferCompanyController(call).getAllOffersByCompany()
                         }
                     }
                 }
