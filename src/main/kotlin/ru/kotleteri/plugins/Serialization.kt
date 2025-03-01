@@ -17,7 +17,7 @@ val JsonFormat = Json {
     prettyPrint = false
     useArrayPolymorphism = false
     ignoreUnknownKeys = true
-    namingStrategy = JsonNamingStrategy.SnakeCase
+//    namingStrategy = JsonNamingStrategy.SnakeCase
 }
 
 fun Application.configureSerialization() {
