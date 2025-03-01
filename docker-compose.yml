@@ -50,6 +50,7 @@ services:
     networks:
       - main
   minio:
+    hostname: minio
     image: bitnami/minio:2025
     <<: *env-common
     volumes:
