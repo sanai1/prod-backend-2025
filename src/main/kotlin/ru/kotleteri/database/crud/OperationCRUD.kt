@@ -1,6 +1,9 @@
 package ru.kotleteri.database.crud
 
-import org.jetbrains.exposed.sql.*
+import org.jetbrains.exposed.sql.ResultRow
+import org.jetbrains.exposed.sql.insert
+import org.jetbrains.exposed.sql.rightJoin
+import org.jetbrains.exposed.sql.selectAll
 import ru.kotleteri.data.models.base.OperationModel
 import ru.kotleteri.database.suspendTransaction
 import ru.kotleteri.database.tables.OfferTable
@@ -12,6 +15,7 @@ object OperationCRUD {
         OperationModel(
             id = resultRow[OperationTable.id].value,
             clientId = resultRow[OperationTable.clientId],
+            companyId = resultRow[OperationTable.companyId],
             offerId = resultRow[OperationTable.offerId],
             timestamp = resultRow[OperationTable.timestamp],
         )
@@ -20,6 +24,7 @@ object OperationCRUD {
         OperationTable.insert {
             it[id] = operation.id
             it[clientId] = operation.clientId
+            it[companyId] = operation.companyId
             it[offerId] = operation.offerId
             it[timestamp] = operation.timestamp
         }
@@ -34,7 +39,7 @@ object OperationCRUD {
     }
 
     suspend fun readForCompany(companyId: UUID, limit: Int, offset: Long): List<OperationModel> = suspendTransaction {
-        OperationTable.rightJoin(OfferTable, onColumn = { OperationTable.offerId }, otherColumn = { OfferTable.id } )
+        OperationTable
             .selectAll()
             .where { OfferTable.companyId eq companyId }
             .limit(limit)

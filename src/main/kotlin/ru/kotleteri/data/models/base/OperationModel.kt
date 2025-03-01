@@ -6,6 +6,7 @@ import java.util.*
 data class OperationModel(
     val id: UUID,
     val clientId: UUID,
+    val companyId: UUID,
     val offerId: UUID,
     val timestamp: LocalDateTime
 )
