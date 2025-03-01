@@ -16,7 +16,7 @@ class OfferController(call: ApplicationCall): AbstractAuthController(call) {
         val createRequest = call.receive<CreateRequestModel>()
 
         if (isClient) {
-            call.respond(HttpStatusCode.Forbidden)
+            call.respond(HttpStatusCode.Forbidden, ErrorResponse("Authorized as client"))
             return
         }
 
