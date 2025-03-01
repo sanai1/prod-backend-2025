@@ -28,7 +28,7 @@ class OfferClientController(call: ApplicationCall) : AbstractAuthController(call
             return
         }
 
-        val offerList = OfferCRUD.readAll(limit, offset).map{it.toGetOfferResponse()}
+        val offerList = OfferCRUD.readAll(limit, offset).map{it.second.toGetOfferWithCompanyResponse(it.first)}
 
         call.respond(HttpStatusCode.OK, offerList)
     }

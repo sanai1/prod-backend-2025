@@ -6,6 +6,7 @@ import kotlinx.serialization.Serializable
 data class GetOfferResponseModel(
     val id: String,
     val company_id: String,
+    val company_name: String,
     val title: String,
     val description: String,
     val discount: Double,

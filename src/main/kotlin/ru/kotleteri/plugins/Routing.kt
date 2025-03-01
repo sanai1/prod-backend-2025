@@ -8,8 +8,8 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import ru.kotleteri.controllers.offer.OfferClientController
 import ru.kotleteri.controllers.offer.OfferController
-import ru.kotleteri.controllers.users.ClientController
-import ru.kotleteri.controllers.users.CompanyController
+import ru.kotleteri.controllers.client.ClientController
+import ru.kotleteri.controllers.company.CompanyController
 
 fun Application.configureRouting() {
     routing {

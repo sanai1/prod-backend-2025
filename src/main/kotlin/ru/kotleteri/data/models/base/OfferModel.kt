@@ -13,10 +13,12 @@ data class OfferModel(
     val startDate: LocalDateTime,
     val endDate: LocalDateTime
 ) {
-    fun toGetOfferResponse() =
+
+    fun toGetOfferWithCompanyResponse(companyName: String) =
         GetOfferResponseModel(
             id.toString(),
             companyId.toString(),
+            companyName,
             title,
             description,
             discount,

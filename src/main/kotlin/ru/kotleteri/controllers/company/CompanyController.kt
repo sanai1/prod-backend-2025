@@ -1,4 +1,4 @@
-package ru.kotleteri.controllers.users
+package ru.kotleteri.controllers.company
 
 import io.ktor.http.*
 import io.ktor.server.application.*

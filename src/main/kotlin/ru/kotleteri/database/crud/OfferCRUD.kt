@@ -4,6 +4,7 @@ import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import ru.kotleteri.data.models.base.OfferModel
 import ru.kotleteri.database.suspendTransaction
+import ru.kotleteri.database.tables.CompanyTable
 import ru.kotleteri.database.tables.OfferTable
 import java.util.*
 
@@ -48,10 +49,11 @@ object OfferCRUD {
         }
 
     suspend fun readAll(limit: Int, offset: Long) = suspendTransaction {
-        OfferTable.selectAll()
+        OfferTable.innerJoin(CompanyTable)
+            .selectAll()
             .offset(offset)
             .limit(limit)
-            .map(::resultRowToOffer)
+            .map{Pair(it[CompanyTable.name], resultRowToOffer(it))}
     }
 
     suspend fun update(offer: OfferModel) =
