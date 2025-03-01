@@ -1,5 +1,6 @@
 package ru.kotleteri.data.models.base
 
+import ru.kotleteri.data.models.inout.companies.GetCompanyProfileResponseModel
 import java.util.*
 
 data class CompanyModel(
@@ -7,4 +8,11 @@ data class CompanyModel(
     val name: String,
     val email: String,
     val password: String
-)
+) {
+    fun getProfile() =
+        GetCompanyProfileResponseModel(
+            id.toString(),
+            name,
+            email
+        )
+}

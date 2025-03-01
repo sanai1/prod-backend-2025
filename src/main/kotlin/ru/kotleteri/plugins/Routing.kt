@@ -6,6 +6,7 @@ import io.ktor.server.auth.*
 import io.ktor.server.plugins.swagger.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import ru.kotleteri.controllers.client.AuthClientController
 import ru.kotleteri.controllers.client.ClientController
 import ru.kotleteri.controllers.company.AuthCompanyController
 import ru.kotleteri.controllers.company.CompanyController
@@ -28,6 +29,12 @@ fun Application.configureRouting() {
                 post("/login") {
                     ClientController(call).login()
                 }
+
+                authenticate {
+                    get("/profile"){
+                        AuthClientController(call).getProfile()
+                    }
+                }
             }
 
             route("/companies") {
@@ -36,6 +43,12 @@ fun Application.configureRouting() {
                 }
                 post("/login") {
                     CompanyController(call).login()
+                }
+
+                authenticate {
+                    get("/profile"){
+                        AuthCompanyController(call).getProfile()
+                    }
                 }
             }
 

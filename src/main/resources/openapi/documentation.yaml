@@ -37,6 +37,31 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/LoginResponseModel"
+  /api/clients/profile:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema: {}
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "You are not company"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "Company not found"
   /api/clients/register:
     post:
       description: ""
@@ -101,6 +126,31 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/LoginResponseModel"
+  /api/companies/profile:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema: {}
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "You are not company"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "Company not found"
   /api/companies/register:
     post:
       description: ""
@@ -483,6 +533,22 @@ components:
           type: "string"
       required:
       - "token"
+    GetClientProfileResponseModel:
+      type: "object"
+      properties:
+        id:
+          type: "string"
+        first_name:
+          type: "string"
+        last_name:
+          type: "string"
+        email:
+          type: "string"
+      required:
+      - "id"
+      - "first_name"
+      - "last_name"
+      - "email"
     RegisterRequestModel:
       type: "object"
       properties:
@@ -499,6 +565,19 @@ components:
       - "lastName"
       - "email"
       - "password"
+    GetCompanyProfileResponseModel:
+      type: "object"
+      properties:
+        id:
+          type: "string"
+        name:
+          type: "string"
+        email:
+          type: "string"
+      required:
+      - "id"
+      - "name"
+      - "email"
     RegisterCompanyRequestModel:
       type: "object"
       properties:

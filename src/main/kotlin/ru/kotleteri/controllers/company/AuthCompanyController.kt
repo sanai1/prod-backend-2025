@@ -6,10 +6,27 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import ru.kotleteri.controllers.AbstractAuthController
 import ru.kotleteri.data.models.inout.ErrorResponse
+import ru.kotleteri.database.crud.CompanyCRUD
 import ru.kotleteri.integrations.objectstorage.ImageLoading
 import java.util.*
 
 class AuthCompanyController(call: ApplicationCall) : AbstractAuthController(call) {
+    suspend fun getProfile(){
+        if (isClient) {
+            call.respond(HttpStatusCode.OK, ErrorResponse("You are not company"))
+            return
+        }
+
+        val company = CompanyCRUD.read(id)
+
+        if (company == null) {
+            call.respond(HttpStatusCode.NotFound, ErrorResponse("Company not found"))
+            return
+        }
+
+        call.respond(HttpStatusCode.OK, company.getProfile())
+    }
+
     suspend fun setPicture() {
         if (isClient) {
             call.respond(HttpStatusCode.OK, ErrorResponse("You are not company"))
