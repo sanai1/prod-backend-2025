@@ -1,4 +1,4 @@
-FROM gradle:8.7.0-jdk as build
+FROM huecker.io/library/gradle:8.7.0-jdk as build
 WORKDIR /workspace/app
 
 COPY gradlew .
@@ -13,7 +13,7 @@ COPY src src
 
 RUN gradle build -x test --no-daemon --stacktrace
 
-FROM amazoncorretto:21
+FROM huecker.io/library/amazoncorretto:21
 
 WORKDIR /app
 
