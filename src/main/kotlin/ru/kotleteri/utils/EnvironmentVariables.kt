@@ -8,3 +8,7 @@ val SERVER_PORT = System.getenv("SERVER_PORT")?.toInt() ?: 8080
 val POSTGRES_URL = System.getenv("POSTGRES_URL").toString()
 val POSTGRES_PASSWORD = System.getenv("POSTGRES_PASSWORD").toString()
 val POSTGRES_USER = System.getenv("POSTGRES_USER").toString()
+
+// redis
+val REDIS_HOST = System.getenv("REDIS_HOST").toString()
+val REDIS_PORT = System.getenv("REDIS_PORT")?.toInt() ?: 6379
