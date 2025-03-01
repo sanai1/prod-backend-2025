@@ -1,4 +1,4 @@
-FROM huecker.io/library/gradle:8.7.0-jdk as build
+FROM dockerhub.timeweb.cloud/library/gradle:8.7.0-jdk as build
 WORKDIR /workspace/app
 
 COPY gradlew .
@@ -13,7 +13,7 @@ COPY src src
 
 RUN gradle build -x test --no-daemon --stacktrace
 
-FROM huecker.io/library/amazoncorretto:21
+FROM dockerhub.timeweb.cloud/library/amazoncorretto:21
 
 WORKDIR /app
 
