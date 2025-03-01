@@ -1,6 +1,6 @@
 package ru.kotleteri.data.models.base
 
-import java.util.UUID
+import java.util.*
 
 data class ClientModel(
     val id: UUID,

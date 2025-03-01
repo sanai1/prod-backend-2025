@@ -2,7 +2,7 @@ package ru.kotleteri.data.models.base
 
 import ru.kotleteri.data.models.inout.offers.GetOfferResponseModel
 import java.time.LocalDateTime
-import java.util.UUID
+import java.util.*
 
 data class OfferModel(
     val id: UUID,

@@ -55,7 +55,7 @@ object OfferCRUD {
             .selectAll()
             .offset(offset)
             .limit(limit)
-            .map{Pair(it[CompanyTable.name], resultRowToOffer(it))}
+            .map { Pair(it[CompanyTable.name], resultRowToOffer(it)) }
     }
 
     suspend fun update(offer: OfferModel) =

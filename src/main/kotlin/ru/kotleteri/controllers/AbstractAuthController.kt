@@ -3,7 +3,7 @@ package ru.kotleteri.controllers
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
-import java.util.UUID
+import java.util.*
 
 abstract class AbstractAuthController(val call: ApplicationCall) {
     val principal = call.principal<JWTPrincipal>()

@@ -37,8 +37,9 @@ object ImageLoading {
             .key(imageName)
             .build()
 
-        val response = s3Client.getObject(getObjectRequest, software.amazon.awssdk.core.sync.ResponseTransformer.toBytes())
-            ?: return null
+        val response =
+            s3Client.getObject(getObjectRequest, software.amazon.awssdk.core.sync.ResponseTransformer.toBytes())
+                ?: return null
 
         return response.asInputStream()
     }

@@ -1,11 +1,11 @@
 package ru.kotleteri
 
-import ru.kotleteri.database.DatabaseFactory
-import ru.kotleteri.database.DatabaseInit
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import org.jetbrains.exposed.sql.Database
+import ru.kotleteri.database.DatabaseFactory
+import ru.kotleteri.database.DatabaseInit
 import ru.kotleteri.database.redis.RedisInit
 import ru.kotleteri.plugins.configureHTTP
 import ru.kotleteri.plugins.configureRouting
@@ -20,6 +20,7 @@ fun main() {
     embeddedServer(Netty, port = SERVER_PORT, host = "0.0.0.0", module = Application::module)
         .start(wait = true)
 }
+
 fun Application.module() {
     while (true) {
         try {

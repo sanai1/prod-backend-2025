@@ -15,7 +15,7 @@ import ru.kotleteri.database.crud.ClientCRUD
 import ru.kotleteri.plugins.generateNewToken
 
 class ClientController(val call: ApplicationCall) {
-    suspend fun login(){
+    suspend fun login() {
         val loginRequest = call.receive<LoginRequestModel>()
 
         val user = ClientCRUD.readByEmail(loginRequest.email)
@@ -28,7 +28,7 @@ class ClientController(val call: ApplicationCall) {
             return
         }
 
-        if (!BCrypt.checkpw(loginRequest.password, user.password)){
+        if (!BCrypt.checkpw(loginRequest.password, user.password)) {
             call.respond(
                 HttpStatusCode.Unauthorized,
                 ErrorResponse("User with this email and password doesn't exist")
@@ -46,7 +46,7 @@ class ClientController(val call: ApplicationCall) {
 
         val (fieldName, result) = registerRequest.validate()
 
-        if (result != ValidateResult.Valid){
+        if (result != ValidateResult.Valid) {
             call.respond(HttpStatusCode.BadRequest, ErrorResponse("$fieldName is $result"))
             return
         }
@@ -54,7 +54,7 @@ class ClientController(val call: ApplicationCall) {
         val client = registerRequest.toClientModel()
         val status = ClientCRUD.create(client)
 
-        if (status != DatabaseStatus.Correct){
+        if (status != DatabaseStatus.Correct) {
             call.respond(HttpStatusCode.Conflict, ErrorResponse("User with this email already exists"))
             return
         }

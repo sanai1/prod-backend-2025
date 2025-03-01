@@ -6,35 +6,35 @@ import io.ktor.server.auth.*
 import io.ktor.server.plugins.swagger.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import ru.kotleteri.controllers.offer.OfferClientController
-import ru.kotleteri.controllers.offer.OfferController
 import ru.kotleteri.controllers.client.ClientController
 import ru.kotleteri.controllers.company.AuthCompanyController
 import ru.kotleteri.controllers.company.CompanyController
+import ru.kotleteri.controllers.offer.OfferClientController
 import ru.kotleteri.controllers.offer.OfferCompanyController
+import ru.kotleteri.controllers.offer.OfferController
 
 fun Application.configureRouting() {
     routing {
-        route("/api"){
+        route("/api") {
 
-            get("/ping"){
+            get("/ping") {
                 call.respond(HttpStatusCode.OK)
             }
 
-            route("/clients"){
-                post("/register"){
+            route("/clients") {
+                post("/register") {
                     ClientController(call).register()
                 }
-                post("/login"){
+                post("/login") {
                     ClientController(call).login()
                 }
             }
 
-            route("/companies"){
-                post("/register"){
+            route("/companies") {
+                post("/register") {
                     CompanyController(call).register()
                 }
-                post("/login"){
+                post("/login") {
                     CompanyController(call).login()
                 }
             }
@@ -44,7 +44,7 @@ fun Application.configureRouting() {
                     post("/create") {
                         OfferController(call).create()
                     }
-                    route("/client"){
+                    route("/client") {
                         get {
                             OfferClientController(call).getOffersList()
                         }
@@ -52,7 +52,7 @@ fun Application.configureRouting() {
                             OfferClientController(call).generateQrPayload()
                         }
                     }
-                    route("/company"){
+                    route("/company") {
                         get {
                             OfferCompanyController(call).getAllOffersByCompany()
                         }
@@ -61,13 +61,13 @@ fun Application.configureRouting() {
                             OfferCompanyController(call).receiveOfferQr()
                         }
 
-                        route("/image"){
+                        route("/image") {
                             post {
                                 AuthCompanyController(call).setPicture()
                             }
                         }
 
-                        route("/{companyId}"){
+                        route("/{companyId}") {
                             get("/image") {
                                 AuthCompanyController(call).getPicture()
                             }

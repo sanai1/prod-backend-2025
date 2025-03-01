@@ -15,7 +15,7 @@ data class RegisterRequestModel(
     val lastName: String,
     val email: String,
     val password: String
-): Validateable {
+) : Validateable {
     override fun performValidation() {
         Validate.string(this::firstName, 1..32)
         Validate.string(this::lastName, 1..32)

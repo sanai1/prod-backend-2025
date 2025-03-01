@@ -15,22 +15,22 @@ import ru.kotleteri.database.redis.QRService
 import java.util.*
 
 class OfferCompanyController(call: ApplicationCall) : AbstractAuthController(call) {
-    suspend fun getAllOffersByCompany(){
-        if (isClient){
+    suspend fun getAllOffersByCompany() {
+        if (isClient) {
             call.respond(HttpStatusCode.Forbidden, ErrorResponse("You are not company"))
             return
         }
 
         val limit = try {
             call.parameters["limit"]!!.toInt()
-        } catch (e: Exception){
+        } catch (e: Exception) {
             call.respond(HttpStatusCode.BadRequest, ErrorResponse("Wrong limit"))
             return
         }
 
         val offset = try {
             call.parameters["offset"]!!.toLong()
-        } catch (e: Exception){
+        } catch (e: Exception) {
             call.respond(HttpStatusCode.BadRequest, ErrorResponse("Wrong offset"))
             return
         }
@@ -45,8 +45,8 @@ class OfferCompanyController(call: ApplicationCall) : AbstractAuthController(cal
 
     }
 
-    suspend fun receiveOfferQr(){
-        if (isClient){
+    suspend fun receiveOfferQr() {
+        if (isClient) {
             call.respond(HttpStatusCode.Forbidden, ErrorResponse("You are not company"))
             return
         }
@@ -55,18 +55,23 @@ class OfferCompanyController(call: ApplicationCall) : AbstractAuthController(cal
 
         val data = QRService.getCode(r.payload)
 
-        if(data == null){
+        if (data == null) {
             call.respond(HttpStatusCode.NotFound, ErrorResponse("Qr is not found or expired"))
             return
         }
 
-        val offer = OfferCRUD.read(UUID.fromString(data.offerId)) ?:
-        return call.respond(HttpStatusCode.BadRequest, ErrorResponse("offer is null"))
-        val client = ClientCRUD.read(UUID.fromString(data.clientId)) ?:
-        return call.respond(HttpStatusCode.BadRequest, ErrorResponse("offer is null"))
+        val offer = OfferCRUD.read(UUID.fromString(data.offerId)) ?: return call.respond(
+            HttpStatusCode.BadRequest,
+            ErrorResponse("offer is null")
+        )
+        val client = ClientCRUD.read(UUID.fromString(data.clientId)) ?: return call.respond(
+            HttpStatusCode.BadRequest,
+            ErrorResponse("offer is null")
+        )
 
 
-        call.respond(HttpStatusCode.OK,
+        call.respond(
+            HttpStatusCode.OK,
             GetOfferByQrResponseModel(
                 client.firstName,
                 client.lastName,

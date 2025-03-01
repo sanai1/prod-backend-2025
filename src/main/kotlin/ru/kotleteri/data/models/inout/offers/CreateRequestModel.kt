@@ -5,7 +5,6 @@ import ru.kotleteri.data.models.base.OfferModel
 import ru.kotleteri.utils.Validate
 import ru.kotleteri.utils.Validateable
 import java.time.LocalDateTime
-import java.time.format.DateTimeParseException
 import java.util.*
 
 @Serializable

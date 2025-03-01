@@ -12,5 +12,7 @@ val s3Client = S3Client.builder()
     .endpointOverride(URI.create(S3_URL)) // Адрес вашего локального S3
     .credentialsProvider(
         StaticCredentialsProvider.create(
-        AwsBasicCredentials.create(S3_ACCESS_KEY, S3_SECRET_KEY)))
+            AwsBasicCredentials.create(S3_ACCESS_KEY, S3_SECRET_KEY)
+        )
+    )
     .build()

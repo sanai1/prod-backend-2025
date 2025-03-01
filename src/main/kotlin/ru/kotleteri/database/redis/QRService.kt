@@ -10,7 +10,11 @@ object QRService {
     private const val prefix = "qr:"
     private suspend fun savePayload(payload: String): UUID {
         val id = UUID.randomUUID()
-        redis.set(prefix + id.toString(), payload, setOption = SetOption.Builder().exSeconds((60*5).toULong()).build())
+        redis.set(
+            prefix + id.toString(),
+            payload,
+            setOption = SetOption.Builder().exSeconds((60 * 5).toULong()).build()
+        )
         return id
     }
 

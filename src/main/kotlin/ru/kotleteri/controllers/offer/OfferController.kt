@@ -11,7 +11,7 @@ import ru.kotleteri.data.models.inout.offers.CreateRequestModel
 import ru.kotleteri.database.crud.CompanyCRUD
 import ru.kotleteri.database.crud.OfferCRUD
 
-class OfferController(call: ApplicationCall): AbstractAuthController(call) {
+class OfferController(call: ApplicationCall) : AbstractAuthController(call) {
     suspend fun create() {
         val createRequest = call.receive<CreateRequestModel>()
 
@@ -22,12 +22,15 @@ class OfferController(call: ApplicationCall): AbstractAuthController(call) {
 
         val (fieldName, result) = createRequest.validate()
 
-        if (result != ValidateResult.Valid){
+        if (result != ValidateResult.Valid) {
             call.respond(HttpStatusCode.BadRequest, ErrorResponse("$fieldName is $result"))
             return
         }
 
-        val companyId = CompanyCRUD.readByEmail(email)?.id ?: return call.respond(HttpStatusCode.NotFound, ErrorResponse("Company not found"))
+        val companyId = CompanyCRUD.readByEmail(email)?.id ?: return call.respond(
+            HttpStatusCode.NotFound,
+            ErrorResponse("Company not found")
+        )
 
         OfferCRUD.create(createRequest.toOfferModel(companyId))
 

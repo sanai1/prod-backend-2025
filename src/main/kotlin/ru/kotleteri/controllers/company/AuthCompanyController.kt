@@ -7,11 +7,11 @@ import io.ktor.server.response.*
 import ru.kotleteri.controllers.AbstractAuthController
 import ru.kotleteri.data.models.inout.ErrorResponse
 import ru.kotleteri.integrations.objectstorage.ImageLoading
-import java.util.UUID
+import java.util.*
 
-class AuthCompanyController(call: ApplicationCall): AbstractAuthController(call) {
-    suspend fun setPicture(){
-        if (isClient){
+class AuthCompanyController(call: ApplicationCall) : AbstractAuthController(call) {
+    suspend fun setPicture() {
+        if (isClient) {
             call.respond(HttpStatusCode.OK, ErrorResponse("You are not company"))
             return
         }
@@ -22,24 +22,24 @@ class AuthCompanyController(call: ApplicationCall): AbstractAuthController(call)
 
             call.respond(HttpStatusCode.OK)
 
-        } catch (e: Exception){
+        } catch (e: Exception) {
             call.respond(HttpStatusCode.BadRequest, ErrorResponse("Something went wrong"))
             return
         }
     }
 
-    suspend fun getPicture(){
+    suspend fun getPicture() {
 
         val companyId = try {
             UUID.fromString(call.parameters["companyId"]).toString()
-        } catch (e: Exception){
+        } catch (e: Exception) {
             call.respond(HttpStatusCode.BadRequest, ErrorResponse("bad companyId"))
             return
         }
 
         try {
             val stream = ImageLoading.getImageFromS3(companyId)
-            if (stream == null){
+            if (stream == null) {
                 call.respond(HttpStatusCode.NotFound, ErrorResponse("Picture not found"))
                 return
             }
@@ -50,7 +50,7 @@ class AuthCompanyController(call: ApplicationCall): AbstractAuthController(call)
                 HttpStatusCode.OK
             )
 
-        } catch (e: Exception){
+        } catch (e: Exception) {
             call.respond(HttpStatusCode.BadRequest, ErrorResponse("Something went wrong"))
             return
         }
