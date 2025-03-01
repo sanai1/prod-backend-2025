@@ -35,6 +35,7 @@ class AuthCompanyController(call: ApplicationCall) : AbstractAuthController(call
 
         try {
             val imageBytes = call.receiveStream().readBytes()
+            println("[BYTES]: $imageBytes")
             ImageLoading.saveImageToS3(id.toString(), imageBytes)
 
             call.respond(HttpStatusCode.OK)

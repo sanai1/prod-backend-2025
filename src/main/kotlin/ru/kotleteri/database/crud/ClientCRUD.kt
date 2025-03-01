@@ -5,6 +5,7 @@ import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import ru.kotleteri.data.enums.DatabaseStatus
 import ru.kotleteri.data.enums.Gender
+import ru.kotleteri.data.models.base.ClientExtensionModel
 import ru.kotleteri.data.models.base.ClientModel
 import ru.kotleteri.database.suspendTransaction
 import ru.kotleteri.database.tables.ClientExtensionTable
@@ -100,21 +101,34 @@ object ClientCRUD {
         ClientTable.deleteWhere { ClientTable.id eq id }
     }
 
-    suspend fun addExtension(clientId: UUID, age: Int, gender: Gender) = suspendTransaction {
+    suspend fun addExtension(ext: ClientExtensionModel) = suspendTransaction {
         if (ClientExtensionTable.selectAll()
-            .where { ClientExtensionTable.clientId eq clientId }.count() > 0){
+            .where { ClientExtensionTable.clientId eq ext.clientId }.count() > 0){
 
-            ClientExtensionTable.update ({ ClientExtensionTable.clientId eq clientId }) {
-                it[ClientExtensionTable.age] = age
-                it[ClientExtensionTable.gender] = gender
+            ClientExtensionTable.update ({ ClientExtensionTable.clientId eq ext.clientId }) {
+                it[ClientExtensionTable.age] = ext.age
+                it[ClientExtensionTable.gender] = ext.gender
             }
 
         } else{
             ClientExtensionTable.insert {
-                it[ClientExtensionTable.clientId] = clientId
-                it[ClientExtensionTable.age] = age
-                it[ClientExtensionTable.gender] = gender
+                it[ClientExtensionTable.clientId] = ext.clientId
+                it[ClientExtensionTable.age] = ext.age
+                it[ClientExtensionTable.gender] = ext.gender
             }
         }
+    }
+
+    suspend fun getExtension(id: UUID) = suspendTransaction {
+        ClientExtensionTable.selectAll()
+        .where { ClientExtensionTable.clientId eq id }
+        .singleOrNull()
+            ?.let {
+                ClientExtensionModel(
+                    it[ClientExtensionTable.clientId].value,
+                    it[ClientExtensionTable.age],
+                    it[ClientExtensionTable.gender]
+                )
+            }
     }
 }

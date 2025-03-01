@@ -6,6 +6,7 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import ru.kotleteri.controllers.AbstractAuthController
 import ru.kotleteri.data.enums.Gender
+import ru.kotleteri.data.models.base.ClientExtensionModel
 import ru.kotleteri.data.models.inout.ErrorResponse
 import ru.kotleteri.data.models.inout.clients.AddClientTargetingDataModel
 import ru.kotleteri.database.crud.ClientCRUD
@@ -41,7 +42,11 @@ class AuthClientController(call: ApplicationCall): AbstractAuthController(call) 
             else -> return call.respond(HttpStatusCode.BadRequest, ErrorResponse("Invalid gender"))
         }
 
-        ClientCRUD.addExtension(id, r.age, gender)
+        ClientCRUD.addExtension(ClientExtensionModel(
+            id,
+            r.age,
+            gender
+        ))
 
         call.respond(HttpStatusCode.OK)
     }
