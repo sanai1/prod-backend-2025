@@ -65,7 +65,10 @@ fun Application.configureRouting() {
                             post {
                                 AuthCompanyController(call).setPicture()
                             }
-                            get {
+                        }
+
+                        route("/{companyId}"){
+                            get("/image") {
                                 AuthCompanyController(call).getPicture()
                             }
                         }
