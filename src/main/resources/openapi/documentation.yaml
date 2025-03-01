@@ -281,6 +281,75 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/components/schemas/GetOfferResponseModel"
+  /api/offers/company/{companyId}/image:
+    get:
+      description: ""
+      parameters:
+      - name: "companyId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "Something went wrong"
+                Example#2:
+                  description: ""
+                  value:
+                    status: "bad companyId"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "Picture not found"
+        "200":
+          description: "OK"
+          content:
+            image/jpeg:
+              schema:
+                type: "string"
+                format: "byte"
+  /api/offers/company/image:
+    post:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "You are not company"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "Something went wrong"
   /api/offers/company/scanQr:
     post:
       description: ""
