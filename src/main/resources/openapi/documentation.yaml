@@ -184,6 +184,177 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/LoginResponseModel"
+  /api/company:
+    get:
+      description: ""
+      parameters:
+      - name: "limit"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      - name: "offset"
+        in: "query"
+        required: false
+        schema:
+          type: "string"
+      responses:
+        "403":
+          description: "Forbidden"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "You are not company"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "Wrong offset"
+                Example#2:
+                  description: ""
+                  value:
+                    status: "Wrong limit"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/GetOfferResponseModel"
+  /api/company/{companyId}/image:
+    get:
+      description: ""
+      parameters:
+      - name: "companyId"
+        in: "path"
+        required: true
+        schema:
+          type: "string"
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "Something went wrong"
+                Example#2:
+                  description: ""
+                  value:
+                    status: "bad companyId"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "Picture not found"
+        "200":
+          description: "OK"
+          content:
+            image/jpeg:
+              schema:
+                type: "string"
+                format: "byte"
+  /api/company/image:
+    post:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "object"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "You are not company"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "Something went wrong"
+  /api/company/scanQr:
+    post:
+      description: ""
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GetOfferByQrRequestModel"
+        required: true
+      responses:
+        "403":
+          description: "Forbidden"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "You are not company"
+        "404":
+          description: "Not Found"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "Qr is not found or expired"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "offer is null"
+                Example#2:
+                  description: ""
+                  value:
+                    status: "offer is null"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/GetOfferByQrResponseModel"
   /api/offers/client:
     get:
       description: ""
@@ -282,177 +453,6 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/GenerateQRPayloadResponseModel"
-  /api/offers/company:
-    get:
-      description: ""
-      parameters:
-      - name: "limit"
-        in: "query"
-        required: false
-        schema:
-          type: "string"
-      - name: "offset"
-        in: "query"
-        required: false
-        schema:
-          type: "string"
-      responses:
-        "403":
-          description: "Forbidden"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                Example#1:
-                  description: ""
-                  value:
-                    status: "You are not company"
-        "400":
-          description: "Bad Request"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                Example#1:
-                  description: ""
-                  value:
-                    status: "Wrong offset"
-                Example#2:
-                  description: ""
-                  value:
-                    status: "Wrong limit"
-        "200":
-          description: "OK"
-          content:
-            '*/*':
-              schema:
-                type: "array"
-                items:
-                  $ref: "#/components/schemas/GetOfferResponseModel"
-  /api/offers/company/{companyId}/image:
-    get:
-      description: ""
-      parameters:
-      - name: "companyId"
-        in: "path"
-        required: true
-        schema:
-          type: "string"
-      responses:
-        "400":
-          description: "Bad Request"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                Example#1:
-                  description: ""
-                  value:
-                    status: "Something went wrong"
-                Example#2:
-                  description: ""
-                  value:
-                    status: "bad companyId"
-        "404":
-          description: "Not Found"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                Example#1:
-                  description: ""
-                  value:
-                    status: "Picture not found"
-        "200":
-          description: "OK"
-          content:
-            image/jpeg:
-              schema:
-                type: "string"
-                format: "byte"
-  /api/offers/company/image:
-    post:
-      description: ""
-      responses:
-        "200":
-          description: "OK"
-          content:
-            '*/*':
-              schema:
-                type: "object"
-              examples:
-                Example#1:
-                  description: ""
-                  value:
-                    status: "You are not company"
-        "400":
-          description: "Bad Request"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                Example#1:
-                  description: ""
-                  value:
-                    status: "Something went wrong"
-  /api/offers/company/scanQr:
-    post:
-      description: ""
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/GetOfferByQrRequestModel"
-        required: true
-      responses:
-        "403":
-          description: "Forbidden"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                Example#1:
-                  description: ""
-                  value:
-                    status: "You are not company"
-        "404":
-          description: "Not Found"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                Example#1:
-                  description: ""
-                  value:
-                    status: "Qr is not found or expired"
-        "400":
-          description: "Bad Request"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                Example#1:
-                  description: ""
-                  value:
-                    status: "offer is null"
-                Example#2:
-                  description: ""
-                  value:
-                    status: "offer is null"
-        "200":
-          description: "OK"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/GetOfferByQrResponseModel"
   /api/offers/create:
     post:
       description: ""
@@ -617,15 +617,9 @@ components:
       - "company_name"
       - "title"
       - "description"
+      - "discount"
       - "start_date"
       - "end_date"
-    GenerateQRPayloadResponseModel:
-      type: "object"
-      properties:
-        payload:
-          type: "string"
-      required:
-      - "payload"
     GetOfferByQrRequestModel:
       type: "object"
       properties:
@@ -649,6 +643,14 @@ components:
       - "client_first_name"
       - "client_last_name"
       - "offer_title"
+      - "offer_discount"
+    GenerateQRPayloadResponseModel:
+      type: "object"
+      properties:
+        payload:
+          type: "string"
+      required:
+      - "payload"
     CreateRequestModel:
       type: "object"
       properties:
@@ -666,5 +668,6 @@ components:
       required:
       - "title"
       - "description"
+      - "discount"
       - "startDate"
       - "endDate"

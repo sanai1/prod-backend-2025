@@ -65,25 +65,25 @@ fun Application.configureRouting() {
                             OfferClientController(call).generateQrPayload()
                         }
                     }
-                    route("/company") {
-                        get {
-                            OfferCompanyController(call).getAllOffersByCompany()
-                        }
+                }
+                route("/company") {
+                    get {
+                        OfferCompanyController(call).getAllOffersByCompany()
+                    }
 
-                        post("/scanQr") {
-                            OfferCompanyController(call).receiveOfferQr()
-                        }
+                    post("/scanQr") {
+                        OfferCompanyController(call).receiveOfferQr()
+                    }
 
-                        route("/image") {
-                            post {
-                                AuthCompanyController(call).setPicture()
-                            }
+                    route("/image") {
+                        post {
+                            AuthCompanyController(call).setPicture()
                         }
+                    }
 
-                        route("/{companyId}") {
-                            get("/image") {
-                                AuthCompanyController(call).getPicture()
-                            }
+                    route("/{companyId}") {
+                        get("/image") {
+                            AuthCompanyController(call).getPicture()
                         }
                     }
                 }
