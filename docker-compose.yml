@@ -76,9 +76,7 @@ services:
         condition: service_healthy
     networks:
       - main
-    entrypoint: [ "/bin/sh", "-c", "/minio-setup.sh" ]
-    volumes:
-      - ./minio-setup.sh:/minio-setup.sh
+    entrypoint: [ "/bin/sh", "-c", "\"sleep 10 && mc alias set myminio http://minio:9000 $MINIO_ROOT_USER $MINIO_ROOT_PASSWORD && mc mb myminio/$BUCKET || true\"" ]
     <<: *env-common
 
 
