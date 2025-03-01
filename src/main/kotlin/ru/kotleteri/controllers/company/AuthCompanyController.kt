@@ -13,7 +13,7 @@ import java.util.*
 class AuthCompanyController(call: ApplicationCall) : AbstractAuthController(call) {
     suspend fun getProfile(){
         if (isClient) {
-            call.respond(HttpStatusCode.OK, ErrorResponse("You are not company"))
+            call.respond(HttpStatusCode.Forbidden, ErrorResponse("You are not company"))
             return
         }
 
@@ -29,7 +29,7 @@ class AuthCompanyController(call: ApplicationCall) : AbstractAuthController(call
 
     suspend fun setPicture() {
         if (isClient) {
-            call.respond(HttpStatusCode.OK, ErrorResponse("You are not company"))
+            call.respond(HttpStatusCode.Forbidden, ErrorResponse("You are not company"))
             return
         }
 

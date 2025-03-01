@@ -41,11 +41,12 @@ paths:
     get:
       description: ""
       responses:
-        "200":
-          description: "OK"
+        "403":
+          description: "Forbidden"
           content:
             '*/*':
-              schema: {}
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
               examples:
                 Example#1:
                   description: ""
@@ -62,6 +63,49 @@ paths:
                   description: ""
                   value:
                     status: "Company not found"
+        "200":
+          description: "OK <br> todo add target settings to GetClientProfileResponseModel"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/GetClientProfileResponseModel"
+    put:
+      description: ""
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddClientTargetingDataModel"
+        required: true
+      responses:
+        "403":
+          description: "Forbidden"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "You are not company"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "Invalid gender"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "object"
   /api/clients/register:
     post:
       description: ""
@@ -130,11 +174,12 @@ paths:
     get:
       description: ""
       responses:
-        "200":
-          description: "OK"
+        "403":
+          description: "Forbidden"
           content:
             '*/*':
-              schema: {}
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
               examples:
                 Example#1:
                   description: ""
@@ -151,6 +196,12 @@ paths:
                   description: ""
                   value:
                     status: "Company not found"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/GetCompanyProfileResponseModel"
   /api/companies/register:
     post:
       description: ""
@@ -231,17 +282,23 @@ paths:
     post:
       description: ""
       responses:
+        "403":
+          description: "Forbidden"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "You are not company"
         "200":
           description: "OK"
           content:
             '*/*':
               schema:
                 type: "object"
-              examples:
-                Example#1:
-                  description: ""
-                  value:
-                    status: "You are not company"
         "400":
           description: "Bad Request"
           content:
@@ -549,6 +606,16 @@ components:
       - "first_name"
       - "last_name"
       - "email"
+    AddClientTargetingDataModel:
+      type: "object"
+      properties:
+        age:
+          type: "integer"
+          format: "int32"
+        gender:
+          type: "string"
+      required:
+      - "gender"
     RegisterRequestModel:
       type: "object"
       properties:

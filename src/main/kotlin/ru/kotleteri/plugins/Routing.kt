@@ -31,8 +31,14 @@ fun Application.configureRouting() {
                 }
 
                 authenticate {
-                    get("/profile"){
-                        AuthClientController(call).getProfile()
+                    route("/profile"){
+                        get{
+                            AuthClientController(call).getProfile()
+                        }
+
+                        put {
+                            AuthClientController(call).editTarget()
+                        }
                     }
                 }
             }
