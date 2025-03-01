@@ -227,6 +227,16 @@ paths:
             '*/*':
               schema:
                 type: "object"
+  /api/ping:
+    get:
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "object"
 components:
   schemas:
     LoginRequestModel:
@@ -289,6 +299,8 @@ components:
           type: "string"
         company_id:
           type: "string"
+        company_name:
+          type: "string"
         title:
           type: "string"
         description:
@@ -303,6 +315,7 @@ components:
       required:
       - "id"
       - "company_id"
+      - "company_name"
       - "title"
       - "description"
       - "start_date"
