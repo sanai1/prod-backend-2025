@@ -8,21 +8,21 @@ import java.util.*
 
 object QRService {
     private const val prefix = "qr:"
-    suspend fun savePayload(payload: String): UUID {
+    private suspend fun savePayload(payload: String): UUID {
         val id = UUID.randomUUID()
         redis.set(prefix + id.toString(), payload, setOption = SetOption.Builder().exSeconds((60*5).toULong()).build())
         return id
     }
 
-    suspend fun getPayload(id: UUID): String? {
-        return redis.get(prefix + id.toString())
+    private suspend fun getPayload(id: String): String? {
+        return redis.get(prefix + id)
     }
 
 
     suspend fun generateCode(data: QRDataModel): UUID =
         savePayload(Json.encodeToString(data))
 
-    suspend fun getCode(id: UUID): QRDataModel? {
+    suspend fun getCode(id: String): QRDataModel? {
         return Json.decodeFromString(getPayload(id) ?: return null)
     }
 }

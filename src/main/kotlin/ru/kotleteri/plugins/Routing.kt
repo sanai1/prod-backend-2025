@@ -47,10 +47,17 @@ fun Application.configureRouting() {
                         get {
                             OfferClientController(call).getOffersList()
                         }
+                        post("/generateQr") {
+                            OfferClientController(call).generateQrPayload()
+                        }
                     }
                     route("/company"){
                         get {
                             OfferCompanyController(call).getAllOffersByCompany()
+                        }
+
+                        post("/scanQr") {
+                            OfferCompanyController(call).receiveOfferQr()
                         }
                     }
                 }
