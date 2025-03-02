@@ -5,6 +5,8 @@ import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
 import ru.kotleteri.data.models.base.OperationModel
 import ru.kotleteri.data.models.base.StatisticsByDate
+import ru.kotleteri.data.models.base.StatisticsByHour
+import ru.kotleteri.data.models.base.StatisticsByMonth
 import ru.kotleteri.database.suspendTransaction
 import ru.kotleteri.database.tables.OperationTable
 import ru.kotleteri.utils.StatementPrepare
@@ -20,6 +22,28 @@ object OperationCRUD {
                FROM operations
                where operations.company_id = ?
         group by cast(operations.timestamp as DATE)
+    """.trimIndent()
+
+    private val selectByHourExpression = """
+        SELECT DATE(timestamp) AS day,
+               EXTRACT(HOUR FROM timestamp) AS hour,
+               count(*) allops,
+               count(*) filter ( where operations.client_gender = 'MALE' ) maleops,
+               count(*) filter ( where operations.client_gender = 'FEMALE' ) femaleops
+            FROM operations
+            where operations.company_id = ?
+        group by DATE(timestamp), EXTRACT(HOUR FROM timestamp)
+    """.trimIndent()
+
+    private val selectByMonthExpression = """
+        SELECT EXTRACT(YEAR FROM timestamp) AS year,
+               EXTRACT(MONTH FROM timestamp) AS month,
+               count(*) allops,
+               count(*) filter ( where operations.client_gender = 'MALE' ) maleops,
+               count(*) filter ( where operations.client_gender = 'FEMALE' ) femaleops
+        FROM operations
+        where operations.company_id = ?
+        group by EXTRACT(YEAR FROM timestamp), EXTRACT(MONTH FROM timestamp)
     """.trimIndent()
 
     fun resultRowToOperation(resultRow: ResultRow): OperationModel =
@@ -55,7 +79,7 @@ object OperationCRUD {
             .map { resultRowToOperation(it) }
     }
 
-    suspend fun readForCompany(companyId: UUID) = suspendTransaction {
+    suspend fun readForCompanyByDate(companyId: UUID) = suspendTransaction {
         val statement =
             StatementPrepare(selectByDateExpression)
                 .addParam(companyId.toString())
@@ -78,5 +102,58 @@ object OperationCRUD {
 
         return@suspendTransaction stats.toList()
     }
+
+    suspend fun readForCompanyByHour(companyId: UUID) = suspendTransaction {
+        val statement =
+            StatementPrepare(selectByHourExpression)
+                .addParam(companyId.toString())
+                .build()
+
+        val stats = mutableListOf<StatisticsByHour>()
+
+        exec(statement) { rs ->
+            while (rs.next()) {
+                stats.add(
+                    StatisticsByHour(
+                        rs.getDate("day").toLocalDate(),
+                        rs.getInt("hour"),
+                        rs.getInt("allops"),
+                        rs.getInt("maleops"),
+                        rs.getInt("femaleops"),
+                    )
+                )
+            }
+        }
+
+        return@suspendTransaction stats.toList()
+    }
+
+
+    suspend fun readForCompanyByMonth(companyId: UUID) = suspendTransaction {
+        val statement =
+            StatementPrepare(selectByMonthExpression)
+                .addParam(companyId.toString())
+                .build()
+
+        val stats = mutableListOf<StatisticsByMonth>()
+
+        exec(statement) { rs ->
+            while (rs.next()) {
+                stats.add(
+                    StatisticsByMonth(
+                        rs.getInt("year"),
+                        rs.getInt("month"),
+                        rs.getInt("allops"),
+                        rs.getInt("maleops"),
+                        rs.getInt("femaleops"),
+                    )
+                )
+            }
+        }
+
+        return@suspendTransaction stats.toList()
+    }
+
+
 
 }

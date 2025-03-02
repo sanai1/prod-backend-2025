@@ -19,7 +19,31 @@ class StatisticsController(call: ApplicationCall) : AbstractAuthController(call)
     suspend fun getStatsByDateCompany() {
 
         val opList = try {
-            OperationCRUD.readForCompany(id)
+            OperationCRUD.readForCompanyByDate(id)
+        } catch (e: Exception) {
+            call.respond(HttpStatusCode.BadRequest, ErrorResponse(e.localizedMessage))
+            return
+        }
+
+        call.respond(HttpStatusCode.OK, opList.map { it.toResponseModel() })
+    }
+
+    suspend fun getStatsByHourCompany() {
+
+        val opList = try {
+            OperationCRUD.readForCompanyByHour(id)
+        } catch (e: Exception) {
+            call.respond(HttpStatusCode.BadRequest, ErrorResponse(e.localizedMessage))
+            return
+        }
+
+        call.respond(HttpStatusCode.OK, opList.map { it.toResponseModel() })
+    }
+
+    suspend fun getStatsByMonthCompany() {
+
+        val opList = try {
+            OperationCRUD.readForCompanyByMonth(id)
         } catch (e: Exception) {
             call.respond(HttpStatusCode.BadRequest, ErrorResponse(e.localizedMessage))
             return

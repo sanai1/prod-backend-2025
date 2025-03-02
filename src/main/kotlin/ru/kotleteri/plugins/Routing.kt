@@ -61,6 +61,14 @@ fun Application.configureRouting() =
                         get("/byDate") {
                             StatisticsController(call).getStatsByDateCompany()
                         }
+
+                        get("/byHour") {
+                            StatisticsController(call).getStatsByHourCompany()
+                        }
+
+                        get("/byMonth") {
+                            StatisticsController(call).getStatsByMonthCompany()
+                        }
                     }
                 }
             }
