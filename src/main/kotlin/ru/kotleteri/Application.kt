@@ -19,7 +19,6 @@ fun main() {
 }
 
 fun Application.module() {
-
     while (true) {
         try {
             connect()
@@ -30,6 +29,7 @@ fun Application.module() {
     }
     DatabaseInit.initialize()
     RedisInit.initialize()
+    configureDocumentation()
     configureSerialization()
     configureHTTP()
     configureSecurity()
