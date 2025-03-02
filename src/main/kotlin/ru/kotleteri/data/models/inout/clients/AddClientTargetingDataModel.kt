@@ -8,7 +8,7 @@ import ru.kotleteri.utils.Validateable
 data class AddClientTargetingDataModel(
     val age: Int,
     val gender: String
-): Validateable {
+) : Validateable {
     override fun performValidation() {
         Validate.number(this::age, 1..100)
     }

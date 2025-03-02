@@ -5,6 +5,7 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import ru.kotleteri.controllers.AbstractAuthController
+import ru.kotleteri.controllers.abort
 import ru.kotleteri.data.enums.ValidateResult
 import ru.kotleteri.data.models.inout.ErrorResponse
 import ru.kotleteri.data.models.inout.offers.CreateRequestModel
@@ -12,13 +13,16 @@ import ru.kotleteri.database.crud.CompanyCRUD
 import ru.kotleteri.database.crud.OfferCRUD
 
 class OfferController(call: ApplicationCall) : AbstractAuthController(call) {
+
+    init {
+        if (isClient) {
+            abort(HttpStatusCode.Forbidden, "Authorized as client")
+        }
+    }
+
     suspend fun create() {
         val createRequest = call.receive<CreateRequestModel>()
 
-        if (isClient) {
-            call.respond(HttpStatusCode.Forbidden, ErrorResponse("Authorized as client"))
-            return
-        }
 
         val (fieldName, result) = createRequest.validate()
 
