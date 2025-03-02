@@ -11,6 +11,6 @@ data class OperationModel(
     val timestamp: LocalDateTime,
     val companyName: String,
     val offerTitle: String,
-    val clientAge: Int,
-    val clientGender: String
+    val clientAge: Int?,
+    val clientGender: String?
 )

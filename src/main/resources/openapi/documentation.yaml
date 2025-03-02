@@ -235,6 +235,74 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/LoginResponseModel"
+  /api/companies/stats:
+    get:
+      description: ""
+      responses:
+        "403":
+          description: "Forbidden"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "You are not company"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "wrong thing"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/StatisticsDateResponseModel"
+  /api/companies/stats/byDate:
+    get:
+      description: ""
+      responses:
+        "403":
+          description: "Forbidden"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "You are not company"
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+              examples:
+                Example#1:
+                  description: ""
+                  value:
+                    status: "wrong thing"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/StatisticsDateResponseModel"
   /api/company/{companyId}/image:
     get:
       description: ""
@@ -499,8 +567,12 @@ paths:
                 Example#1:
                   description: ""
                   value:
-                    status: "offer is null"
+                    status: "company is null"
                 Example#2:
+                  description: ""
+                  value:
+                    status: "client is null"
+                Example#3:
                   description: ""
                   value:
                     status: "offer is null"
@@ -658,6 +730,22 @@ components:
       - "name"
       - "email"
       - "password"
+    StatisticsDateResponseModel:
+      type: "object"
+      properties:
+        date:
+          type: "string"
+        operations_count:
+          type: "integer"
+          format: "int32"
+        male_operations_count:
+          type: "integer"
+          format: "int32"
+        female_operations_count:
+          type: "integer"
+          format: "int32"
+      required:
+      - "date"
     GetOfferResponseModel:
       type: "object"
       properties:

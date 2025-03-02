@@ -76,10 +76,7 @@ class OfferCompanyController(call: ApplicationCall) : AbstractAuthController(cal
             ErrorResponse("company is null")
         )
 
-        val extension = ClientCRUD.getExtension(client.id) ?: return call.respond(
-            HttpStatusCode.BadRequest,
-            ErrorResponse("extension is null")
-        )
+        val extension = ClientCRUD.getExtension(client.id)
 
         OperationCRUD.create(
             OperationModel(
@@ -90,8 +87,8 @@ class OfferCompanyController(call: ApplicationCall) : AbstractAuthController(cal
                 LocalDateTime.now(),
                 company.name,
                 offer.title,
-                extension.age,
-                extension.gender.toString()
+                extension?.age,
+                extension?.gender?.toString()
             )
         )
 

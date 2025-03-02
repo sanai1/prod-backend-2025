@@ -13,6 +13,7 @@ import ru.kotleteri.controllers.company.CompanyController
 import ru.kotleteri.controllers.offer.OfferClientController
 import ru.kotleteri.controllers.offer.OfferCompanyController
 import ru.kotleteri.controllers.offer.OfferController
+import ru.kotleteri.controllers.statistics.StatisticsController
 
 fun Application.configureRouting() {
     routing {
@@ -54,6 +55,11 @@ fun Application.configureRouting() {
                 authenticate {
                     get("/profile"){
                         AuthCompanyController(call).getProfile()
+                    }
+                    get("/stats"){
+                        get("/byDate"){
+                            StatisticsController(call).getStatsByDateCompany()
+                        }
                     }
                 }
             }

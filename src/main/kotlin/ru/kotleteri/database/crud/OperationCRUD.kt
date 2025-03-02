@@ -4,12 +4,26 @@ import org.jetbrains.exposed.sql.ResultRow
 import org.jetbrains.exposed.sql.insert
 import org.jetbrains.exposed.sql.selectAll
 import ru.kotleteri.data.models.base.OperationModel
+import ru.kotleteri.data.models.base.StatisticsByDate
 import ru.kotleteri.database.suspendTransaction
 import ru.kotleteri.database.tables.OfferTable
 import ru.kotleteri.database.tables.OperationTable
+import ru.kotleteri.utils.StatementPrepare
+import java.time.LocalDate
 import java.util.*
 
 object OperationCRUD {
+
+    private val selectByDateExpression = """
+        SELECT cast(operations.timestamp as DATE) date,
+               count(*) allops,
+               count(*) filter ( where operations.client_gender = 'MALE' ) maleops,
+               count(*) filter ( where operations.client_gender = 'FEMALE' ) femaleops
+               FROM operations
+               where operations.company_id = ?
+        group by cast(operations.timestamp as DATE)
+    """.trimIndent()
+
     fun resultRowToOperation(resultRow: ResultRow): OperationModel =
         OperationModel(
             id = resultRow[OperationTable.id].value,
@@ -37,21 +51,34 @@ object OperationCRUD {
         }
     }
 
-    suspend fun readForClient(clientId: UUID, limit: Int, offset: Long): List<OperationModel> = suspendTransaction {
+    suspend fun readForClient(clientId: UUID) = suspendTransaction {
         OperationTable.selectAll()
             .where { OperationTable.clientId eq clientId }
-            .limit(limit)
-            .offset(offset)
             .map { resultRowToOperation(it) }
     }
 
-    suspend fun readForCompany(companyId: UUID, limit: Int, offset: Long): List<OperationModel> = suspendTransaction {
-        OperationTable
-            .selectAll()
-            .where { OfferTable.companyId eq companyId }
-            .limit(limit)
-            .offset(offset)
-            .map { resultRowToOperation(it) }
+    suspend fun readForCompany(companyId: UUID) = suspendTransaction {
+        val statement =
+            StatementPrepare(selectByDateExpression)
+                .addParam(companyId.toString())
+                .build()
+
+        val stats = mutableListOf<StatisticsByDate>()
+
+        exec(statement) { rs ->
+            while (rs.next()) {
+                stats.add(
+                    StatisticsByDate(
+                        rs.getDate(0) as LocalDate,
+                        rs.getInt(1),
+                        rs.getInt(2),
+                        rs.getInt(3)
+                    )
+                )
+            }
+        }
+
+        return@suspendTransaction stats.toList()
     }
 
 }
