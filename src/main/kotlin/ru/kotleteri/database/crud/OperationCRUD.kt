@@ -6,7 +6,6 @@ import org.jetbrains.exposed.sql.selectAll
 import ru.kotleteri.data.models.base.OperationModel
 import ru.kotleteri.data.models.base.StatisticsByDate
 import ru.kotleteri.database.suspendTransaction
-import ru.kotleteri.database.tables.OfferTable
 import ru.kotleteri.database.tables.OperationTable
 import ru.kotleteri.utils.StatementPrepare
 import java.time.LocalDate
@@ -69,10 +68,10 @@ object OperationCRUD {
             while (rs.next()) {
                 stats.add(
                     StatisticsByDate(
-                        rs.getDate(0) as LocalDate,
-                        rs.getInt(1),
-                        rs.getInt(2),
-                        rs.getInt(3)
+                        rs.getDate("date") as LocalDate,
+                        rs.getInt("allops"),
+                        rs.getInt("maleops"),
+                        rs.getInt("femaleops"),
                     )
                 )
             }
