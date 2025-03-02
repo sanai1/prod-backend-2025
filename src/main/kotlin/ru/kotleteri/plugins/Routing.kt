@@ -25,6 +25,7 @@ import ru.kotleteri.data.models.inout.companies.GetCompanyProfileResponseModel
 import ru.kotleteri.data.models.inout.offers.*
 import ru.kotleteri.data.models.inout.statistics.StatisticsDateResponseModel
 import ru.kotleteri.data.models.inout.statistics.StatisticsHourResponseModel
+import ru.kotleteri.data.models.inout.statistics.StatisticsMonthResponseModel
 
 fun Application.configureRouting() =
     routing {
@@ -230,7 +231,7 @@ fun Application.configureRouting() =
                                     description("Эндпоинт для получения статистики по месяцам")
                                     response {
                                         responseCode(HttpStatusCode.OK)
-                                        responseType<List<StatisticsDateResponseModel>>()
+                                        responseType<List<StatisticsMonthResponseModel>>()
                                         description("Статистика по месяцам")
                                     }
                                 }
