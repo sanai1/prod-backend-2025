@@ -7,7 +7,11 @@ data class StatisticsByMonth(
     val month: Int,
     val operationsCount: Int,
     val maleOperationsCount: Int,
-    val femaleOperationsCount: Int
+    val femaleOperationsCount: Int,
+    val kidsOperationsCount: Int,
+    val youngOperationsCount: Int,
+    val middleOperationsCount: Int,
+    val oldOperationsCount: Int
 ) {
     fun toResponseModel()  =
         StatisticsMonthResponseModel(
@@ -15,6 +19,10 @@ data class StatisticsByMonth(
             month,
             operationsCount,
             maleOperationsCount,
-            femaleOperationsCount
+            femaleOperationsCount,
+            kidsOperationsCount,
+            youngOperationsCount,
+            middleOperationsCount,
+            oldOperationsCount
         )
 }

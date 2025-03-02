@@ -40,7 +40,11 @@ object OperationCRUD {
                EXTRACT(MONTH FROM timestamp) AS month,
                count(*) allops,
                count(*) filter ( where operations.client_gender = 'MALE' ) maleops,
-               count(*) filter ( where operations.client_gender = 'FEMALE' ) femaleops
+               count(*) filter ( where operations.client_gender = 'FEMALE' ) femaleops,
+               count(*) filter ( where operations.client_age between 1 and 17) kidsops,
+               count(*) filter ( where operations.client_age between 18 and 34) youngops,
+               count(*) filter ( where operations.client_age between 35 and 59) middleops,
+               count(*) filter ( where operations.client_age >= 60 ) oldops
         FROM operations
         where operations.company_id = ?
         group by EXTRACT(YEAR FROM timestamp), EXTRACT(MONTH FROM timestamp)
@@ -146,6 +150,10 @@ object OperationCRUD {
                         rs.getInt("allops"),
                         rs.getInt("maleops"),
                         rs.getInt("femaleops"),
+                        rs.getInt("kidsops"),
+                        rs.getInt("youngops"),
+                        rs.getInt("middleops"),
+                        rs.getInt("oldops"),
                     )
                 )
             }
