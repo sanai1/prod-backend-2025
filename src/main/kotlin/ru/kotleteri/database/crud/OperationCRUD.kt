@@ -68,7 +68,7 @@ object OperationCRUD {
             while (rs.next()) {
                 stats.add(
                     StatisticsByDate(
-                        rs.getDate("date") as LocalDate,
+                        rs.getDate("date").toLocalDate(),
                         rs.getInt("allops"),
                         rs.getInt("maleops"),
                         rs.getInt("femaleops"),
