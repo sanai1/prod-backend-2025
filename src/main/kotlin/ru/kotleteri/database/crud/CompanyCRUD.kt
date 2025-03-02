@@ -20,24 +20,12 @@ object CompanyCRUD {
         )
 
 
-    suspend fun create(company: CompanyModel): DatabaseStatus = suspendTransaction {
-        try {
-            CompanyTable.insert {
-                it[id] = company.id
-                it[name] = company.name
-                it[email] = company.email
-                it[password] = company.password
-            }
-            return@suspendTransaction DatabaseStatus.Correct
-        } catch (ex: ExposedSQLException) {
-            val cause = ex.cause
-            return@suspendTransaction when (cause) {
-                is SQLIntegrityConstraintViolationException ->
-                    DatabaseStatus.ConstraintViolation
-
-                else ->
-                    DatabaseStatus.Incorrect
-            }
+    suspend fun create(company: CompanyModel) = suspendTransaction {
+        CompanyTable.insert {
+            it[id] = company.id
+            it[name] = company.name
+            it[email] = company.email
+            it[password] = company.password
         }
 
     }

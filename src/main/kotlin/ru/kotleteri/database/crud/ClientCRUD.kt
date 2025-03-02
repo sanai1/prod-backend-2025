@@ -22,26 +22,15 @@ object ClientCRUD {
             resultRow[ClientTable.password]
         )
 
-    suspend fun create(user: ClientModel): DatabaseStatus = suspendTransaction {
-        try {
-            ClientTable.insert {
-                it[id] = user.id
-                it[firstName] = user.firstName
-                it[lastName] = user.lastName
-                it[email] = user.email
-                it[password] = user.password
-            }
-            return@suspendTransaction DatabaseStatus.Correct
-        } catch (ex: ExposedSQLException) {
-            val cause = ex.cause
-            return@suspendTransaction when (cause) {
-                is SQLIntegrityConstraintViolationException ->
-                    DatabaseStatus.ConstraintViolation
-
-                else ->
-                    DatabaseStatus.Incorrect
-            }
+    suspend fun create(user: ClientModel) = suspendTransaction {
+        ClientTable.insert {
+            it[id] = user.id
+            it[firstName] = user.firstName
+            it[lastName] = user.lastName
+            it[email] = user.email
+            it[password] = user.password
         }
+
 
     }
 

@@ -5,7 +5,6 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import org.mindrot.jbcrypt.BCrypt
-import ru.kotleteri.data.enums.DatabaseStatus
 import ru.kotleteri.data.models.inout.ErrorResponse
 import ru.kotleteri.data.models.inout.clients.LoginRequestModel
 import ru.kotleteri.data.models.inout.clients.LoginResponseModel
@@ -39,15 +38,15 @@ class CompanyController(val call: ApplicationCall) {
     suspend fun register() {
         val registerRequest = call.receive<RegisterCompanyRequestModel>()
 
-
-        val company = registerRequest.toCompanyModel()
-
-        val status = CompanyCRUD.create(company)
-
-        if (status != DatabaseStatus.Correct) {
+        CompanyCRUD.readByEmail(registerRequest.email)?.let {
             call.respond(HttpStatusCode.Conflict, ErrorResponse("User with this email already exists"))
             return
         }
+
+        val company = registerRequest.toCompanyModel()
+
+        CompanyCRUD.create(company)
+
 
         val token = generateNewToken(company.id, company.email, false)
 

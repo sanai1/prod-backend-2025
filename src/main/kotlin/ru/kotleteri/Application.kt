@@ -3,6 +3,7 @@ package ru.kotleteri
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
+import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.Database
 import ru.kotleteri.database.DatabaseFactory
 import ru.kotleteri.database.DatabaseInit
@@ -19,6 +20,9 @@ fun main() {
 }
 
 fun Application.module() {
+    Dispatchers.IO
+
+
     while (true) {
         try {
             connect()
