@@ -34,6 +34,7 @@ fun Application.configureRouting() =
             route("/ping") {
                 install(NotarizedRoute()) {
                     get = GetInfo.builder {
+                        tags("ping")
                         response {
                             description("Ничего не возвращает")
                             responseCode(HttpStatusCode.OK)
@@ -52,6 +53,7 @@ fun Application.configureRouting() =
                 route("/register") {
                     install(NotarizedRoute()) {
                         post = PostInfo.builder {
+                            tags("clients")
                             summary("Регистрация клиента")
                             description("Эндпоинт регистрации клиента")
                             request {
@@ -73,6 +75,7 @@ fun Application.configureRouting() =
                 route("/login") {
                     install(NotarizedRoute()) {
                         post = PostInfo.builder {
+                            tags("clients")
                             summary("Аутентификация клиента")
                             description("Эндпоинт аутентификации клиента")
                             request {
@@ -95,6 +98,8 @@ fun Application.configureRouting() =
                     route("/profile") {
                         install(NotarizedRoute()) {
                             get = GetInfo.builder {
+                                tags("clients")
+
                                 summary("Получение профиля клиента")
                                 description("Эндпоинт для получения профиля клиента")
                                 response {
@@ -109,6 +114,7 @@ fun Application.configureRouting() =
                             }
 
                             put = PutInfo.builder {
+                                tags("clients")
                                 summary("Изменение таргетинга клиента")
                                 description("Эндпоинт для изменения таргетинга клиента")
                                 request {
@@ -133,6 +139,7 @@ fun Application.configureRouting() =
                 route("/register") {
                     install(NotarizedRoute()) {
                         post = PostInfo.builder {
+                            tags("companies")
                             summary("Регистрация компании")
                             description("Эндпоинт регистрации компании")
                             request {
@@ -153,6 +160,7 @@ fun Application.configureRouting() =
                 route("/login") {
                     install(NotarizedRoute()) {
                         post = PostInfo.builder {
+                            tags("companies")
                             summary("Аутентификация компании")
                             description("Эндпоинт аутентификации компании")
                             request {
@@ -176,6 +184,7 @@ fun Application.configureRouting() =
                     route("/profile") {
                         install(NotarizedRoute()) {
                             get = GetInfo.builder {
+                                tags("companies")
                                 summary("Получение профиля компании")
                                 description("Эндпоинт для получения профиля компании")
                                 response {
@@ -193,6 +202,7 @@ fun Application.configureRouting() =
                         route("/byDate") {
                             install(NotarizedRoute()) {
                                 get = GetInfo.builder {
+                                    tags("companies")
                                     summary("Статистика по дате")
                                     description("Эндпоинт для получения статистики по дате")
                                     response {
@@ -210,6 +220,7 @@ fun Application.configureRouting() =
                         route("/byHour") {
                             install(NotarizedRoute()) {
                                 get = GetInfo.builder {
+                                    tags("companies")
                                     summary("Статистика по часам")
                                     description("Эндпоинт для получения статистики по часам")
                                     response {
@@ -227,6 +238,7 @@ fun Application.configureRouting() =
                         route("/byMonth") {
                             install(NotarizedRoute()) {
                                 get = GetInfo.builder {
+                                    tags("companies")
                                     summary("Статистика по месяцам")
                                     description("Эндпоинт для получения статистики по месяцам")
                                     response {
@@ -250,6 +262,7 @@ fun Application.configureRouting() =
                     route("/create") {
                         install(NotarizedRoute()) {
                             post = PostInfo.builder {
+                                tags("offers")
                                 summary("Создание оффера")
                                 description("Эндпоинт для создания оффера")
                                 request {
@@ -270,6 +283,7 @@ fun Application.configureRouting() =
                     route("/client") {
                         install(NotarizedRoute()) {
                             get = GetInfo.builder {
+                                tags("offers")
                                 summary("Получение списка офферов")
                                 description("Эндпоинт для получения списка офферов")
                                 parameters = listOf(
@@ -297,6 +311,7 @@ fun Application.configureRouting() =
                         route("/generateQr") {
                             install(NotarizedRoute()) {
                                 post = PostInfo.builder {
+                                    tags("offers")
                                     summary("Генерация QR-кода")
                                     description("Эндпоинт для генерации QR-кода")
                                     parameters = listOf(
@@ -323,6 +338,7 @@ fun Application.configureRouting() =
                     route("/company") {
                         install(NotarizedRoute()) {
                             get = GetInfo.builder {
+                                tags("offers")
                                 summary("Получение списка офферов")
                                 description("Эндпоинт для получения списка офферов")
                                 parameters = listOf(
@@ -351,6 +367,7 @@ fun Application.configureRouting() =
                         route("/scanQr") {
                             install(NotarizedRoute()) {
                                 post = PostInfo.builder {
+                                    tags("offers")
                                     summary("Сканирование QR-кода")
                                     description("Эндпоинт для сканирования QR-кода")
                                     request {
@@ -374,6 +391,7 @@ fun Application.configureRouting() =
                     route("/image") {
                         install(NotarizedRoute()) {
                             post = PostInfo.builder {
+                                tags("images")
                                 summary("Загрузка изображения")
                                 description("Эндпоинт для загрузки изображения")
                                 request {
@@ -397,6 +415,7 @@ fun Application.configureRouting() =
                         route("/image") {
                             install(NotarizedRoute()) {
                                 get = GetInfo.builder {
+                                    tags("images")
                                     summary("Получение изображения")
                                     description("Эндпоинт для получения изображения")
                                     parameters = listOf(
