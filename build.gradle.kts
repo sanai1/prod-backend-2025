@@ -39,6 +39,7 @@ dependencies {
     implementation("io.ktor:ktor-server-swagger")
     implementation("io.ktor:ktor-server-status-pages")
     implementation("io.ktor:ktor-server-request-validation")
+    implementation("io.ktor:ktor-server-rate-limit")
 
     // ktor client
     implementation("io.ktor:ktor-client-core")
