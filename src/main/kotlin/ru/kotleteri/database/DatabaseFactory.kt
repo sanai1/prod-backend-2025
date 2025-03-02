@@ -13,7 +13,7 @@ object DatabaseFactory {
         HikariConfig().apply {
             driverClassName = driver
             jdbcUrl = url
-            maximumPoolSize = 10
+            maximumPoolSize = 16
             isAutoCommit = true
             transactionIsolation = "TRANSACTION_REPEATABLE_READ"
             username = login
