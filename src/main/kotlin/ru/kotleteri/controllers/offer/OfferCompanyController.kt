@@ -67,6 +67,12 @@ class OfferCompanyController(call: ApplicationCall) : AbstractAuthController(cal
             HttpStatusCode.BadRequest,
             ErrorResponse("offer is null")
         )
+
+        if (offer.companyId != id) {
+            call.respond(HttpStatusCode.Forbidden, "not your offer")
+            return
+        }
+
         val client = ClientCRUD.read(UUID.fromString(data.clientId)) ?: return call.respond(
             HttpStatusCode.BadRequest,
             ErrorResponse("client is null")
