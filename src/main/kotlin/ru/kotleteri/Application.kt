@@ -20,8 +20,6 @@ fun main() {
 }
 
 fun Application.module() {
-    Dispatchers.IO
-
 
     while (true) {
         try {

@@ -18,9 +18,9 @@ class StatementPrepare(val start: String) {
     private fun formatList(value: List<*>) = if (value.isEmpty()) formatEmptyList()
     else
         when (value.first()) {
-            is String -> formatStringList(value as List<String>)
-            is Int -> formatIntList(value as List<Int>)
-            is Float -> formatFloatList(value as List<Float>)
+            is String -> formatStringList(value.filterIsInstance<String>())
+            is Int -> formatIntList(value.filterIsInstance<Int>())
+            is Float -> formatFloatList(value.filterIsInstance<Float>())
             else -> formatEmptyList()
         }
 
