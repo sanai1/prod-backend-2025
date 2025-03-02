@@ -19,11 +19,10 @@ class PublicPictureController(call: ApplicationCall) : AbstractAuthController(ca
         }
 
         try {
-            val stream = ImageLoading.getImageFromS3(companyId)
-            if (stream == null) {
-                call.respond(HttpStatusCode.NotFound, ErrorResponse("Picture not found"))
-                return
-            }
+            val stream = ImageLoading.getImageFromS3(companyId) ?: return call.respond(
+                HttpStatusCode.NotFound,
+                ErrorResponse("Picture not found")
+            )
 
             call.respondBytes(
                 stream.readBytes(),

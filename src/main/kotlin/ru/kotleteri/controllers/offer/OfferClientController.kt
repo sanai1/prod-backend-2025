@@ -10,7 +10,7 @@ import ru.kotleteri.data.models.inout.offers.GenerateQRPayloadResponseModel
 import ru.kotleteri.data.models.redis.QRDataModel
 import ru.kotleteri.database.crud.OfferCRUD
 import ru.kotleteri.database.redis.QRService
-import java.util.*
+import ru.kotleteri.utils.toUUIDOrNull
 
 class OfferClientController(call: ApplicationCall) : AbstractAuthController(call) {
 
@@ -23,19 +23,18 @@ class OfferClientController(call: ApplicationCall) : AbstractAuthController(call
     suspend fun getOffersList() {
 
 
-        val limit = try {
-            call.parameters["limit"]!!.toInt()
-        } catch (e: Exception) {
-            call.respond(HttpStatusCode.BadRequest, ErrorResponse("Wrong limit"))
-            return
-        }
+        val limit = call.parameters["limit"]?.toIntOrNull() ?: return call.respond(
+            HttpStatusCode.BadRequest,
+            ErrorResponse("Wrong limit")
+        )
 
-        val offset = try {
-            call.parameters["offset"]!!.toLong()
-        } catch (e: Exception) {
-            call.respond(HttpStatusCode.BadRequest, ErrorResponse("Wrong offset"))
-            return
-        }
+
+        val offset =
+            call.parameters["offset"]?.toLongOrNull() ?: return call.respond(
+                HttpStatusCode.BadRequest,
+                ErrorResponse("Wrong offset")
+            )
+
 
         val offerList = OfferCRUD.readAll(limit, offset).map { it.second.toGetOfferWithCompanyResponse(it.first) }
 
@@ -43,19 +42,16 @@ class OfferClientController(call: ApplicationCall) : AbstractAuthController(call
     }
 
     suspend fun generateQrPayload() {
-        val offerId = try {
-            UUID.fromString(call.parameters["offerId"]!!)
-        } catch (e: Exception) {
-            call.respond(HttpStatusCode.BadRequest, ErrorResponse("Wrong offer id provided"))
-            return
-        }
+        val offerId =
+            call.parameters["offerId"]?.toUUIDOrNull() ?: return call.respond(
+                HttpStatusCode.BadRequest,
+                ErrorResponse("Wrong offer id provided")
+            )
 
-        val offer = OfferCRUD.read(offerId)
 
-        if (offer == null) {
-            call.respond(HttpStatusCode.NotFound, ErrorResponse("Offer not found"))
-            return
-        }
+        val offer =
+            OfferCRUD.read(offerId) ?: return call.respond(HttpStatusCode.NotFound, ErrorResponse("Offer not found"))
+
 
         val qrPayload = QRService.generateCode(
             QRDataModel(

@@ -28,19 +28,19 @@ class OfferCompanyController(call: ApplicationCall) : AbstractAuthController(cal
 
     suspend fun getAllOffersByCompany() {
 
-        val limit = try {
-            call.parameters["limit"]!!.toInt()
-        } catch (e: Exception) {
-            call.respond(HttpStatusCode.BadRequest, ErrorResponse("Wrong limit"))
-            return
-        }
+        val limit =
+            call.parameters["limit"]?.toIntOrNull() ?: return call.respond(
+                HttpStatusCode.BadRequest,
+                ErrorResponse("Wrong limit")
+            )
 
-        val offset = try {
-            call.parameters["offset"]!!.toLong()
-        } catch (e: Exception) {
-            call.respond(HttpStatusCode.BadRequest, ErrorResponse("Wrong offset"))
-            return
-        }
+
+        val offset =
+            call.parameters["offset"]?.toLongOrNull() ?: return call.respond(
+                HttpStatusCode.BadRequest,
+                ErrorResponse("Wrong offset")
+            )
+
 
         val company = CompanyCRUD.read(id)!!
 
@@ -57,12 +57,11 @@ class OfferCompanyController(call: ApplicationCall) : AbstractAuthController(cal
 
         val r = call.receive<GetOfferByQrRequestModel>()
 
-        val data = QRService.getCode(r.payload)
+        val data = QRService.getCode(r.payload) ?: return call.respond(
+            HttpStatusCode.NotFound,
+            ErrorResponse("Qr is not found or expired")
+        )
 
-        if (data == null) {
-            call.respond(HttpStatusCode.NotFound, ErrorResponse("Qr is not found or expired"))
-            return
-        }
 
         val offer = OfferCRUD.read(UUID.fromString(data.offerId)) ?: return call.respond(
             HttpStatusCode.BadRequest,

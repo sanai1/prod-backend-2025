@@ -16,19 +16,17 @@ class AuthClientController(call: ApplicationCall) : AbstractAuthController(call)
 
     init {
         if (!isClient) {
-            abort(HttpStatusCode.Forbidden, "You are not company")
+            abort(HttpStatusCode.Forbidden, "You are not client")
         }
     }
 
     suspend fun getProfile() {
 
 
-        val client = ClientCRUD.read(id)
+        val client =
+            ClientCRUD.read(id) ?: return call.respond(HttpStatusCode.NotFound, ErrorResponse("Client not found"))
 
-        if (client == null) {
-            call.respond(HttpStatusCode.NotFound, ErrorResponse("Company not found"))
-            return
-        }  // todo add target settings to GetClientProfileResponseModel
+        // todo add target settings to GetClientProfileResponseModel
 
         call.respond(HttpStatusCode.OK, client.getProfile())
     }
