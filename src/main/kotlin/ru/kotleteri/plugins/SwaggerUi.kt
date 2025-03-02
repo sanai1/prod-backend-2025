@@ -59,7 +59,7 @@ window.onload = function() {
         ],
         layout: 'StandaloneLayout'${docExpansion?.let { ",\n        docExpansion: '$it'" } ?: ""},
         onComplete: () => {
-            ui.preauthorizeApiKey("jwt", $token)
+            ui.preauthorizeApiKey("jwt", "$token")
         }
     });
 }
