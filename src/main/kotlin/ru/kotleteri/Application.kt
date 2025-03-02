@@ -34,6 +34,7 @@ fun Application.module() {
     configureSecurity()
     configureRouting()
     configureStatusPages()
+    configureValidation()
 }
 
 fun connect() {

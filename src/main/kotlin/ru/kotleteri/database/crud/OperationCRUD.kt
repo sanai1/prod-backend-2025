@@ -8,7 +8,6 @@ import ru.kotleteri.data.models.base.StatisticsByDate
 import ru.kotleteri.database.suspendTransaction
 import ru.kotleteri.database.tables.OperationTable
 import ru.kotleteri.utils.StatementPrepare
-import java.time.LocalDate
 import java.util.*
 
 object OperationCRUD {

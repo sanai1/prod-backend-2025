@@ -8,7 +8,7 @@ import ru.kotleteri.controllers.abort
 import ru.kotleteri.data.models.inout.ErrorResponse
 import ru.kotleteri.database.crud.OperationCRUD
 
-class StatisticsController(call: ApplicationCall): AbstractAuthController(call) {
+class StatisticsController(call: ApplicationCall) : AbstractAuthController(call) {
 
     init {
         if (isClient) {
@@ -20,7 +20,7 @@ class StatisticsController(call: ApplicationCall): AbstractAuthController(call) 
 
         val opList = try {
             OperationCRUD.readForCompany(id)
-        } catch (e: Exception){
+        } catch (e: Exception) {
             call.respond(HttpStatusCode.BadRequest, ErrorResponse(e.localizedMessage))
             return
         }

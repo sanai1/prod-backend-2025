@@ -6,7 +6,6 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import org.mindrot.jbcrypt.BCrypt
 import ru.kotleteri.data.enums.DatabaseStatus
-import ru.kotleteri.data.enums.ValidateResult
 import ru.kotleteri.data.models.inout.ErrorResponse
 import ru.kotleteri.data.models.inout.clients.LoginRequestModel
 import ru.kotleteri.data.models.inout.clients.LoginResponseModel
@@ -40,12 +39,6 @@ class CompanyController(val call: ApplicationCall) {
     suspend fun register() {
         val registerRequest = call.receive<RegisterCompanyRequestModel>()
 
-        val (fieldName, result) = registerRequest.validate()
-
-        if (result != ValidateResult.Valid) {
-            call.respond(HttpStatusCode.BadRequest, ErrorResponse("$fieldName is $result"))
-            return
-        }
 
         val company = registerRequest.toCompanyModel()
 

@@ -15,9 +15,8 @@ import ru.kotleteri.controllers.offer.OfferClientController
 import ru.kotleteri.controllers.offer.OfferCompanyController
 import ru.kotleteri.controllers.offer.OfferController
 import ru.kotleteri.controllers.statistics.StatisticsController
-import kotlin.math.round
 
-fun Application.configureRouting() {
+fun Application.configureRouting() =
     routing {
         route("/api") {
 
@@ -58,8 +57,8 @@ fun Application.configureRouting() {
                     get("/profile") {
                         AuthCompanyController(call).getProfile()
                     }
-                    route("/stats"){
-                        get("/byDate"){
+                    route("/stats") {
+                        get("/byDate") {
                             StatisticsController(call).getStatsByDateCompany()
                         }
                     }
@@ -111,4 +110,3 @@ fun Application.configureRouting() {
             )
         }
     }
-}

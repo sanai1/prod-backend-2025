@@ -12,7 +12,10 @@ class PublicPictureController(call: ApplicationCall) : AbstractAuthController(ca
     suspend fun getPicture() {
 
         val companyId =
-            call.parameters["companyId"]?.toUUIDOrNull()?.toString() ?: return call.respond(HttpStatusCode.BadRequest, ErrorResponse("bad companyId"))
+            call.parameters["companyId"]?.toUUIDOrNull()?.toString() ?: return call.respond(
+                HttpStatusCode.BadRequest,
+                ErrorResponse("bad companyId")
+            )
 
         try {
             val stream = ImageLoading.getImageFromS3(companyId) ?: return call.respond(
