@@ -28,7 +28,7 @@ data class RegisterRequestModel(
             UUID.randomUUID(),
             firstName,
             lastName,
-            email,
+            email.lowercase(),
             BCrypt.hashpw(password, BCrypt.gensalt())
         )
 }

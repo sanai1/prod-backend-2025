@@ -4,6 +4,10 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class LoginRequestModel(
-    val email: String,
+    var email: String,
     val password: String
-)
+) {
+    init {
+        email = email.lowercase()
+    }
+}

@@ -25,7 +25,7 @@ data class RegisterCompanyRequestModel(
         CompanyModel(
             UUID.randomUUID(),
             name,
-            email,
+            email.lowercase(),
             BCrypt.hashpw(password, BCrypt.gensalt())
         )
 }
