@@ -18,7 +18,8 @@ fun Application.configureDocumentation() {
                 ),
                 components = Components(
                     securitySchemes = mutableMapOf(
-                        "jwt" to BearerAuth("JWT")
+                        "client" to BearerAuth("JWT"),
+                        "company" to BearerAuth("JWT")
                     )
                 ),
                 jsonSchemaDialect = "https://spec.openapis.org/oas/3.1/dialect/base"

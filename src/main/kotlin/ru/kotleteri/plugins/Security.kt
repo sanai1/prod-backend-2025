@@ -14,14 +14,30 @@ import java.util.*
 
 fun Application.configureSecurity() {
     install(Authentication) {
-        jwt("jwt") {
+        jwt("client") {
             verifier(JWT.require(Algorithm.HMAC256(SECRET)).build())
             validate { credential ->
                 val email = credential.payload.getClaim("email").asString()
                 val id = credential.payload.getClaim("id").asString()
                 val isClient = credential.payload.getClaim("isClient").asBoolean()
 
-                if (!email.isNullOrBlank())
+                if (!email.isNullOrBlank() && isClient)
+                    return@validate JWTPrincipal(credential.payload)
+                return@validate null
+
+            }
+            challenge { defaultScheme, realm ->
+                call.respond(HttpStatusCode.Unauthorized, ErrorResponse("Token is not valid or has expired"))
+            }
+        }
+        jwt("company") {
+            verifier(JWT.require(Algorithm.HMAC256(SECRET)).build())
+            validate { credential ->
+                val email = credential.payload.getClaim("email").asString()
+                val id = credential.payload.getClaim("id").asString()
+                val isClient = credential.payload.getClaim("isClient").asBoolean()
+
+                if (!email.isNullOrBlank() && !isClient)
                     return@validate JWTPrincipal(credential.payload)
                 return@validate null
 

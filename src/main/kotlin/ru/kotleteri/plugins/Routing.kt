@@ -29,7 +29,7 @@ import ru.kotleteri.data.models.inout.statistics.StatisticsMonthResponseModel
 
 fun Application.configureRouting() =
     routing {
-        swaggerUI("/docs", "/openapi.json", "token")
+        swaggerUI("/docs", "/openapi.json", "client" to "token1", "company" to "token2")
         route("/api") {
             route("/ping") {
                 install(NotarizedRoute()) {
@@ -94,7 +94,7 @@ fun Application.configureRouting() =
                     }
                 }
 
-                authenticate("jwt") {
+                authenticate("client") {
                     route("/profile") {
                         install(NotarizedRoute()) {
                             get = GetInfo.builder {
@@ -179,7 +179,7 @@ fun Application.configureRouting() =
                     }
                 }
 
-                authenticate("jwt") {
+                authenticate("company") {
 
                     route("/profile") {
                         install(NotarizedRoute()) {
@@ -257,7 +257,7 @@ fun Application.configureRouting() =
                 }
             }
 
-            authenticate("jwt") {
+            authenticate("client") {
                 route("/offers") {
                     route("/create") {
                         install(NotarizedRoute()) {
