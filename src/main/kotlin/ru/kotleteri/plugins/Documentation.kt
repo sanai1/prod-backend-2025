@@ -18,10 +18,9 @@ fun Application.configureDocumentation() {
                 ),
                 components = Components(
                     securitySchemes = mutableMapOf(
-                        "jwt" to BearerAuth("")
+                        "jwt" to BearerAuth("JWT")
                     )
                 )
-
             )
         }
     }

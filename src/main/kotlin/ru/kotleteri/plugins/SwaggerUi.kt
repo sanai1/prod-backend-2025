@@ -10,6 +10,7 @@ import kotlinx.html.*
 public fun Route.swaggerUI(
     path: String,
     apiUrl: String,
+    token: String = "",
     block: SwaggerConfig.() -> Unit = {}
 ) {
     val config = SwaggerConfig().apply(block)
@@ -56,7 +57,10 @@ window.onload = function() {
             SwaggerUIBundle.presets.apis,
             SwaggerUIStandalonePreset
         ],
-        layout: 'StandaloneLayout'${docExpansion?.let { ",\n        docExpansion: '$it'" } ?: ""}
+        layout: 'StandaloneLayout'${docExpansion?.let { ",\n        docExpansion: '$it'" } ?: ""},
+        onComplete: () => {
+            ui.preauthorizeApiKey("jwt", $token)
+        }
     });
 }
                             """.trimIndent()

@@ -29,7 +29,7 @@ import ru.kotleteri.data.models.inout.statistics.StatisticsMonthResponseModel
 
 fun Application.configureRouting() =
     routing {
-        swaggerUI("/docs", "/openapi.json")
+        swaggerUI("/docs", "/openapi.json", "token")
         route("/api") {
             route("/ping") {
                 install(NotarizedRoute()) {
