@@ -20,7 +20,8 @@ fun Application.configureDocumentation() {
                     securitySchemes = mutableMapOf(
                         "jwt" to BearerAuth("JWT")
                     )
-                )
+                ),
+                jsonSchemaDialect = "https://spec.openapis.org/oas/3.1/dialect/base"
             )
         }
     }
