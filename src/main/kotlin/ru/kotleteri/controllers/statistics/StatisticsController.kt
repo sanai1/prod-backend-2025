@@ -4,15 +4,19 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import ru.kotleteri.controllers.AbstractAuthController
+import ru.kotleteri.controllers.abort
 import ru.kotleteri.data.models.inout.ErrorResponse
 import ru.kotleteri.database.crud.OperationCRUD
 
 class StatisticsController(call: ApplicationCall): AbstractAuthController(call) {
-    suspend fun getStatsByDateCompany() {
+
+    init {
         if (isClient) {
-            call.respond(HttpStatusCode.Forbidden, ErrorResponse("You are not company"))
-            return
+            abort(HttpStatusCode.Forbidden, "You are not company")
         }
+    }
+
+    suspend fun getStatsByDateCompany() {
 
         val opList = try {
             OperationCRUD.readForCompany(id)
