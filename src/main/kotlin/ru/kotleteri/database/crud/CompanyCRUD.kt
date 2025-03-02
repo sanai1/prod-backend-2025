@@ -46,9 +46,8 @@ object CompanyCRUD {
         CompanyTable.selectAll()
             .where { CompanyTable.id eq id }
             .singleOrNull()
-            .let {
-                if (it == null) null
-                else resultRowToCompanyModel(it)
+            ?.let {
+                resultRowToCompanyModel(it)
             }
     }
 
@@ -56,15 +55,13 @@ object CompanyCRUD {
         CompanyTable.selectAll()
             .where { CompanyTable.email eq email }
             .singleOrNull()
-            .let {
-                if (it == null) null
-                else resultRowToCompanyModel(it)
+            ?.let {
+                resultRowToCompanyModel(it)
             }
     }
 
     suspend fun update(company: CompanyModel): DatabaseStatus = suspendTransaction {
         try {
-
             CompanyTable.update({ CompanyTable.id eq company.id }) {
                 it[name] = company.name
                 it[email] = company.email
