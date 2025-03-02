@@ -41,17 +41,6 @@ paths:
     get:
       description: ""
       responses:
-        "403":
-          description: "Forbidden"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                Example#1:
-                  description: ""
-                  value:
-                    status: "You are not company"
         "404":
           description: "Not Found"
           content:
@@ -62,7 +51,7 @@ paths:
                 Example#1:
                   description: ""
                   value:
-                    status: "Company not found"
+                    status: "Client not found"
         "200":
           description: "OK <br> todo add target settings to GetClientProfileResponseModel"
           content:
@@ -78,17 +67,6 @@ paths:
               $ref: "#/components/schemas/AddClientTargetingDataModel"
         required: true
       responses:
-        "403":
-          description: "Forbidden"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                Example#1:
-                  description: ""
-                  value:
-                    status: "You are not company"
         "400":
           description: "Bad Request"
           content:
@@ -116,12 +94,6 @@ paths:
               $ref: "#/components/schemas/RegisterRequestModel"
         required: true
       responses:
-        "400":
-          description: "Bad Request"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
         "409":
           description: "Conflict"
           content:
@@ -174,17 +146,6 @@ paths:
     get:
       description: ""
       responses:
-        "403":
-          description: "Forbidden"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                Example#1:
-                  description: ""
-                  value:
-                    status: "You are not company"
         "404":
           description: "Not Found"
           content:
@@ -212,12 +173,6 @@ paths:
               $ref: "#/components/schemas/RegisterCompanyRequestModel"
         required: true
       responses:
-        "400":
-          description: "Bad Request"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
         "409":
           description: "Conflict"
           content:
@@ -235,66 +190,16 @@ paths:
             '*/*':
               schema:
                 $ref: "#/components/schemas/LoginResponseModel"
-  /api/companies/stats:
-    get:
-      description: ""
-      responses:
-        "403":
-          description: "Forbidden"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                Example#1:
-                  description: ""
-                  value:
-                    status: "You are not company"
-        "400":
-          description: "Bad Request"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                Example#1:
-                  description: ""
-                  value:
-                    status: "wrong thing"
-        "200":
-          description: "OK"
-          content:
-            '*/*':
-              schema:
-                type: "array"
-                items:
-                  $ref: "#/components/schemas/StatisticsDateResponseModel"
   /api/companies/stats/byDate:
     get:
       description: ""
       responses:
-        "403":
-          description: "Forbidden"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                Example#1:
-                  description: ""
-                  value:
-                    status: "You are not company"
         "400":
           description: "Bad Request"
           content:
             '*/*':
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                Example#1:
-                  description: ""
-                  value:
-                    status: "wrong thing"
         "200":
           description: "OK"
           content:
@@ -303,6 +208,42 @@ paths:
                 type: "array"
                 items:
                   $ref: "#/components/schemas/StatisticsDateResponseModel"
+  /api/companies/stats/byHour:
+    get:
+      description: ""
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/StatisticsHourResponseModel"
+  /api/companies/stats/byMonth:
+    get:
+      description: ""
+      responses:
+        "400":
+          description: "Bad Request"
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "200":
+          description: "OK"
+          content:
+            '*/*':
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/StatisticsMonthResponseModel"
   /api/company/{companyId}/image:
     get:
       description: ""
@@ -350,17 +291,6 @@ paths:
     post:
       description: ""
       responses:
-        "403":
-          description: "Forbidden"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                Example#1:
-                  description: ""
-                  value:
-                    status: "You are not company"
         "200":
           description: "OK"
           content:
@@ -386,24 +316,13 @@ paths:
         in: "query"
         required: false
         schema:
-          type: "string"
+          type: "integer"
       - name: "offset"
         in: "query"
         required: false
         schema:
-          type: "string"
+          type: "number"
       responses:
-        "403":
-          description: "Forbidden"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                Example#1:
-                  description: ""
-                  value:
-                    status: "You are not client"
         "400":
           description: "Bad Request"
           content:
@@ -437,17 +356,6 @@ paths:
         schema:
           type: "string"
       responses:
-        "403":
-          description: "Forbidden"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                Example#1:
-                  description: ""
-                  value:
-                    status: "You are not client"
         "400":
           description: "Bad Request"
           content:
@@ -484,24 +392,13 @@ paths:
         in: "query"
         required: false
         schema:
-          type: "string"
+          type: "integer"
       - name: "offset"
         in: "query"
         required: false
         schema:
-          type: "string"
+          type: "number"
       responses:
-        "403":
-          description: "Forbidden"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                Example#1:
-                  description: ""
-                  value:
-                    status: "You are not company"
         "400":
           description: "Bad Request"
           content:
@@ -535,17 +432,6 @@ paths:
               $ref: "#/components/schemas/GetOfferByQrRequestModel"
         required: true
       responses:
-        "403":
-          description: "Forbidden"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                Example#1:
-                  description: ""
-                  value:
-                    status: "You are not company"
         "404":
           description: "Not Found"
           content:
@@ -592,23 +478,6 @@ paths:
               $ref: "#/components/schemas/CreateRequestModel"
         required: true
       responses:
-        "403":
-          description: "Forbidden"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-              examples:
-                Example#1:
-                  description: ""
-                  value:
-                    status: "Authorized as client"
-        "400":
-          description: "Bad Request"
-          content:
-            '*/*':
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
         "404":
           description: "Not Found"
           content:
@@ -638,6 +507,13 @@ paths:
                 type: "object"
 components:
   schemas:
+    ErrorResponse:
+      type: "object"
+      properties:
+        status:
+          type: "string"
+      required:
+      - "status"
     LoginRequestModel:
       type: "object"
       properties:
@@ -648,13 +524,6 @@ components:
       required:
       - "email"
       - "password"
-    ErrorResponse:
-      type: "object"
-      properties:
-        status:
-          type: "string"
-      required:
-      - "status"
     LoginResponseModel:
       type: "object"
       properties:
@@ -735,17 +604,54 @@ components:
       properties:
         date:
           type: "string"
-        operations_count:
+        operations_amount:
           type: "integer"
           format: "int32"
-        male_operations_count:
+        male_operations_amount:
           type: "integer"
           format: "int32"
-        female_operations_count:
+        female_operations_amount:
           type: "integer"
           format: "int32"
       required:
       - "date"
+    StatisticsHourResponseModel:
+      type: "object"
+      properties:
+        date:
+          type: "string"
+        hour:
+          type: "integer"
+          format: "int32"
+        operations_amount:
+          type: "integer"
+          format: "int32"
+        male_operations_amount:
+          type: "integer"
+          format: "int32"
+        female_operations_amount:
+          type: "integer"
+          format: "int32"
+      required:
+      - "date"
+    StatisticsMonthResponseModel:
+      type: "object"
+      properties:
+        year:
+          type: "integer"
+          format: "int32"
+        month:
+          type: "integer"
+          format: "int32"
+        operations_amount:
+          type: "integer"
+          format: "int32"
+        male_operations_amount:
+          type: "integer"
+          format: "int32"
+        female_operations_amount:
+          type: "integer"
+          format: "int32"
     GetOfferResponseModel:
       type: "object"
       properties:
