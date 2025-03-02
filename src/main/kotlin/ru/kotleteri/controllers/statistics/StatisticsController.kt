@@ -21,7 +21,7 @@ class StatisticsController(call: ApplicationCall): AbstractAuthController(call) 
         val opList = try {
             OperationCRUD.readForCompany(id)
         } catch (e: Exception){
-            call.respond(HttpStatusCode.BadRequest, ErrorResponse("wrong thing"))
+            call.respond(HttpStatusCode.BadRequest, ErrorResponse(e.localizedMessage))
             return
         }
 
