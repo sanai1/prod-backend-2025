@@ -20,12 +20,8 @@ class AuthCompanyController(call: ApplicationCall) : AbstractAuthController(call
 
     suspend fun getProfile() {
 
-        val company = CompanyCRUD.read(id)
+        val company = CompanyCRUD.read(id) ?: return call.respond(HttpStatusCode.NotFound, ErrorResponse("Company not found"))
 
-        if (company == null) {
-            call.respond(HttpStatusCode.NotFound, ErrorResponse("Company not found"))
-            return
-        }
 
         call.respond(HttpStatusCode.OK, company.getProfile())
     }

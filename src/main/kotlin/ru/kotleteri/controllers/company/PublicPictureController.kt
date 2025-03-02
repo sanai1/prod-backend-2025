@@ -6,17 +6,13 @@ import io.ktor.server.response.*
 import ru.kotleteri.controllers.AbstractAuthController
 import ru.kotleteri.data.models.inout.ErrorResponse
 import ru.kotleteri.integrations.objectstorage.ImageLoading
-import java.util.*
+import ru.kotleteri.utils.toUUIDOrNull
 
 class PublicPictureController(call: ApplicationCall) : AbstractAuthController(call) {
     suspend fun getPicture() {
 
-        val companyId = try {
-            UUID.fromString(call.parameters["companyId"]).toString()
-        } catch (e: Exception) {
-            call.respond(HttpStatusCode.BadRequest, ErrorResponse("bad companyId"))
-            return
-        }
+        val companyId =
+            call.parameters["companyId"]?.toUUIDOrNull()?.toString() ?: return call.respond(HttpStatusCode.BadRequest, ErrorResponse("bad companyId"))
 
         try {
             val stream = ImageLoading.getImageFromS3(companyId) ?: return call.respond(
