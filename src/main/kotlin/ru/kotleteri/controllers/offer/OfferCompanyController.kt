@@ -71,7 +71,7 @@ class OfferCompanyController(call: ApplicationCall) : AbstractAuthController(cal
             HttpStatusCode.BadRequest,
             ErrorResponse("client is null")
         )
-        val company = CompanyCRUD.read(offer.id) ?: return call.respond(
+        val company = CompanyCRUD.read(offer.companyId) ?: return call.respond(
             HttpStatusCode.BadRequest,
             ErrorResponse("company is null")
         )
