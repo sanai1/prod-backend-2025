@@ -5,6 +5,7 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import ru.kotleteri.controllers.AbstractAuthController
+import ru.kotleteri.controllers.abort
 import ru.kotleteri.data.models.base.OperationModel
 import ru.kotleteri.data.models.inout.ErrorResponse
 import ru.kotleteri.data.models.inout.offers.GetOfferByQrRequestModel
@@ -18,25 +19,28 @@ import java.time.LocalDateTime
 import java.util.*
 
 class OfferCompanyController(call: ApplicationCall) : AbstractAuthController(call) {
-    suspend fun getAllOffersByCompany() {
+
+    init {
         if (isClient) {
-            call.respond(HttpStatusCode.Forbidden, ErrorResponse("You are not company"))
-            return
+            abort(HttpStatusCode.Forbidden, "You are not company")
         }
+    }
 
-        val limit = try {
-            call.parameters["limit"]!!.toInt()
-        } catch (e: Exception) {
-            call.respond(HttpStatusCode.BadRequest, ErrorResponse("Wrong limit"))
-            return
-        }
+    suspend fun getAllOffersByCompany() {
 
-        val offset = try {
-            call.parameters["offset"]!!.toLong()
-        } catch (e: Exception) {
-            call.respond(HttpStatusCode.BadRequest, ErrorResponse("Wrong offset"))
-            return
-        }
+        val limit =
+            call.parameters["limit"]?.toIntOrNull() ?: return call.respond(
+                HttpStatusCode.BadRequest,
+                ErrorResponse("Wrong limit")
+            )
+
+
+        val offset =
+            call.parameters["offset"]?.toLongOrNull() ?: return call.respond(
+                HttpStatusCode.BadRequest,
+                ErrorResponse("Wrong offset")
+            )
+
 
         val company = CompanyCRUD.read(id)!!
 
@@ -49,19 +53,15 @@ class OfferCompanyController(call: ApplicationCall) : AbstractAuthController(cal
     }
 
     suspend fun receiveOfferQr() {
-        if (isClient) {
-            call.respond(HttpStatusCode.Forbidden, ErrorResponse("You are not company"))
-            return
-        }
+
 
         val r = call.receive<GetOfferByQrRequestModel>()
 
-        val data = QRService.getCode(r.payload)
+        val data = QRService.getCode(r.payload) ?: return call.respond(
+            HttpStatusCode.NotFound,
+            ErrorResponse("Qr is not found or expired")
+        )
 
-        if (data == null) {
-            call.respond(HttpStatusCode.NotFound, ErrorResponse("Qr is not found or expired"))
-            return
-        }
 
         val offer = OfferCRUD.read(UUID.fromString(data.offerId)) ?: return call.respond(
             HttpStatusCode.BadRequest,

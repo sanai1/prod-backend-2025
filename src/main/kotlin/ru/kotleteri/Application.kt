@@ -7,10 +7,7 @@ import org.jetbrains.exposed.sql.Database
 import ru.kotleteri.database.DatabaseFactory
 import ru.kotleteri.database.DatabaseInit
 import ru.kotleteri.database.redis.RedisInit
-import ru.kotleteri.plugins.configureHTTP
-import ru.kotleteri.plugins.configureRouting
-import ru.kotleteri.plugins.configureSecurity
-import ru.kotleteri.plugins.configureSerialization
+import ru.kotleteri.plugins.*
 import ru.kotleteri.utils.POSTGRES_PASSWORD
 import ru.kotleteri.utils.POSTGRES_URL
 import ru.kotleteri.utils.POSTGRES_USER
@@ -36,6 +33,7 @@ fun Application.module() {
     configureHTTP()
     configureSecurity()
     configureRouting()
+    configureStatusPages()
 }
 
 fun connect() {

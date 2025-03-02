@@ -4,7 +4,7 @@ import org.jetbrains.exposed.dao.id.IdTable
 import org.jetbrains.exposed.sql.javatime.datetime
 import java.util.*
 
-object OperationTable: IdTable<UUID>("operations") {
+object OperationTable : IdTable<UUID>("operations") {
     override val id = uuid("id").entityId().uniqueIndex()
     val clientId = uuid("client_id")
     val companyId = uuid("company_id")

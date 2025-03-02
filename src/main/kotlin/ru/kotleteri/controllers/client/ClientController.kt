@@ -18,15 +18,11 @@ class ClientController(val call: ApplicationCall) {
     suspend fun login() {
         val loginRequest = call.receive<LoginRequestModel>()
 
-        val user = ClientCRUD.readByEmail(loginRequest.email)
+        val user = ClientCRUD.readByEmail(loginRequest.email) ?: return call.respond(
+            HttpStatusCode.Unauthorized,
+            ErrorResponse("User with this email and password doesn't exist")
+        )
 
-        if (user == null) {
-            call.respond(
-                HttpStatusCode.Unauthorized,
-                ErrorResponse("User with this email and password doesn't exist")
-            )
-            return
-        }
 
         if (!BCrypt.checkpw(loginRequest.password, user.password)) {
             call.respond(

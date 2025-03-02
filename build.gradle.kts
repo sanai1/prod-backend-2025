@@ -37,6 +37,7 @@ dependencies {
     implementation("io.ktor:ktor-server-netty")
     implementation("io.ktor:ktor-server-config-yaml")
     implementation("io.ktor:ktor-server-swagger")
+    implementation("io.ktor:ktor-server-status-pages")
 
     // ktor client
     implementation("io.ktor:ktor-client-core")
