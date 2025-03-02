@@ -14,7 +14,7 @@ import java.util.*
 
 fun Application.configureSecurity() {
     install(Authentication) {
-        jwt {
+        jwt("jwt") {
             verifier(JWT.require(Algorithm.HMAC256(SECRET)).build())
             validate { credential ->
                 val email = credential.payload.getClaim("email").asString()

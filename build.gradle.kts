@@ -40,6 +40,11 @@ dependencies {
     implementation("io.ktor:ktor-server-status-pages")
     implementation("io.ktor:ktor-server-request-validation")
     implementation("io.ktor:ktor-server-rate-limit")
+    implementation("io.ktor:ktor-server-html-builder")
+
+
+    // docs
+    implementation("io.bkbn:kompendium-core:4.0.3")
 
     // ktor client
     implementation("io.ktor:ktor-client-core")
@@ -53,6 +58,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-java-time:$exposed_version")
     implementation("org.postgresql:postgresql:$postgres_version")
     implementation("com.zaxxer:HikariCP:$hikaricp_version")
+
 
     //s3
     implementation("software.amazon.awssdk:s3:2.20.103")
@@ -87,4 +93,8 @@ tasks.register("copyDependencies") {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+kotlin {
+    jvmToolchain(21)
 }
