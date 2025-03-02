@@ -26,10 +26,12 @@ import ru.kotleteri.data.models.inout.offers.*
 import ru.kotleteri.data.models.inout.statistics.StatisticsDateResponseModel
 import ru.kotleteri.data.models.inout.statistics.StatisticsHourResponseModel
 import ru.kotleteri.data.models.inout.statistics.StatisticsMonthResponseModel
+import ru.kotleteri.utils.generateSampleTokenForClient
+import ru.kotleteri.utils.generateSampleTokenForCompany
 
 fun Application.configureRouting() =
     routing {
-        swaggerUI("/docs", "/openapi.json", "client" to "token1", "company" to "token2")
+        swaggerUI("/docs", "/openapi.json", "client" to generateSampleTokenForClient(), "company" to generateSampleTokenForCompany())
         route("/api") {
             route("/ping") {
                 install(NotarizedRoute()) {
