@@ -4,6 +4,7 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import ru.kotleteri.controllers.AbstractAuthController
+import ru.kotleteri.controllers.abort
 import ru.kotleteri.data.models.inout.ErrorResponse
 import ru.kotleteri.data.models.inout.offers.GenerateQRPayloadResponseModel
 import ru.kotleteri.data.models.redis.QRDataModel
@@ -12,11 +13,15 @@ import ru.kotleteri.database.redis.QRService
 import java.util.*
 
 class OfferClientController(call: ApplicationCall) : AbstractAuthController(call) {
-    suspend fun getOffersList() {
+
+    init {
         if (!isClient) {
-            call.respond(HttpStatusCode.Forbidden, ErrorResponse("You are not client"))
-            return
+            abort(HttpStatusCode.Forbidden, "You are not client")
         }
+    }
+
+    suspend fun getOffersList() {
+
 
         val limit = try {
             call.parameters["limit"]!!.toInt()
@@ -38,11 +43,6 @@ class OfferClientController(call: ApplicationCall) : AbstractAuthController(call
     }
 
     suspend fun generateQrPayload() {
-        if (!isClient) {
-            call.respond(HttpStatusCode.Forbidden, ErrorResponse("You are not client"))
-            return
-        }
-
         val offerId = try {
             UUID.fromString(call.parameters["offerId"]!!)
         } catch (e: Exception) {

@@ -10,6 +10,7 @@ import ru.kotleteri.controllers.client.AuthClientController
 import ru.kotleteri.controllers.client.ClientController
 import ru.kotleteri.controllers.company.AuthCompanyController
 import ru.kotleteri.controllers.company.CompanyController
+import ru.kotleteri.controllers.company.PublicPictureController
 import ru.kotleteri.controllers.offer.OfferClientController
 import ru.kotleteri.controllers.offer.OfferCompanyController
 import ru.kotleteri.controllers.offer.OfferController
@@ -31,8 +32,8 @@ fun Application.configureRouting() {
                 }
 
                 authenticate {
-                    route("/profile"){
-                        get{
+                    route("/profile") {
+                        get {
                             AuthClientController(call).getProfile()
                         }
 
@@ -52,7 +53,7 @@ fun Application.configureRouting() {
                 }
 
                 authenticate {
-                    get("/profile"){
+                    get("/profile") {
                         AuthCompanyController(call).getProfile()
                     }
                 }
@@ -72,7 +73,7 @@ fun Application.configureRouting() {
                         }
                     }
 
-                    route("/company"){
+                    route("/company") {
                         get {
                             OfferCompanyController(call).getAllOffersByCompany()
                         }
@@ -91,7 +92,7 @@ fun Application.configureRouting() {
 
                     route("/{companyId}") {
                         get("/image") {
-                            AuthCompanyController(call).getPicture()
+                            PublicPictureController(call).getPicture()
                         }
                     }
                 }

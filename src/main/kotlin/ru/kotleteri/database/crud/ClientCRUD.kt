@@ -4,7 +4,6 @@ import org.jetbrains.exposed.exceptions.ExposedSQLException
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import ru.kotleteri.data.enums.DatabaseStatus
-import ru.kotleteri.data.enums.Gender
 import ru.kotleteri.data.models.base.ClientExtensionModel
 import ru.kotleteri.data.models.base.ClientModel
 import ru.kotleteri.database.suspendTransaction
@@ -103,14 +102,15 @@ object ClientCRUD {
 
     suspend fun addExtension(ext: ClientExtensionModel) = suspendTransaction {
         if (ClientExtensionTable.selectAll()
-            .where { ClientExtensionTable.clientId eq ext.clientId }.count() > 0){
+                .where { ClientExtensionTable.clientId eq ext.clientId }.count() > 0
+        ) {
 
-            ClientExtensionTable.update ({ ClientExtensionTable.clientId eq ext.clientId }) {
+            ClientExtensionTable.update({ ClientExtensionTable.clientId eq ext.clientId }) {
                 it[ClientExtensionTable.age] = ext.age
                 it[ClientExtensionTable.gender] = ext.gender
             }
 
-        } else{
+        } else {
             ClientExtensionTable.insert {
                 it[ClientExtensionTable.clientId] = ext.clientId
                 it[ClientExtensionTable.age] = ext.age
@@ -121,8 +121,8 @@ object ClientCRUD {
 
     suspend fun getExtension(id: UUID) = suspendTransaction {
         ClientExtensionTable.selectAll()
-        .where { ClientExtensionTable.clientId eq id }
-        .singleOrNull()
+            .where { ClientExtensionTable.clientId eq id }
+            .singleOrNull()
             ?.let {
                 ClientExtensionModel(
                     it[ClientExtensionTable.clientId].value,
