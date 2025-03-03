@@ -19,14 +19,14 @@ test:
   stage: test
   extends:
     - .test
-    - .rules-merge-or-master
+    - .rules-merge
 
 
 build:
   stage: build
   extends:
     - .build
-    - .rules-merge-or-master
+    - .rules-master
 
 deploy:
   stage: deploy
