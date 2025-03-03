@@ -26,9 +26,9 @@ class AuthClientController(call: ApplicationCall) : AbstractAuthController(call)
         val client =
             ClientCRUD.read(id) ?: return call.respond(HttpStatusCode.NotFound, ErrorResponse("Client not found"))
 
-        // todo add target settings to GetClientProfileResponseModel
+        val ext = ClientCRUD.getExtension(id)
 
-        call.respond(HttpStatusCode.OK, client.getProfile())
+        call.respond(HttpStatusCode.OK, client.getProfile(ext))
     }
 
     suspend fun editTarget() {

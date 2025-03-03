@@ -12,5 +12,6 @@ data class OperationModel(
     val companyName: String,
     val offerTitle: String,
     val clientAge: Int?,
-    val clientGender: String?
+    val clientGender: String?,
+    val cost: Double
 )

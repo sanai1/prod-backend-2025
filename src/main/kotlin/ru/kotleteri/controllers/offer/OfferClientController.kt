@@ -48,6 +48,10 @@ class OfferClientController(call: ApplicationCall) : AbstractAuthController(call
                 ErrorResponse("Wrong offer id provided")
             )
 
+        val spendBonus = when(call.parameters["spendBonus"]){
+            "true" -> true
+            else -> false
+        }
 
         val offer =
             OfferCRUD.read(offerId) ?: return call.respond(HttpStatusCode.NotFound, ErrorResponse("Offer not found"))
@@ -57,6 +61,7 @@ class OfferClientController(call: ApplicationCall) : AbstractAuthController(call
             QRDataModel(
                 id.toString(),
                 offerId.toString(),
+                spendBonus
             )
         )
 

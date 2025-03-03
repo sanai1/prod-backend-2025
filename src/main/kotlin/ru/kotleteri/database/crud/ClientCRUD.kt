@@ -19,7 +19,8 @@ object ClientCRUD {
             resultRow[ClientTable.firstName],
             resultRow[ClientTable.lastName],
             resultRow[ClientTable.email],
-            resultRow[ClientTable.password]
+            resultRow[ClientTable.password],
+            resultRow[ClientTable.bonus]
         )
 
     suspend fun create(user: ClientModel) = suspendTransaction {
@@ -82,6 +83,12 @@ object ClientCRUD {
             return@suspendTransaction DatabaseStatus.Correct
         } catch (e: ExposedSQLException) {
             return@suspendTransaction DatabaseStatus.Incorrect
+        }
+    }
+
+    suspend fun updateBonus(id: UUID, bonus: Double) = suspendTransaction {
+        ClientTable.update({ ClientTable.id eq id }) {
+            it[ClientTable.bonus] = bonus
         }
     }
 

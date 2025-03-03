@@ -8,13 +8,17 @@ data class ClientModel(
     val firstName: String,
     val lastName: String,
     val email: String,
-    val password: String
+    val password: String,
+    val bonus: Double = 0.0
 ) {
-    fun getProfile() =
+    fun getProfile(target: ClientExtensionModel?) =
         GetClientProfileResponseModel(
             id.toString(),
             firstName,
             lastName,
-            email
+            email,
+            bonus,
+            target?.age,
+            target?.gender?.toString()
         )
 }
