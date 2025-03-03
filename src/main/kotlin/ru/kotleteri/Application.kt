@@ -3,6 +3,7 @@ package ru.kotleteri
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
+import io.ktor.server.plugins.forwardedheaders.*
 import org.jetbrains.exposed.sql.Database
 import ru.kotleteri.database.DatabaseFactory
 import ru.kotleteri.database.DatabaseInit
@@ -38,6 +39,7 @@ fun Application.module() {
     configureStatusPages()
     configureValidation()
     configureRateLimiting()
+    install(XForwardedHeaders)
 }
 
 fun connect() {

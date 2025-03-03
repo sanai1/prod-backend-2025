@@ -41,6 +41,7 @@ dependencies {
     implementation("io.ktor:ktor-server-request-validation")
     implementation("io.ktor:ktor-server-rate-limit")
     implementation("io.ktor:ktor-server-html-builder")
+    implementation("io.ktor:ktor-server-forwarded-header")
 
 
     // docs
