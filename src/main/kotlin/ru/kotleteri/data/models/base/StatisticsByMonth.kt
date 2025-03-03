@@ -13,7 +13,7 @@ data class StatisticsByMonth(
     val middleOperationsCount: Int,
     val oldOperationsCount: Int
 ) {
-    fun toResponseModel()  =
+    fun toResponseModel() =
         StatisticsMonthResponseModel(
             year,
             month,

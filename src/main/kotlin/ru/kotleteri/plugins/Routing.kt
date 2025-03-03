@@ -31,7 +31,12 @@ import ru.kotleteri.utils.generateSampleTokenForCompany
 
 fun Application.configureRouting() =
     routing {
-        swaggerUI("/docs", "/openapi.json", "client" to ::generateSampleTokenForClient, "company" to ::generateSampleTokenForCompany )
+        swaggerUI(
+            "/docs",
+            "/openapi.json",
+            "client" to ::generateSampleTokenForClient,
+            "company" to ::generateSampleTokenForCompany
+        )
         route("/api") {
             route("/ping") {
                 install(NotarizedRoute()) {
@@ -259,137 +264,137 @@ fun Application.configureRouting() =
                 }
             }
 
-                route("/offers") {
-                    authenticate("company") {
-                        route("/create") {
+            route("/offers") {
+                authenticate("company") {
+                    route("/create") {
+                        install(NotarizedRoute()) {
+                            post = PostInfo.builder {
+                                tags("offers")
+                                summary("Создание оффера")
+                                description("Эндпоинт для создания оффера")
+                                request {
+                                    requestType<CreateRequestModel>()
+                                    description("Данные для создания оффера")
+                                }
+                                response {
+                                    responseCode(HttpStatusCode.Created)
+                                    responseType<Unit>()
+                                    description("Успешное создание оффера")
+                                }
+                            }
+                            post {
+                                OfferController(call).create()
+                            }
+                        }
+                    }
+                    route("/company") {
+                        install(NotarizedRoute()) {
+                            get = GetInfo.builder {
+                                tags("offers")
+                                summary("Получение списка офферов")
+                                description("Эндпоинт для получения списка офферов")
+                                parameters = listOf(
+                                    Parameter(
+                                        name = "offset",
+                                        `in` = Parameter.Location.query,
+                                        schema = TypeDefinition.INT
+                                    ),
+                                    Parameter(
+                                        name = "limit",
+                                        `in` = Parameter.Location.query,
+                                        schema = TypeDefinition.INT
+                                    )
+                                )
+                                response {
+                                    responseCode(HttpStatusCode.OK)
+                                    responseType<List<GetOfferResponseModel>>()
+                                    description("Список офферов")
+                                }
+                            }
+                            get {
+                                OfferCompanyController(call).getAllOffersByCompany()
+                            }
+                        }
+
+                        route("/scanQr") {
                             install(NotarizedRoute()) {
                                 post = PostInfo.builder {
                                     tags("offers")
-                                    summary("Создание оффера")
-                                    description("Эндпоинт для создания оффера")
+                                    summary("Сканирование QR-кода")
+                                    description("Эндпоинт для сканирования QR-кода")
                                     request {
-                                        requestType<CreateRequestModel>()
-                                        description("Данные для создания оффера")
+                                        requestType<GetOfferByQrRequestModel>()
+                                        description("Данные для сканирования QR-кода")
                                     }
                                     response {
-                                        responseCode(HttpStatusCode.Created)
-                                        responseType<Unit>()
-                                        description("Успешное создание оффера")
+                                        responseCode(HttpStatusCode.OK)
+                                        responseType<GetOfferByQrResponseModel>()
+                                        description("Успешное сканирование QR-кода")
                                     }
                                 }
                                 post {
-                                    OfferController(call).create()
-                                }
-                            }
-                        }
-                        route("/company") {
-                            install(NotarizedRoute()) {
-                                get = GetInfo.builder {
-                                    tags("offers")
-                                    summary("Получение списка офферов")
-                                    description("Эндпоинт для получения списка офферов")
-                                    parameters = listOf(
-                                        Parameter(
-                                            name = "offset",
-                                            `in` = Parameter.Location.query,
-                                            schema = TypeDefinition.INT
-                                        ),
-                                        Parameter(
-                                            name = "limit",
-                                            `in` = Parameter.Location.query,
-                                            schema = TypeDefinition.INT
-                                        )
-                                    )
-                                    response {
-                                        responseCode(HttpStatusCode.OK)
-                                        responseType<List<GetOfferResponseModel>>()
-                                        description("Список офферов")
-                                    }
-                                }
-                                get {
-                                    OfferCompanyController(call).getAllOffersByCompany()
-                                }
-                            }
-
-                            route("/scanQr") {
-                                install(NotarizedRoute()) {
-                                    post = PostInfo.builder {
-                                        tags("offers")
-                                        summary("Сканирование QR-кода")
-                                        description("Эндпоинт для сканирования QR-кода")
-                                        request {
-                                            requestType<GetOfferByQrRequestModel>()
-                                            description("Данные для сканирования QR-кода")
-                                        }
-                                        response {
-                                            responseCode(HttpStatusCode.OK)
-                                            responseType<GetOfferByQrResponseModel>()
-                                            description("Успешное сканирование QR-кода")
-                                        }
-                                    }
-                                    post {
-                                        OfferCompanyController(call).receiveOfferQr()
-                                    }
+                                    OfferCompanyController(call).receiveOfferQr()
                                 }
                             }
                         }
                     }
-                    authenticate("client") {
-                        route("/client") {
+                }
+                authenticate("client") {
+                    route("/client") {
+                        install(NotarizedRoute()) {
+                            get = GetInfo.builder {
+                                tags("offers")
+                                summary("Получение списка офферов")
+                                description("Эндпоинт для получения списка офферов")
+                                parameters = listOf(
+                                    Parameter(
+                                        name = "offset",
+                                        `in` = Parameter.Location.query,
+                                        schema = TypeDefinition.INT
+                                    ),
+                                    Parameter(
+                                        name = "limit",
+                                        `in` = Parameter.Location.query,
+                                        schema = TypeDefinition.INT
+                                    )
+                                )
+                                response {
+                                    responseCode(HttpStatusCode.OK)
+                                    responseType<List<GetOfferResponseModel>>()
+                                    description("Список офферов")
+                                }
+                            }
+                            get {
+                                OfferClientController(call).getOffersList()
+                            }
+                        }
+                        route("/generateQr") {
                             install(NotarizedRoute()) {
-                                get = GetInfo.builder {
+                                post = PostInfo.builder {
                                     tags("offers")
-                                    summary("Получение списка офферов")
-                                    description("Эндпоинт для получения списка офферов")
+                                    summary("Генерация QR-кода")
+                                    description("Эндпоинт для генерации QR-кода")
                                     parameters = listOf(
                                         Parameter(
-                                            name = "offset",
+                                            name = "offerId",
                                             `in` = Parameter.Location.query,
-                                            schema = TypeDefinition.INT
-                                        ),
-                                        Parameter(
-                                            name = "limit",
-                                            `in` = Parameter.Location.query,
-                                            schema = TypeDefinition.INT
+                                            schema = TypeDefinition.STRING
                                         )
                                     )
                                     response {
                                         responseCode(HttpStatusCode.OK)
-                                        responseType<List<GetOfferResponseModel>>()
-                                        description("Список офферов")
+                                        responseType<GenerateQRPayloadResponseModel>()
+                                        description("QR-код")
                                     }
                                 }
-                                get {
-                                    OfferClientController(call).getOffersList()
-                                }
-                            }
-                            route("/generateQr") {
-                                install(NotarizedRoute()) {
-                                    post = PostInfo.builder {
-                                        tags("offers")
-                                        summary("Генерация QR-кода")
-                                        description("Эндпоинт для генерации QR-кода")
-                                        parameters = listOf(
-                                            Parameter(
-                                                name = "offerId",
-                                                `in` = Parameter.Location.query,
-                                                schema = TypeDefinition.STRING
-                                            )
-                                        )
-                                        response {
-                                            responseCode(HttpStatusCode.OK)
-                                            responseType<GenerateQRPayloadResponseModel>()
-                                            description("QR-код")
-                                        }
-                                    }
 
-                                    post {
-                                        OfferClientController(call).generateQrPayload()
-                                    }
+                                post {
+                                    OfferClientController(call).generateQrPayload()
                                 }
                             }
                         }
                     }
+                }
 
 
             }

@@ -60,7 +60,7 @@ window.onload = function() {
         ],
         layout: 'StandaloneLayout'${docExpansion?.let { ",\n        docExpansion: '$it'" } ?: ""},
         onComplete: () => {
-            ${tokenData.map { (name, token) -> "ui.preauthorizeApiKey(\"$name\", \"$token\")" }.joinToString("\n") }
+            ${tokenData.map { (name, token) -> "ui.preauthorizeApiKey(\"$name\", \"$token\")" }.joinToString("\n")}
         }
     });
 }

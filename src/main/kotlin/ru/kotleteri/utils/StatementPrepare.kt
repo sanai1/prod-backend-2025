@@ -4,11 +4,12 @@ class StatementPrepare(val start: String) {
     private val stringsToInsert = mutableListOf<String>()
     fun addParam(value: Any?): StatementPrepare {
         stringsToInsert.add(
-            when (value){
+            when (value) {
                 is String -> formatString(value)
                 is List<*> -> formatList(value)
                 else -> value.toString()
-        })
+            }
+        )
 
         return this
     }
@@ -31,14 +32,14 @@ class StatementPrepare(val start: String) {
     private fun formatFloatList(value: List<Float>) = "ARRAY[${value.joinToString(",")}]"
 
     fun build(): String {
-        val i = start.count{ it == '?' }
-        if (stringsToInsert.size < i){
+        val i = start.count { it == '?' }
+        if (stringsToInsert.size < i) {
             throw IllegalArgumentException("You must provide at least $i parameters")
         }
 
         var t = start
 
-        repeat(i){
+        repeat(i) {
             t = t.replaceFirst("?", stringsToInsert[it])
         }
 
