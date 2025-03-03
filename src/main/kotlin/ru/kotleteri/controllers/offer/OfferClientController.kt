@@ -11,6 +11,7 @@ import ru.kotleteri.data.models.redis.QRDataModel
 import ru.kotleteri.database.crud.OfferCRUD
 import ru.kotleteri.database.redis.QRService
 import ru.kotleteri.utils.toUUIDOrNull
+import java.time.LocalDateTime
 
 class OfferClientController(call: ApplicationCall) : AbstractAuthController(call) {
 
@@ -36,7 +37,10 @@ class OfferClientController(call: ApplicationCall) : AbstractAuthController(call
             )
 
 
-        val offerList = OfferCRUD.readAll(limit, offset).map { it.second.toGetOfferWithCompanyResponse(it.first) }
+        val offerList = OfferCRUD.readAll(limit, offset)
+            .filter { it.second.startDate <= LocalDateTime.now() && it.second.endDate >= LocalDateTime.now() }
+            .map { it.second.toGetOfferWithCompanyResponse(it.first) }
+
 
         call.respond(HttpStatusCode.OK, offerList)
     }
