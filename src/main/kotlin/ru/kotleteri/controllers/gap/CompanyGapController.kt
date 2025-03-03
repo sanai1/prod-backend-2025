@@ -24,6 +24,8 @@ class CompanyGapController(call: ApplicationCall): AbstractAuthController(call) 
         val company = CompanyCRUD.read(id) ?:
         return call.respond(HttpStatusCode.NotFound, ErrorResponse("company not found"))
 
-        GapCRUD.getGaps(limit, company.categoryId)
+        val gaps = GapCRUD.getGaps(limit, company.categoryId)
+
+        call.respond(HttpStatusCode.OK, gaps.map { it.toGetGapResponse() })
     }
 }

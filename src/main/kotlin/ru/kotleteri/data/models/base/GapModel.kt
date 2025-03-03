@@ -1,5 +1,6 @@
 package ru.kotleteri.data.models.base
 
+import ru.kotleteri.data.models.inout.gap.GetGapModel
 import java.util.UUID
 
 data class GapModel(
@@ -7,4 +8,10 @@ data class GapModel(
     val message: String,
     val averageSpent: Double,
     val categoryId: Int
-)
+) {
+    fun toGetGapResponse() =
+        GetGapModel(
+            message,
+            averageSpent
+        )
+}

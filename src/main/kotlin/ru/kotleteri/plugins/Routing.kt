@@ -29,6 +29,7 @@ import ru.kotleteri.data.models.inout.companies.GetCategoryResponseModel
 import ru.kotleteri.data.models.inout.companies.GetCompanyProfileResponseModel
 import ru.kotleteri.data.models.inout.companies.RegisterCompanyRequestModel
 import ru.kotleteri.data.models.inout.gap.CreateGapModel
+import ru.kotleteri.data.models.inout.gap.GetGapModel
 import ru.kotleteri.data.models.inout.offers.*
 import ru.kotleteri.data.models.inout.statistics.StatisticsDateResponseModel
 import ru.kotleteri.data.models.inout.statistics.StatisticsHourResponseModel
@@ -575,7 +576,29 @@ fun Application.configureRouting() =
                         get = GetInfo.builder {
                             tags("gaps")
                             summary("Получить 'гэпы'")
-
+                            description("Эндпоинт для получения 'гэпов'")
+                            parameters = listOf(
+                                Parameter(
+                                    name = "limit",
+                                    `in` = Parameter.Location.query,
+                                    schema = TypeDefinition.INT
+                                )
+                            )
+                            response {
+                                responseCode(HttpStatusCode.OK)
+                                responseType<List<GetGapModel>>()
+                                description("Список 'гэпов'")
+                            }
+                            canRespond {
+                                responseCode(HttpStatusCode.NotFound)
+                                responseType<ErrorResponse>()
+                                description("Компания не найдена")
+                            }
+                            canRespond {
+                                responseCode(HttpStatusCode.BadRequest)
+                                responseType<ErrorResponse>()
+                                description("Неправильный формат limit")
+                            }
                             get {
                                 CompanyGapController(call).getGapsList()
                             }
