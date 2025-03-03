@@ -8,6 +8,7 @@ import ru.kotleteri.controllers.AbstractAuthController
 import ru.kotleteri.controllers.abort
 import ru.kotleteri.data.models.inout.ErrorResponse
 import ru.kotleteri.data.models.inout.gap.CreateGapModel
+import ru.kotleteri.database.crud.CategoryCRUD
 import ru.kotleteri.database.crud.GapCRUD
 
 class ClientGapController(call: ApplicationCall) : AbstractAuthController(call) {
@@ -40,9 +41,13 @@ class ClientGapController(call: ApplicationCall) : AbstractAuthController(call) 
 
         val gaps = GapCRUD.getGapsForClient(limit, id)
 
+        val categories = CategoryCRUD.getAllCategories().associateBy { it.id }
+
         call.respond(
             HttpStatusCode.OK,
-            gaps.associateBy { it.categoryId.toString() }.mapValues { (_, data) -> data.toGetGapResponse() })
+            gaps.map {
+                it.toGetUserGapResponse(categories[it.categoryId]?.name ?: "Неизвестно", categories[it.categoryId]?.subname ?: "Неизвестно")
+            })
     }
 
 

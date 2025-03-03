@@ -30,6 +30,7 @@ import ru.kotleteri.data.models.inout.companies.GetCompanyProfileResponseModel
 import ru.kotleteri.data.models.inout.companies.RegisterCompanyRequestModel
 import ru.kotleteri.data.models.inout.gap.CreateGapModel
 import ru.kotleteri.data.models.inout.gap.GetGapModel
+import ru.kotleteri.data.models.inout.gap.GetUserGapModel
 import ru.kotleteri.data.models.inout.offers.*
 import ru.kotleteri.data.models.inout.statistics.StatisticsDateResponseModel
 import ru.kotleteri.data.models.inout.statistics.StatisticsHourResponseModel
@@ -645,7 +646,7 @@ fun Application.configureRouting() =
                                     )
                                     response {
                                         responseCode(HttpStatusCode.OK)
-                                        responseType<Map<String, GetGapModel>>()
+                                        responseType<List<GetUserGapModel>>()
                                         description("Список 'гэпов'")
                                     }
                                     canRespond {
