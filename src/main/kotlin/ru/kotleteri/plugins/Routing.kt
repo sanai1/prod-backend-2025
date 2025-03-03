@@ -14,6 +14,7 @@ import io.ktor.server.routing.*
 import ru.kotleteri.controllers.client.AuthClientController
 import ru.kotleteri.controllers.client.ClientController
 import ru.kotleteri.controllers.company.AuthCompanyController
+import ru.kotleteri.controllers.company.CategoryController
 import ru.kotleteri.controllers.company.CompanyController
 import ru.kotleteri.controllers.company.PublicPictureController
 import ru.kotleteri.controllers.offer.OfferClientController
@@ -22,6 +23,7 @@ import ru.kotleteri.controllers.offer.OfferController
 import ru.kotleteri.controllers.statistics.StatisticsController
 import ru.kotleteri.data.models.inout.ErrorResponse
 import ru.kotleteri.data.models.inout.clients.*
+import ru.kotleteri.data.models.inout.companies.GetCategoryResponseModel
 import ru.kotleteri.data.models.inout.companies.GetCompanyProfileResponseModel
 import ru.kotleteri.data.models.inout.offers.*
 import ru.kotleteri.data.models.inout.statistics.StatisticsDateResponseModel
@@ -53,6 +55,24 @@ fun Application.configureRouting() =
                     }
                     get {
                         call.respond(HttpStatusCode.OK)
+                    }
+                }
+            }
+
+            route("/categories"){
+                install(NotarizedRoute()) {
+                    get = GetInfo.builder {
+                        tags("Category")
+                        response {
+                            description("Список категорий и подкатегорий")
+                            responseCode(HttpStatusCode.OK)
+                            responseType<List<GetCategoryResponseModel>>()
+                        }
+                        summary("Получить все категории")
+                        description("")
+                    }
+                    get {
+                        CategoryController(call).getAll()
                     }
                 }
             }

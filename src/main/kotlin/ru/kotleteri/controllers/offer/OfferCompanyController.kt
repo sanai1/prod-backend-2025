@@ -104,7 +104,7 @@ class OfferCompanyController(call: ApplicationCall) : AbstractAuthController(cal
         )
 
         val creditedBonus =
-            if(offer.type == LoyaltyType.ACCUM && offer.bonusFromPurchases != null)
+            if(offer.type == LoyaltyType.ACCUM && offer.bonusFromPurchases != null && !data.spendBonus)
                 offer.bonusFromPurchases * r.cost / 100.0
             else null
 

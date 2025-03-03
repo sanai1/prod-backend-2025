@@ -12,7 +12,8 @@ object DatabaseInit {
             CompanyTable,
             OfferTable,
             OperationTable,
-            ClientExtensionTable
+            ClientExtensionTable,
+            CategoryTable
         )
 
     fun initialize() {
