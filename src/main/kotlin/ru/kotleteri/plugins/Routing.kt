@@ -28,6 +28,7 @@ import ru.kotleteri.data.models.inout.clients.*
 import ru.kotleteri.data.models.inout.companies.GetCategoryResponseModel
 import ru.kotleteri.data.models.inout.companies.GetCompanyProfileResponseModel
 import ru.kotleteri.data.models.inout.companies.RegisterCompanyRequestModel
+import ru.kotleteri.data.models.inout.gap.CreateGapModel
 import ru.kotleteri.data.models.inout.offers.*
 import ru.kotleteri.data.models.inout.statistics.StatisticsDateResponseModel
 import ru.kotleteri.data.models.inout.statistics.StatisticsHourResponseModel
@@ -587,6 +588,20 @@ fun Application.configureRouting() =
                         post = PostInfo.builder {
                             tags("gaps")
                             summary("Добавить гэпы")
+                            request {
+                                requestType<CreateGapModel>()
+                                description("Данные для добавления гэпов")
+                            }
+                            response {
+                                responseCode(HttpStatusCode.OK)
+                                responseType<Unit>()
+                                description("Успешное добавление гэпов")
+                            }
+                            canRespond {
+                                responseCode(HttpStatusCode.BadRequest)
+                                responseType<ErrorResponse>()
+                                description("Ошибка добавления гэпов")
+                            }
                         }
                         post {
                             ClientGapController(call).addGap()
