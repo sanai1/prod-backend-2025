@@ -2,6 +2,7 @@ include:
     - "jobs/build.yaml"
     - "jobs/docker.yaml"
     - "jobs/rules.yaml"
+    - "jobs/test.yaml"
 
 .global-variables:
   variables:
@@ -10,8 +11,16 @@ include:
     SSH_PRIVATE_KEY_BASE64: "$ENV_PRIVATE_KEY_BASE64"
 
 stages:
+  - test
   - build
   - deploy
+
+test:
+  stage: test
+  extends:
+    - .test
+    - .rules-merge-or-master
+
 
 build:
   stage: build

@@ -8,13 +8,13 @@ import kotlin.test.assertTrue
 class UUIDTest {
 
     @Test
-    fun testNullReadFromString(){
+    fun testNullReadFromString() {
         val mustBeNull = "ahahahahah".toUUIDOrNull()
         assertTrue { mustBeNull == null }
     }
 
     @Test
-    fun testRealReadFromString(){
+    fun testRealReadFromString() {
         val checkUUIDString = "ded613f9-99ba-497b-9ce1-23536783a049"
         val uuid = checkUUIDString.toUUIDOrNull()
         Assertions.assertNotNull(uuid)

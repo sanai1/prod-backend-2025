@@ -11,7 +11,7 @@ class ValidationTest {
         val string: String,
         val number: Int,
         val child: ChildClass
-    ): Validateable {
+    ) : Validateable {
         data class ChildClass(
             val string: String
         ) : Validateable {

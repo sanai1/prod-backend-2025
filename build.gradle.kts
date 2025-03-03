@@ -76,6 +76,7 @@ dependencies {
     // tests
     testImplementation("io.ktor:ktor-server-test-host")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
+    testImplementation("com.h2database:h2:2.3.232")
 }
 
 tasks.register("copyDependencies") {

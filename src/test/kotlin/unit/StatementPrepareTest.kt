@@ -8,7 +8,7 @@ import kotlin.test.assertEquals
 class StatementPrepareTest {
 
     @Test
-    fun testStringBuildStatement(){
+    fun testStringBuildStatement() {
         val shouldBe = "'qwerty'"
         val start = "?"
 
@@ -20,7 +20,7 @@ class StatementPrepareTest {
     }
 
     @Test
-    fun testStringArrayBuildStatement(){
+    fun testStringArrayBuildStatement() {
         val shouldBe = "ARRAY['a','b']"
         val start = "?"
 
@@ -32,7 +32,7 @@ class StatementPrepareTest {
     }
 
     @Test
-    fun testIntArrayBuildStatement(){
+    fun testIntArrayBuildStatement() {
         val shouldBe = "ARRAY[2,3]"
         val start = "?"
 
@@ -44,7 +44,7 @@ class StatementPrepareTest {
     }
 
     @Test
-    fun testFloatArrayBuildStatement(){
+    fun testFloatArrayBuildStatement() {
         val shouldBe = "ARRAY[2.5,3.4]"
         val start = "?"
 
