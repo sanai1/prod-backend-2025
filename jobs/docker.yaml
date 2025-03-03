@@ -34,7 +34,7 @@
     - ssh $SSH_ADDRESS "docker stop $CI_PROJECT_NAME || true"
     - ssh $SSH_ADDRESS "docker rm $CI_PROJECT_NAME || true"
     - ssh $SSH_ADDRESS "cd /app && docker compose down || true"
-    - scp -P22 docker-compose.yml $SSH_ADDRESS:/app/
+    - scp -P22 -r deploy/* $SSH_ADDRESS:/app/
 #    - ssh $SSH_ADDRESS "
 #      docker run -d
 #      --log-driver local

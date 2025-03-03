@@ -2,3 +2,4 @@ ktor:
   application:
     modules:
       - ru.kotleteri.ApplicationKt.module
+
