@@ -6,6 +6,7 @@ import io.ktor.server.netty.*
 import org.jetbrains.exposed.sql.Database
 import ru.kotleteri.database.DatabaseFactory
 import ru.kotleteri.database.DatabaseInit
+import ru.kotleteri.database.redis.RedisClientImpl
 import ru.kotleteri.database.redis.RedisInit
 import ru.kotleteri.plugins.*
 import ru.kotleteri.utils.POSTGRES_PASSWORD
@@ -28,7 +29,7 @@ fun Application.module() {
         }
     }
     DatabaseInit.initialize()
-    RedisInit.initialize()
+    RedisInit.initialize(RedisClientImpl())
     configureDocumentation()
     configureSerialization()
     configureHTTP()

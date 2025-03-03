@@ -6,7 +6,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import ru.kotleteri.database.tables.*
 
 object DatabaseInit {
-    private val tables: List<Table> =
+    val tables: List<Table> =
         listOf(
             ClientTable,
             CompanyTable,
@@ -17,7 +17,9 @@ object DatabaseInit {
 
     fun initialize() {
         transaction {
+            SchemaUtils.create(*tables.toTypedArray())
             SchemaUtils.createMissingTablesAndColumns(*tables.toTypedArray())
+            commit()
         }
     }
 }
