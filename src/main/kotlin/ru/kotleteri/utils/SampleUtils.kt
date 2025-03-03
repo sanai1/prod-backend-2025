@@ -12,6 +12,7 @@ suspend fun generateSampleTokenForCompany(): String {
         UUID.randomUUID(),
         "Test Company",
         "test@test.test",
+        1,
         "test"
     ).also { CompanyCRUD.create(it) }
     val token = generateNewToken(company.id, company.email, false)
