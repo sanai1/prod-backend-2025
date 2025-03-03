@@ -42,8 +42,8 @@ data class CreateRequestModel(
             }
         }
 
-        Validate.custom(this::type){
-            when (it.lowercase()){
+        Validate.custom(this::type) {
+            when (it.lowercase()) {
                 "discount" -> true
                 "stamp" -> true
                 "accum" -> true
@@ -52,7 +52,7 @@ data class CreateRequestModel(
         }
     }
 
-    fun toLoyaltyEnum(str: String) = when (str.lowercase()){
+    fun toLoyaltyEnum(str: String) = when (str.lowercase()) {
         "accum" -> LoyaltyType.ACCUM
         else -> LoyaltyType.DISCOUNT
     }

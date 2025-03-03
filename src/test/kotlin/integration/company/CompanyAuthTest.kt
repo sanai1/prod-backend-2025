@@ -15,12 +15,12 @@ class CompanyAuthTest : ApplicationTest() {
             contentType(ContentType.Application.Json)
             setBody(
                 jsonString(
-                object : JsonSerializable {
-                    val name = "Test Company"
-                    val email = "testcompany@test.com"
-                    val password = "pA88W0rd%"
-                }
-            ))
+                    object : JsonSerializable {
+                        val name = "Test Company"
+                        val email = "testcompany@test.com"
+                        val password = "pA88W0rd%"
+                    }
+                ))
         }
         Assertions.assertEquals(HttpStatusCode.OK, response.status)
     }
@@ -31,12 +31,12 @@ class CompanyAuthTest : ApplicationTest() {
             contentType(ContentType.Application.Json)
             setBody(
                 jsonString(
-                object : JsonSerializable {
-                    val name = "Test Company"
-                    val email = "testcompany@test.com"
-                    val password = "pA88W0rd%"
-                }
-            ))
+                    object : JsonSerializable {
+                        val name = "Test Company"
+                        val email = "testcompany@test.com"
+                        val password = "pA88W0rd%"
+                    }
+                ))
         }
 
         val response = client.post("/api/companies/login") {

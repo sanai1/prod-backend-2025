@@ -10,7 +10,7 @@ import ru.kotleteri.data.models.inout.ErrorResponse
 import ru.kotleteri.data.models.inout.gap.CreateGapModel
 import ru.kotleteri.database.crud.GapCRUD
 
-class ClientGapController(call: ApplicationCall): AbstractAuthController(call) {
+class ClientGapController(call: ApplicationCall) : AbstractAuthController(call) {
 
     init {
         if (!isClient) {
@@ -24,7 +24,7 @@ class ClientGapController(call: ApplicationCall): AbstractAuthController(call) {
         try {
             val gap = r.toGapModel(id)
             GapCRUD.createGap(gap)
-        } catch(e: Exception) {
+        } catch (e: Exception) {
             call.respond(HttpStatusCode.BadRequest, ErrorResponse(e.message.toString()))
             return
         }
@@ -33,12 +33,16 @@ class ClientGapController(call: ApplicationCall): AbstractAuthController(call) {
     }
 
     suspend fun getGapList() {
-        val limit = call.request.queryParameters["limit"]?.toInt() ?:
-        return call.respond(HttpStatusCode.BadRequest, ErrorResponse("wrong limit"))
+        val limit = call.request.queryParameters["limit"]?.toInt() ?: return call.respond(
+            HttpStatusCode.BadRequest,
+            ErrorResponse("wrong limit")
+        )
 
         val gaps = GapCRUD.getGapsForClient(limit, id)
 
-        call.respond(HttpStatusCode.OK, gaps.associateBy { it.categoryId.toString() }.mapValues { (_, data) -> data.toGetGapResponse() })
+        call.respond(
+            HttpStatusCode.OK,
+            gaps.associateBy { it.categoryId.toString() }.mapValues { (_, data) -> data.toGetGapResponse() })
     }
 
 

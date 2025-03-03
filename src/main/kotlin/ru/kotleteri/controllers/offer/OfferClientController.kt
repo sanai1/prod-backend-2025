@@ -52,7 +52,7 @@ class OfferClientController(call: ApplicationCall) : AbstractAuthController(call
                 ErrorResponse("Wrong offer id provided")
             )
 
-        val spendBonus = when(call.parameters["spendBonus"]){
+        val spendBonus = when (call.parameters["spendBonus"]) {
             "true" -> true
             else -> false
         }

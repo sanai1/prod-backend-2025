@@ -26,15 +26,20 @@ class OfferController(call: ApplicationCall) : AbstractAuthController(call) {
         val offer = createRequest.toOfferModel(id)
 
         if (offer.type == LoyaltyType.ACCUM &&
-            (offer.bonusFromPurchases == null || offer.bonusPaymentPercent == null)){
-            call.respond(HttpStatusCode.BadRequest,
-                ErrorResponse("bonusFromPurchases and bonusPaymentPercent should not be null"))
+            (offer.bonusFromPurchases == null || offer.bonusPaymentPercent == null)
+        ) {
+            call.respond(
+                HttpStatusCode.BadRequest,
+                ErrorResponse("bonusFromPurchases and bonusPaymentPercent should not be null")
+            )
             return
         }
 
-        if (offer.type == LoyaltyType.DISCOUNT && offer.discount == null){
-            call.respond(HttpStatusCode.BadRequest,
-                ErrorResponse("discount should not be null"))
+        if (offer.type == LoyaltyType.DISCOUNT && offer.discount == null) {
+            call.respond(
+                HttpStatusCode.BadRequest,
+                ErrorResponse("discount should not be null")
+            )
             return
         }
 

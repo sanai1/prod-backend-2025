@@ -64,7 +64,7 @@ fun Application.configureRouting() =
                 }
             }
 
-            route("/categories"){
+            route("/categories") {
                 install(NotarizedRoute()) {
                     get = GetInfo.builder {
                         tags("Category")
@@ -530,47 +530,47 @@ fun Application.configureRouting() =
                         }
                     }
                 }
-                    route("/{companyId}") {
-                        route("/image") {
-                            install(NotarizedRoute()) {
-                                get = GetInfo.builder {
-                                    tags("images")
-                                    summary("Получение изображения")
-                                    description("Эндпоинт для получения изображения")
-                                    parameters(
-                                        Parameter(
-                                            name = "companyId",
-                                            `in` = Parameter.Location.path,
-                                            schema = TypeDefinition.STRING
-                                        )
+                route("/{companyId}") {
+                    route("/image") {
+                        install(NotarizedRoute()) {
+                            get = GetInfo.builder {
+                                tags("images")
+                                summary("Получение изображения")
+                                description("Эндпоинт для получения изображения")
+                                parameters(
+                                    Parameter(
+                                        name = "companyId",
+                                        `in` = Parameter.Location.path,
+                                        schema = TypeDefinition.STRING
                                     )
-                                    response {
-                                        mediaTypes("image/*")
-                                        responseType<ByteArray>()
-                                        responseCode(HttpStatusCode.OK)
-                                        description("Изображение")
-                                    }
-                                    canRespond {
-                                        responseCode(HttpStatusCode.BadRequest)
-                                        responseType<ErrorResponse>()
-                                        description("Неправильный формат companyId")
-                                    }
-                                    canRespond {
-                                        responseCode(HttpStatusCode.NotFound)
-                                        responseType<ErrorResponse>()
-                                        description("Изображение не найдено")
-                                    }
+                                )
+                                response {
+                                    mediaTypes("image/*")
+                                    responseType<ByteArray>()
+                                    responseCode(HttpStatusCode.OK)
+                                    description("Изображение")
                                 }
-                                get {
-                                    PublicPictureController(call).getPicture()
+                                canRespond {
+                                    responseCode(HttpStatusCode.BadRequest)
+                                    responseType<ErrorResponse>()
+                                    description("Неправильный формат companyId")
                                 }
+                                canRespond {
+                                    responseCode(HttpStatusCode.NotFound)
+                                    responseType<ErrorResponse>()
+                                    description("Изображение не найдено")
+                                }
+                            }
+                            get {
+                                PublicPictureController(call).getPicture()
+                            }
 
                         }
                     }
                 }
             }
 
-            route("/gap"){
+            route("/gap") {
                 authenticate("company") {
                     install(NotarizedRoute()) {
                         get = GetInfo.builder {
@@ -645,7 +645,7 @@ fun Application.configureRouting() =
                                     )
                                     response {
                                         responseCode(HttpStatusCode.OK)
-                                        responseType<Map<String,GetGapModel>>()
+                                        responseType<Map<String, GetGapModel>>()
                                         description("Список 'гэпов'")
                                     }
                                     canRespond {

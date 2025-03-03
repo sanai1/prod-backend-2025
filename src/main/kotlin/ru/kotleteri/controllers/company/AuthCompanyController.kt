@@ -24,8 +24,10 @@ class AuthCompanyController(call: ApplicationCall) : AbstractAuthController(call
         val company =
             CompanyCRUD.read(id) ?: return call.respond(HttpStatusCode.NotFound, ErrorResponse("Company not found"))
 
-        val category = CategoryCRUD.read(company.categoryId) ?:
-        return call.respond(HttpStatusCode.NotFound, ErrorResponse("Category not found"))
+        val category = CategoryCRUD.read(company.categoryId) ?: return call.respond(
+            HttpStatusCode.NotFound,
+            ErrorResponse("Category not found")
+        )
 
 
         call.respond(HttpStatusCode.OK, company.getProfile(category))

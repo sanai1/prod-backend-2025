@@ -1,7 +1,7 @@
 package ru.kotleteri.data.models.base
 
 import ru.kotleteri.data.models.inout.gap.GetGapModel
-import java.util.UUID
+import java.util.*
 
 data class GapModel(
     val clientId: UUID,

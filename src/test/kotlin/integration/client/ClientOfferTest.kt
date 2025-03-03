@@ -30,15 +30,15 @@ class ClientOfferTest : ApplicationTest() {
             bearerAuth(companyToken)
             setBody(
                 jsonString(
-                object : JsonSerializable {
-                    val title = "Test Offer"
-                    val description = "Test Description"
-                    val discount = 5.0
-                    val type = "DISCOUNT"
-                    val start_date = "2025-02-20T00:00:00"
-                    val end_date = "2030-10-31T23:59:59"
-                }
-            ))
+                    object : JsonSerializable {
+                        val title = "Test Offer"
+                        val description = "Test Description"
+                        val discount = 5.0
+                        val type = "DISCOUNT"
+                        val start_date = "2025-02-20T00:00:00"
+                        val end_date = "2030-10-31T23:59:59"
+                    }
+                ))
         }
         val response = client.get("/api/offers/client?limit=100&offset=0") {
             bearerAuth(token)
@@ -53,15 +53,15 @@ class ClientOfferTest : ApplicationTest() {
             bearerAuth(companyToken)
             setBody(
                 jsonString(
-                object : JsonSerializable {
-                    val title = "Test Offer"
-                    val description = "Test Description"
-                    val discount = 5.0
-                    val type = "DISCOUNT"
-                    val start_date = "2025-02-20T00:00:00"
-                    val end_date = "2030-10-31T23:59:59"
-                }
-            ))
+                    object : JsonSerializable {
+                        val title = "Test Offer"
+                        val description = "Test Description"
+                        val discount = 5.0
+                        val type = "DISCOUNT"
+                        val start_date = "2025-02-20T00:00:00"
+                        val end_date = "2030-10-31T23:59:59"
+                    }
+                ))
         }
         val response = client.get("/api/offers/client?limit=100&offset=0") {
             bearerAuth(token)
@@ -84,15 +84,15 @@ class ClientOfferTest : ApplicationTest() {
             bearerAuth(companyToken)
             setBody(
                 jsonString(
-                object : JsonSerializable {
-                    val title = "Test Offer"
-                    val description = "Test Description"
-                    val discount = 5.0
-                    val type = "DISCOUNT"
-                    val start_date = "2025-02-20T00:00:00"
-                    val end_date = "2030-10-31T23:59:59"
-                }
-            ))
+                    object : JsonSerializable {
+                        val title = "Test Offer"
+                        val description = "Test Description"
+                        val discount = 5.0
+                        val type = "DISCOUNT"
+                        val start_date = "2025-02-20T00:00:00"
+                        val end_date = "2030-10-31T23:59:59"
+                    }
+                ))
         }
         val response = client.get("/api/offers/client?limit=100&offset=0") {
             bearerAuth(token)
@@ -110,11 +110,11 @@ class ClientOfferTest : ApplicationTest() {
             bearerAuth(companyToken)
             setBody(
                 jsonString(
-                object : JsonSerializable {
-                    val payload = payload
-                    val cost = 100.0
-                }
-            ))
+                    object : JsonSerializable {
+                        val payload = payload
+                        val cost = 100.0
+                    }
+                ))
         }
         Assertions.assertEquals(HttpStatusCode.OK, scanResponse.status)
     }

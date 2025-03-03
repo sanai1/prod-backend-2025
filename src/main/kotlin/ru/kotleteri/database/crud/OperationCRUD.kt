@@ -11,7 +11,6 @@ import ru.kotleteri.database.suspendTransaction
 import ru.kotleteri.database.tables.OperationTable
 import ru.kotleteri.utils.StatementPrepare
 import java.util.*
-import kotlin.math.cos
 
 object OperationCRUD {
 

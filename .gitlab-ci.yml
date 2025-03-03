@@ -1,8 +1,8 @@
 include:
-    - "jobs/build.yaml"
-    - "jobs/docker.yaml"
-    - "jobs/rules.yaml"
-    - "jobs/test.yaml"
+  - "jobs/build.yaml"
+  - "jobs/docker.yaml"
+  - "jobs/rules.yaml"
+  - "jobs/test.yaml"
 
 .global-variables:
   variables:

@@ -1,8 +1,8 @@
 ---
 .build:
-  image: 
+  image:
     name: gcr.io/kaniko-project/executor:v1.23.2-debug
-    entrypoint: [""]
+    entrypoint: [ "" ]
   stage: build
   variables:
     DOCKERFILE_PATH: Dockerfile
