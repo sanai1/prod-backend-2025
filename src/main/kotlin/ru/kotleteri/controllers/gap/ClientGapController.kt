@@ -32,5 +32,14 @@ class ClientGapController(call: ApplicationCall): AbstractAuthController(call) {
         call.respond(HttpStatusCode.OK)
     }
 
+    suspend fun getGapList() {
+        val limit = call.request.queryParameters["limit"]?.toInt() ?:
+        return call.respond(HttpStatusCode.BadRequest, ErrorResponse("wrong limit"))
+
+        val gaps = GapCRUD.getGapsForClient(limit, id)
+
+        call.respond(HttpStatusCode.OK, gaps.map { it.toGetGapResponse() })
+    }
+
 
 }

@@ -630,6 +630,35 @@ fun Application.configureRouting() =
                         post {
                             ClientGapController(call).addGap()
                         }
+                        route("/client") {
+                            install(NotarizedRoute()) {
+                                get = GetInfo.builder {
+                                    tags("gaps")
+                                    summary("Получить 'гэпы' пользователя")
+                                    description("Эндпоинт для получения 'гэпов'")
+                                    parameters(
+                                        Parameter(
+                                            name = "limit",
+                                            `in` = Parameter.Location.query,
+                                            schema = TypeDefinition.INT
+                                        )
+                                    )
+                                    response {
+                                        responseCode(HttpStatusCode.OK)
+                                        responseType<List<GetGapModel>>()
+                                        description("Список 'гэпов'")
+                                    }
+                                    canRespond {
+                                        responseCode(HttpStatusCode.BadRequest)
+                                        responseType<ErrorResponse>()
+                                        description("Неправильный формат limit")
+                                    }
+                                }
+                                get {
+                                    ClientGapController(call).getGapList()
+                                }
+                            }
+                        }
                     }
                 }
             }
