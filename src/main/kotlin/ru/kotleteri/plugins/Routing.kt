@@ -17,6 +17,8 @@ import ru.kotleteri.controllers.company.AuthCompanyController
 import ru.kotleteri.controllers.company.CategoryController
 import ru.kotleteri.controllers.company.CompanyController
 import ru.kotleteri.controllers.company.PublicPictureController
+import ru.kotleteri.controllers.gap.ClientGapController
+import ru.kotleteri.controllers.gap.CompanyGapController
 import ru.kotleteri.controllers.offer.OfferClientController
 import ru.kotleteri.controllers.offer.OfferCompanyController
 import ru.kotleteri.controllers.offer.OfferController
@@ -566,7 +568,32 @@ fun Application.configureRouting() =
                 }
             }
 
+            route("/gap"){
+                authenticate("company") {
+                    install(NotarizedRoute()) {
+                        get = GetInfo.builder {
+                            tags("gaps")
+                            summary("Получить 'гэпы'")
 
+                            get {
+                                CompanyGapController(call).getGapsList()
+                            }
+                        }
+                    }
+                }
+
+                authenticate("client") {
+                    install(NotarizedRoute()) {
+                        post = PostInfo.builder {
+                            tags("gaps")
+                            summary("Добавить гэпы")
+                        }
+                        post {
+                            ClientGapController(call).addGap()
+                        }
+                    }
+                }
+            }
         }
     }
 

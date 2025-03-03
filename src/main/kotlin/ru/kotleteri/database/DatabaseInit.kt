@@ -15,7 +15,8 @@ object DatabaseInit {
             OfferTable,
             OperationTable,
             ClientExtensionTable,
-            CategoryTable
+            CategoryTable,
+            GapTable
         )
 
     fun initialize() {
