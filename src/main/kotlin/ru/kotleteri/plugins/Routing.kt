@@ -20,6 +20,7 @@ import ru.kotleteri.controllers.offer.OfferClientController
 import ru.kotleteri.controllers.offer.OfferCompanyController
 import ru.kotleteri.controllers.offer.OfferController
 import ru.kotleteri.controllers.statistics.StatisticsController
+import ru.kotleteri.data.models.inout.ErrorResponse
 import ru.kotleteri.data.models.inout.clients.*
 import ru.kotleteri.data.models.inout.companies.GetCompanyProfileResponseModel
 import ru.kotleteri.data.models.inout.offers.*
@@ -72,6 +73,11 @@ fun Application.configureRouting() =
                                 responseType<LoginResponseModel>()
                                 description("JWT-токен для аутентификации")
                             }
+                            canRespond {
+                                responseCode(HttpStatusCode.Conflict)
+                                responseType<ErrorResponse>()
+                                description("Пользователь с таким email уже существует")
+                            }
 
                         }
                         post {
@@ -94,6 +100,11 @@ fun Application.configureRouting() =
                                 responseType<LoginResponseModel>()
                                 description("JWT-токен для аутентификации")
                             }
+                            canRespond {
+                                responseCode(HttpStatusCode.Unauthorized)
+                                responseType<ErrorResponse>()
+                                description("Пользователь с таким email и паролем не существует")
+                            }
                         }
                         post {
                             ClientController(call).login()
@@ -113,6 +124,11 @@ fun Application.configureRouting() =
                                     responseCode(HttpStatusCode.OK)
                                     responseType<GetClientProfileResponseModel>()
                                     description("Профиль клиента")
+                                }
+                                canRespond {
+                                    responseCode(HttpStatusCode.NotFound)
+                                    responseType<ErrorResponse>()
+                                    description("Пользователь не найден")
                                 }
 
                             }
@@ -158,6 +174,11 @@ fun Application.configureRouting() =
                                 responseType<LoginResponseModel>()
                                 description("JWT-токен для аутентификации")
                             }
+                            canRespond {
+                                responseCode(HttpStatusCode.Conflict)
+                                responseType<ErrorResponse>()
+                                description("Компания с таким email уже существует")
+                            }
                         }
                         post {
                             CompanyController(call).register()
@@ -179,6 +200,11 @@ fun Application.configureRouting() =
                                 responseType<LoginResponseModel>()
                                 description("JWT-токен для аутентификации")
                             }
+                            canRespond {
+                                responseCode(HttpStatusCode.Unauthorized)
+                                responseType<ErrorResponse>()
+                                description("Компания с таким email и паролем не существует")
+                            }
                         }
                         post {
                             CompanyController(call).login()
@@ -198,6 +224,11 @@ fun Application.configureRouting() =
                                     responseCode(HttpStatusCode.OK)
                                     responseType<GetCompanyProfileResponseModel>()
                                     description("Профиль компании")
+                                }
+                                canRespond {
+                                    responseCode(HttpStatusCode.NotFound)
+                                    responseType<ErrorResponse>()
+                                    description("Компания не найдена")
                                 }
                             }
                             get {
@@ -253,6 +284,11 @@ fun Application.configureRouting() =
                                         responseType<List<StatisticsMonthResponseModel>>()
                                         description("Статистика по месяцам")
                                     }
+                                    canRespond {
+                                        responseCode(HttpStatusCode.BadRequest)
+                                        responseType<ErrorResponse>()
+                                        description("Ошибка получения статистики")
+                                    }
                                 }
                                 get {
                                     StatisticsController(call).getStatsByMonthCompany()
@@ -280,6 +316,11 @@ fun Application.configureRouting() =
                                     responseCode(HttpStatusCode.Created)
                                     responseType<Unit>()
                                     description("Успешное создание оффера")
+                                }
+                                canRespond {
+                                    responseCode(HttpStatusCode.NotFound)
+                                    responseType<ErrorResponse>()
+                                    description("Компания не найдена")
                                 }
                             }
                             post {
@@ -310,6 +351,11 @@ fun Application.configureRouting() =
                                     responseType<List<GetOfferResponseModel>>()
                                     description("Список офферов")
                                 }
+                                canRespond {
+                                    responseCode(HttpStatusCode.BadRequest)
+                                    responseType<ErrorResponse>()
+                                    description("Неправильный формат offset или limit")
+                                }
                             }
                             get {
                                 OfferCompanyController(call).getAllOffersByCompany()
@@ -330,6 +376,21 @@ fun Application.configureRouting() =
                                         responseCode(HttpStatusCode.OK)
                                         responseType<GetOfferByQrResponseModel>()
                                         description("Успешное сканирование QR-кода")
+                                    }
+                                    canRespond {
+                                        responseCode(HttpStatusCode.NotFound)
+                                        responseType<ErrorResponse>()
+                                        description("QR-код не найден")
+                                    }
+                                    canRespond {
+                                        responseCode(HttpStatusCode.BadRequest)
+                                        responseType<ErrorResponse>()
+                                        description("Оффер или клиент не найден")
+                                    }
+                                    canRespond {
+                                        responseCode(HttpStatusCode.Forbidden)
+                                        responseType<ErrorResponse>()
+                                        description("Оффер принадлежит другой компании")
                                     }
                                 }
                                 post {
@@ -363,6 +424,11 @@ fun Application.configureRouting() =
                                     responseType<List<GetOfferResponseModel>>()
                                     description("Список офферов")
                                 }
+                                canRespond {
+                                    responseCode(HttpStatusCode.BadRequest)
+                                    responseType<ErrorResponse>()
+                                    description("Неправильный формат offset или limit")
+                                }
                             }
                             get {
                                 OfferClientController(call).getOffersList()
@@ -385,6 +451,16 @@ fun Application.configureRouting() =
                                         responseCode(HttpStatusCode.OK)
                                         responseType<GenerateQRPayloadResponseModel>()
                                         description("QR-код")
+                                    }
+                                    canRespond {
+                                        responseCode(HttpStatusCode.NotFound)
+                                        responseType<ErrorResponse>()
+                                        description("Оффер не найден")
+                                    }
+                                    canRespond {
+                                        responseCode(HttpStatusCode.BadRequest)
+                                        responseType<ErrorResponse>()
+                                        description("Неправильный формат offerId")
                                     }
                                 }
 
@@ -417,6 +493,11 @@ fun Application.configureRouting() =
                                     responseType<Unit>()
                                     description("Успешная загрузка изображения")
                                 }
+                                canRespond {
+                                    responseCode(HttpStatusCode.BadRequest)
+                                    responseType<ErrorResponse>()
+                                    description("Ошибка загрузки изображения")
+                                }
                             }
                             post {
                                 AuthCompanyController(call).setPicture()
@@ -443,6 +524,16 @@ fun Application.configureRouting() =
                                         responseType<ByteArray>()
                                         responseCode(HttpStatusCode.OK)
                                         description("Изображение")
+                                    }
+                                    canRespond {
+                                        responseCode(HttpStatusCode.BadRequest)
+                                        responseType<ErrorResponse>()
+                                        description("Неправильный формат companyId")
+                                    }
+                                    canRespond {
+                                        responseCode(HttpStatusCode.NotFound)
+                                        responseType<ErrorResponse>()
+                                        description("Изображение не найдено")
                                     }
                                 }
                                 get {

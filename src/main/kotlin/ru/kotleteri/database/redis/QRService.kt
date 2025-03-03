@@ -7,11 +7,11 @@ import ru.kotleteri.database.redis.RedisInit.redis
 import java.util.*
 
 object QRService {
-    private const val prefix = "qr:"
+    private const val PREFIX = "qr:"
     private suspend fun savePayload(payload: String): UUID {
         val id = UUID.randomUUID()
         redis.set(
-            prefix + id.toString(),
+            PREFIX + id.toString(),
             payload,
             setOption = SetOption.Builder().exSeconds((60 * 5).toULong()).build()
         )
@@ -19,7 +19,7 @@ object QRService {
     }
 
     private suspend fun getPayload(id: String): String? {
-        return redis.get(prefix + id)
+        return redis.get(PREFIX + id)
     }
 
 

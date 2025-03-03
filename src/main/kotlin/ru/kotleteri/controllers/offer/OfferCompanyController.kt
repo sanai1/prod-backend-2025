@@ -69,7 +69,7 @@ class OfferCompanyController(call: ApplicationCall) : AbstractAuthController(cal
         )
 
         if (offer.companyId != id) {
-            call.respond(HttpStatusCode.Forbidden, "not your offer")
+            call.respond(HttpStatusCode.Forbidden, ErrorResponse("not your offer"))
             return
         }
 
