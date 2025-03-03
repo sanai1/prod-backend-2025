@@ -475,8 +475,8 @@ fun Application.configureRouting() =
 
             }
 
-            authenticate("company", "client") {
-                route("/company") {
+            route("/company") {
+                authenticate("company") {
                     route("/image") {
                         install(NotarizedRoute()) {
                             post = PostInfo.builder {
@@ -504,7 +504,8 @@ fun Application.configureRouting() =
                             }
                         }
                     }
-
+                }
+                authenticate("company", "client") {
                     route("/{companyId}") {
                         route("/image") {
                             install(NotarizedRoute()) {
