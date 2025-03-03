@@ -14,6 +14,5 @@ object OperationTable : IdTable<UUID>("operations") {
     val offerTitle = varchar("offer_title", 50)
     val clientAge = integer("client_age").nullable()
     val clientGender = varchar("client_gender", 6).nullable()
-
-
+    val cost = double("cost")
 }

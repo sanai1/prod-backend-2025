@@ -4,5 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class GetOfferByQrRequestModel(
-    val payload: String
+    val payload: String,
+    val cost: Double
 )

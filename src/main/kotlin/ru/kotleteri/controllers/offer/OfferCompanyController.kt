@@ -6,6 +6,7 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import ru.kotleteri.controllers.AbstractAuthController
 import ru.kotleteri.controllers.abort
+import ru.kotleteri.data.enums.LoyaltyType
 import ru.kotleteri.data.models.base.OperationModel
 import ru.kotleteri.data.models.inout.ErrorResponse
 import ru.kotleteri.data.models.inout.offers.GetOfferByQrRequestModel
@@ -68,10 +69,13 @@ class OfferCompanyController(call: ApplicationCall) : AbstractAuthController(cal
             ErrorResponse("offer is null")
         )
 
+
+        //some checks
         if (offer.companyId != id) {
             call.respond(HttpStatusCode.Forbidden, ErrorResponse("not your offer"))
             return
         }
+
 
         val client = ClientCRUD.read(UUID.fromString(data.clientId)) ?: return call.respond(
             HttpStatusCode.BadRequest,
@@ -94,10 +98,31 @@ class OfferCompanyController(call: ApplicationCall) : AbstractAuthController(cal
                 company.name,
                 offer.title,
                 extension?.age,
-                extension?.gender?.toString()
+                extension?.gender?.toString(),
+                r.cost
             )
         )
 
+        val creditedBonus =
+            if(offer.type == LoyaltyType.ACCUM && offer.bonusFromPurchases != null)
+                offer.bonusFromPurchases * r.cost / 100.0
+            else null
+
+        if (offer.type == LoyaltyType.ACCUM){
+            var finalBonus = if (data.spendBonus){
+                client.bonus - r.cost * offer.bonusPaymentPercent!!
+            } else {
+                client.bonus + creditedBonus!!
+            }
+
+            finalBonus = if (finalBonus < 0.0) 0.0
+            else finalBonus
+
+            ClientCRUD.updateBonus(
+                client.id,
+                finalBonus
+            )
+        }
 
         call.respond(
             HttpStatusCode.OK,
@@ -105,7 +130,9 @@ class OfferCompanyController(call: ApplicationCall) : AbstractAuthController(cal
                 client.firstName,
                 client.lastName,
                 offer.title,
-                offer.discount
+                offer.type.toString(),
+                offer.discount,
+                creditedBonus
             )
         )
     }

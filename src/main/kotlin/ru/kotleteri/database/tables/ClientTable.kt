@@ -9,4 +9,5 @@ object ClientTable : IdTable<UUID>("clients") {
     val lastName = varchar("last_name", 50)
     val email = varchar("email", 128).uniqueIndex()
     val password = varchar("password", 60)
+    val bonus = double("bonus").default(0.0)
 }

@@ -1,0 +1,77 @@
+x-common: &env-common
+  environment:
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: Vn0i4S2eUYalG9JY98cG
+    POSTGRES_URL: "jdbc:postgresql://postgres:5432/prod"
+    POSTGRES_DB: prod
+    REDIS_HOST: redis
+    REDIS_PORT: 6379
+    MINIO_ROOT_USER: "minioadmin"
+    MINIO_ROOT_PASSWORD: "minioadmin"
+    MINIO_ENDPOINT: "http://minio:9000"
+    BUCKET: "bucket"
+
+
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    networks:
+      - main
+    ports:
+      - "80:8080"
+    healthcheck:
+      test: curl --fail http://localhost:8080/api/ping || exit 1
+      interval: 60s
+      retries: 5
+      start_period: 20s
+      timeout: 10s
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+      minio:
+        condition: service_healthy
+    <<: *env-common
+  postgres:
+    image: postgres:17.3
+    restart: unless-stopped
+    networks:
+      - main
+    ports:
+      - "8001:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      retries: 5
+    <<: *env-common
+  redis:
+    image: redis:7.4
+    restart: unless-stopped
+    networks:
+      - main
+  minio:
+    image: quay.io/minio/minio
+    container_name: minio
+    restart: unless-stopped
+    command: server /data --console-address ":9090"
+    volumes:
+      - minio_data:/data
+    networks:
+      - main
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      retries: 5
+    <<: *env-common
+
+volumes:
+  minio_data:
+  pg_data:
+
+networks:
+  main:
+    driver: bridge

@@ -12,12 +12,15 @@ object OfferCRUD {
     fun resultRowToOffer(resultRow: ResultRow): OfferModel =
         OfferModel(
             id = resultRow[OfferTable.id].value,
+            type = resultRow[OfferTable.type],
             companyId = resultRow[OfferTable.companyId].value,
             title = resultRow[OfferTable.title],
             description = resultRow[OfferTable.description],
-            discount = resultRow[OfferTable.discount],
             startDate = resultRow[OfferTable.startDate],
-            endDate = resultRow[OfferTable.endDate]
+            endDate = resultRow[OfferTable.endDate],
+            discount = resultRow[OfferTable.discount],
+            bonusPaymentPercent = resultRow[OfferTable.bonusPaymentPercent],
+            bonusFromPurchases = resultRow[OfferTable.bonusFromPurchases],
         )
 
     suspend fun create(offer: OfferModel) =
@@ -27,9 +30,12 @@ object OfferCRUD {
                 it[companyId] = offer.companyId
                 it[title] = offer.title
                 it[description] = offer.description
-                it[discount] = offer.discount
                 it[startDate] = offer.startDate
                 it[endDate] = offer.endDate
+                it[type] = offer.type
+                it[discount] = offer.discount
+                it[bonusPaymentPercent] = offer.bonusPaymentPercent
+                it[bonusFromPurchases] = offer.bonusFromPurchases
             }
         }
 

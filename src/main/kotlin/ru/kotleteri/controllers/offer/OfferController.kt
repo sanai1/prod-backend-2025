@@ -6,6 +6,7 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import ru.kotleteri.controllers.AbstractAuthController
 import ru.kotleteri.controllers.abort
+import ru.kotleteri.data.enums.LoyaltyType
 import ru.kotleteri.data.models.inout.ErrorResponse
 import ru.kotleteri.data.models.inout.offers.CreateRequestModel
 import ru.kotleteri.database.crud.CompanyCRUD
@@ -21,6 +22,21 @@ class OfferController(call: ApplicationCall) : AbstractAuthController(call) {
 
     suspend fun create() {
         val createRequest = call.receive<CreateRequestModel>()
+
+        val offer = createRequest.toOfferModel(id)
+
+        if (offer.type == LoyaltyType.ACCUM &&
+            (offer.bonusFromPurchases == null || offer.bonusPaymentPercent == null)){
+            call.respond(HttpStatusCode.BadRequest,
+                ErrorResponse("bonusFromPurchases and bonusPaymentPercent should not be null"))
+            return
+        }
+
+        if (offer.type == LoyaltyType.DISCOUNT && offer.discount == null){
+            call.respond(HttpStatusCode.BadRequest,
+                ErrorResponse("discount should not be null"))
+            return
+        }
 
 
         val companyId = CompanyCRUD.readByEmail(email)?.id ?: return call.respond(

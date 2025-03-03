@@ -34,8 +34,9 @@ class ClientOfferTest : ApplicationTest() {
                     val title = "Test Offer"
                     val description = "Test Description"
                     val discount = 5.0
-                    val startDate = "2025-02-20T00:00:00"
-                    val endDate = "2030-10-31T23:59:59"
+                    val type = "DISCOUNT"
+                    val start_date = "2025-02-20T00:00:00"
+                    val end_date = "2030-10-31T23:59:59"
                 }
             ))
         }
@@ -56,8 +57,9 @@ class ClientOfferTest : ApplicationTest() {
                     val title = "Test Offer"
                     val description = "Test Description"
                     val discount = 5.0
-                    val startDate = "2025-02-20T00:00:00"
-                    val endDate = "2030-10-31T23:59:59"
+                    val type = "DISCOUNT"
+                    val start_date = "2025-02-20T00:00:00"
+                    val end_date = "2030-10-31T23:59:59"
                 }
             ))
         }
@@ -86,8 +88,9 @@ class ClientOfferTest : ApplicationTest() {
                     val title = "Test Offer"
                     val description = "Test Description"
                     val discount = 5.0
-                    val startDate = "2025-02-20T00:00:00"
-                    val endDate = "2030-10-31T23:59:59"
+                    val type = "DISCOUNT"
+                    val start_date = "2025-02-20T00:00:00"
+                    val end_date = "2030-10-31T23:59:59"
                 }
             ))
         }
@@ -109,6 +112,7 @@ class ClientOfferTest : ApplicationTest() {
                 jsonString(
                 object : JsonSerializable {
                     val payload = payload
+                    val cost = 100.0
                 }
             ))
         }

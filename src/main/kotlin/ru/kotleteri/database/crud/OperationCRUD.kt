@@ -11,6 +11,7 @@ import ru.kotleteri.database.suspendTransaction
 import ru.kotleteri.database.tables.OperationTable
 import ru.kotleteri.utils.StatementPrepare
 import java.util.*
+import kotlin.math.cos
 
 object OperationCRUD {
 
@@ -60,7 +61,8 @@ object OperationCRUD {
             companyName = resultRow[OperationTable.companyName],
             offerTitle = resultRow[OperationTable.offerTitle],
             clientAge = resultRow[OperationTable.clientAge],
-            clientGender = resultRow[OperationTable.clientGender]
+            clientGender = resultRow[OperationTable.clientGender],
+            cost = resultRow[OperationTable.cost],
         )
 
     suspend fun create(operation: OperationModel) = suspendTransaction {
@@ -74,6 +76,7 @@ object OperationCRUD {
             it[offerTitle] = operation.offerTitle
             it[clientAge] = operation.clientAge
             it[clientGender] = operation.clientGender
+            it[cost] = operation.cost
         }
     }
 
