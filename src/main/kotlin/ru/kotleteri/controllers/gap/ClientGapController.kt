@@ -38,7 +38,7 @@ class ClientGapController(call: ApplicationCall): AbstractAuthController(call) {
 
         val gaps = GapCRUD.getGapsForClient(limit, id)
 
-        call.respond(HttpStatusCode.OK, gaps.associateBy { it.categoryId }.mapValues { (_, data) -> data.toGetGapResponse() })
+        call.respond(HttpStatusCode.OK, gaps.associateBy { it.categoryId.toString() }.mapValues { (_, data) -> data.toGetGapResponse() })
     }
 
 

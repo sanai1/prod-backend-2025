@@ -645,7 +645,7 @@ fun Application.configureRouting() =
                                     )
                                     response {
                                         responseCode(HttpStatusCode.OK)
-                                        responseType<Map<Int,GetGapModel>>()
+                                        responseType<Map<String,GetGapModel>>()
                                         description("Список 'гэпов'")
                                     }
                                     canRespond {
