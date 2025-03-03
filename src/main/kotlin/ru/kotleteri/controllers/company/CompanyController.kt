@@ -8,7 +8,7 @@ import org.mindrot.jbcrypt.BCrypt
 import ru.kotleteri.data.models.inout.ErrorResponse
 import ru.kotleteri.data.models.inout.clients.LoginRequestModel
 import ru.kotleteri.data.models.inout.clients.LoginResponseModel
-import ru.kotleteri.data.models.inout.clients.RegisterCompanyRequestModel
+import ru.kotleteri.data.models.inout.companies.RegisterCompanyRequestModel
 import ru.kotleteri.database.crud.CompanyCRUD
 import ru.kotleteri.plugins.generateNewToken
 

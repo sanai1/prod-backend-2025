@@ -7,6 +7,7 @@ import io.ktor.server.response.*
 import ru.kotleteri.controllers.AbstractAuthController
 import ru.kotleteri.controllers.abort
 import ru.kotleteri.data.models.inout.ErrorResponse
+import ru.kotleteri.database.crud.CategoryCRUD
 import ru.kotleteri.database.crud.CompanyCRUD
 import ru.kotleteri.integrations.objectstorage.ImageLoading
 
@@ -23,8 +24,11 @@ class AuthCompanyController(call: ApplicationCall) : AbstractAuthController(call
         val company =
             CompanyCRUD.read(id) ?: return call.respond(HttpStatusCode.NotFound, ErrorResponse("Company not found"))
 
+        val category = CategoryCRUD.read(company.categoryId) ?:
+        return call.respond(HttpStatusCode.NotFound, ErrorResponse("Category not found"))
 
-        call.respond(HttpStatusCode.OK, company.getProfile())
+
+        call.respond(HttpStatusCode.OK, company.getProfile(category))
     }
 
     suspend fun setPicture() {

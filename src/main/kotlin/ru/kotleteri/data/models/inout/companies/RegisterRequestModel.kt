@@ -1,4 +1,4 @@
-package ru.kotleteri.data.models.inout.clients
+package ru.kotleteri.data.models.inout.companies
 
 import kotlinx.serialization.Serializable
 import org.mindrot.jbcrypt.BCrypt
@@ -13,6 +13,7 @@ import java.util.*
 data class RegisterCompanyRequestModel(
     val name: String,
     val email: String,
+    val category_id: Int,
     val password: String
 ) : Validateable {
     override fun performValidation() {
@@ -26,6 +27,7 @@ data class RegisterCompanyRequestModel(
             UUID.randomUUID(),
             name,
             email.lowercase(),
+            category_id,
             BCrypt.hashpw(password, BCrypt.gensalt())
         )
 }

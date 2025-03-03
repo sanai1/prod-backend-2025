@@ -1,8 +1,10 @@
 package ru.kotleteri.database
 
+import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.Table
 import org.jetbrains.exposed.sql.transactions.transaction
+import ru.kotleteri.database.crud.CategoryCRUD
 import ru.kotleteri.database.tables.*
 
 object DatabaseInit {
@@ -21,6 +23,11 @@ object DatabaseInit {
             SchemaUtils.create(*tables.toTypedArray())
             SchemaUtils.createMissingTablesAndColumns(*tables.toTypedArray())
             commit()
+        }
+        runBlocking {
+            if (!CategoryCRUD.isAnyCategoryExists()) {
+                CategoryCRUD.create(categoriesToCreate)
+            }
         }
     }
 }

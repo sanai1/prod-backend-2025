@@ -25,6 +25,7 @@ import ru.kotleteri.data.models.inout.ErrorResponse
 import ru.kotleteri.data.models.inout.clients.*
 import ru.kotleteri.data.models.inout.companies.GetCategoryResponseModel
 import ru.kotleteri.data.models.inout.companies.GetCompanyProfileResponseModel
+import ru.kotleteri.data.models.inout.companies.RegisterCompanyRequestModel
 import ru.kotleteri.data.models.inout.offers.*
 import ru.kotleteri.data.models.inout.statistics.StatisticsDateResponseModel
 import ru.kotleteri.data.models.inout.statistics.StatisticsHourResponseModel

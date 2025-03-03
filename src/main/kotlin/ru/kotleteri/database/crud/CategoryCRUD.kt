@@ -24,8 +24,19 @@ object CategoryCRUD {
         }
     }
 
+    suspend fun isAnyCategoryExists() = suspendTransaction {
+        CategoryTable.selectAll().count() > 0
+    }
+
     suspend fun getAllCategories() = suspendTransaction {
         CategoryTable.selectAll()
             .map(::resultRowToCategory)
+    }
+
+    suspend fun read(id: Int) = suspendTransaction {
+        CategoryTable.selectAll()
+            .where { CategoryTable.id eq id }
+            .singleOrNull()
+            ?.let(::resultRowToCategory)
     }
 }

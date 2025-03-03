@@ -8,4 +8,5 @@ object CompanyTable : IdTable<UUID>("company") {
     val name = varchar("name", 50)
     val email = varchar("email", 128).uniqueIndex()
     val password = varchar("password", 60)
+    val categoryId = reference("category_id", CategoryTable)
 }

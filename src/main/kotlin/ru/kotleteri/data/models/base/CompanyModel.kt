@@ -7,12 +7,16 @@ data class CompanyModel(
     val id: UUID,
     val name: String,
     val email: String,
+    val categoryId: Int,
     val password: String
 ) {
-    fun getProfile() =
+    fun getProfile(cat: CategoryModel) =
         GetCompanyProfileResponseModel(
             id.toString(),
             name,
-            email
+            email,
+            cat.name,
+            cat.subname,
+            cat.id
         )
 }

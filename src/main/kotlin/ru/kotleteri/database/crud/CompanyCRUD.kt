@@ -17,6 +17,7 @@ object CompanyCRUD {
             name = resultRow[CompanyTable.name],
             email = resultRow[CompanyTable.email],
             password = resultRow[CompanyTable.password],
+            categoryId = resultRow[CompanyTable.categoryId].value
         )
 
 
@@ -25,6 +26,7 @@ object CompanyCRUD {
             it[id] = company.id
             it[name] = company.name
             it[email] = company.email
+            it[categoryId] = company.categoryId
             it[password] = company.password
         }
 
