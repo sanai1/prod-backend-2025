@@ -7,10 +7,10 @@ import io.ktor.server.routing.*
 import io.ktor.server.util.*
 import kotlinx.html.*
 
-public fun Route.swaggerUI(
+fun Route.swaggerUI(
     path: String,
     apiUrl: String,
-    vararg tokens: Pair<String, String>,
+    vararg tokens: Pair<String, suspend () -> String>,
     block: SwaggerConfig.() -> Unit = {}
 ) {
     val config = SwaggerConfig().apply(block)
@@ -21,6 +21,7 @@ public fun Route.swaggerUI(
             val docExpansion = runCatching {
                 call.request.queryParameters.getOrFail<String>("docExpansion")
             }.getOrNull()
+            val tokenData = listOf(*tokens).associate { (name, token) -> name to token.invoke() }
             call.respondHtml {
                 head {
                     title { +"Swagger UI" }
@@ -59,7 +60,7 @@ window.onload = function() {
         ],
         layout: 'StandaloneLayout'${docExpansion?.let { ",\n        docExpansion: '$it'" } ?: ""},
         onComplete: () => {
-            ${tokens.map { (name, token) -> "ui.preauthorizeApiKey(\"$name\", \"$token\")" }.joinToString("\n") }
+            ${tokenData.map { (name, token) -> "ui.preauthorizeApiKey(\"$name\", \"$token\")" }.joinToString("\n") }
         }
     });
 }

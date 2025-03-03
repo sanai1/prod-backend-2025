@@ -1,6 +1,5 @@
 package ru.kotleteri.utils
 
-import kotlinx.coroutines.runBlocking
 import ru.kotleteri.data.models.base.ClientModel
 import ru.kotleteri.data.models.base.CompanyModel
 import ru.kotleteri.database.crud.ClientCRUD
@@ -8,7 +7,7 @@ import ru.kotleteri.database.crud.CompanyCRUD
 import ru.kotleteri.plugins.generateNewToken
 import java.util.*
 
-fun generateSampleTokenForCompany(): String = runBlocking {
+suspend fun generateSampleTokenForCompany(): String {
     val company = CompanyCRUD.readByEmail("test@test.test") ?: CompanyModel(
         UUID.randomUUID(),
         "Test Company",
@@ -16,10 +15,10 @@ fun generateSampleTokenForCompany(): String = runBlocking {
         "test"
     ).also { CompanyCRUD.create(it) }
     val token = generateNewToken(company.id, company.email, false)
-    return@runBlocking token
+    return token
 }
 
-fun generateSampleTokenForClient(): String = runBlocking {
+suspend fun generateSampleTokenForClient(): String {
     val company = ClientCRUD.readByEmail("test@test.test") ?: ClientModel(
         UUID.randomUUID(),
         "Test",
@@ -28,5 +27,5 @@ fun generateSampleTokenForClient(): String = runBlocking {
         "test"
     ).also { ClientCRUD.create(it) }
     val token = generateNewToken(company.id, company.email, true)
-    return@runBlocking token
+    return token
 }
