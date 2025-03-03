@@ -2,4 +2,4 @@
   image:
     name: gradle:8.7.0-jdk
   script:
-    - "gradle test"
+    - "gradle test --no-daemon --info"
