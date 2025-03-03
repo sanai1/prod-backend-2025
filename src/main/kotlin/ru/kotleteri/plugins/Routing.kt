@@ -505,7 +505,6 @@ fun Application.configureRouting() =
                         }
                     }
                 }
-                authenticate("company", "client") {
                     route("/{companyId}") {
                         route("/image") {
                             install(NotarizedRoute()) {
@@ -540,7 +539,7 @@ fun Application.configureRouting() =
                                 get {
                                     PublicPictureController(call).getPicture()
                                 }
-                            }
+
                         }
                     }
                 }

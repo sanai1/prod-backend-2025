@@ -8,7 +8,7 @@ import ru.kotleteri.data.models.inout.ErrorResponse
 import ru.kotleteri.integrations.objectstorage.ImageLoading
 import ru.kotleteri.utils.toUUIDOrNull
 
-class PublicPictureController(call: ApplicationCall) : AbstractAuthController(call) {
+class PublicPictureController(val call: ApplicationCall) {
     suspend fun getPicture() {
 
         val companyId =
