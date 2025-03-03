@@ -31,7 +31,7 @@ import ru.kotleteri.utils.generateSampleTokenForCompany
 
 fun Application.configureRouting() =
     routing {
-        swaggerUI("/docs", "/openapi.json", "client" to { generateSampleTokenForClient() }, "company" to { generateSampleTokenForCompany() } )
+        swaggerUI("/docs", "/openapi.json", "client" to ::generateSampleTokenForClient, "company" to ::generateSampleTokenForCompany )
         route("/api") {
             route("/ping") {
                 install(NotarizedRoute()) {
