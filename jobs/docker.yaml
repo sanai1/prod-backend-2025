@@ -31,8 +31,6 @@
     - AUTH_COMMAND="echo "$CI_REGISTRY_PASSWORD" | docker login $CI_REGISTRY --username $CI_REGISTRY_USER --password-stdin";
     - ssh $SSH_ADDRESS "$AUTH_COMMAND"
     - ssh $SSH_ADDRESS "docker pull $CI_REGISTRY_IMAGE:$IMAGE_TAG"
-    - ssh $SSH_ADDRESS "docker stop $CI_PROJECT_NAME || true"
-    - ssh $SSH_ADDRESS "docker rm $CI_PROJECT_NAME || true"
     - ssh $SSH_ADDRESS "cd /app && docker compose down || true"
     - scp -P22 -r deploy/* $SSH_ADDRESS:/app/
 #    - ssh $SSH_ADDRESS "
