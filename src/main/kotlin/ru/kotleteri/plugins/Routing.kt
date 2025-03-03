@@ -359,7 +359,7 @@ fun Application.configureRouting() =
                                 tags("offers")
                                 summary("Получение списка офферов")
                                 description("Эндпоинт для получения списка офферов")
-                                parameters = listOf(
+                                parameters(
                                     Parameter(
                                         name = "offset",
                                         `in` = Parameter.Location.query,
@@ -432,7 +432,7 @@ fun Application.configureRouting() =
                                 tags("offers")
                                 summary("Получение списка офферов")
                                 description("Эндпоинт для получения списка офферов")
-                                parameters = listOf(
+                                parameters(
                                     Parameter(
                                         name = "offset",
                                         `in` = Parameter.Location.query,
@@ -465,7 +465,7 @@ fun Application.configureRouting() =
                                     tags("offers")
                                     summary("Генерация QR-кода")
                                     description("Эндпоинт для генерации QR-кода")
-                                    parameters = listOf(
+                                    parameters(
                                         Parameter(
                                             name = "offerId",
                                             `in` = Parameter.Location.query,
@@ -537,7 +537,7 @@ fun Application.configureRouting() =
                                     tags("images")
                                     summary("Получение изображения")
                                     description("Эндпоинт для получения изображения")
-                                    parameters = listOf(
+                                    parameters(
                                         Parameter(
                                             name = "companyId",
                                             `in` = Parameter.Location.path,
@@ -577,7 +577,7 @@ fun Application.configureRouting() =
                             tags("gaps")
                             summary("Получить 'гэпы'")
                             description("Эндпоинт для получения 'гэпов'")
-                            parameters = listOf(
+                            parameters(
                                 Parameter(
                                     name = "limit",
                                     `in` = Parameter.Location.query,
