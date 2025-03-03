@@ -611,6 +611,7 @@ fun Application.configureRouting() =
                         post = PostInfo.builder {
                             tags("gaps")
                             summary("Добавить гэпы")
+                            description("Эндпоинт для добавления гэпов")
                             request {
                                 requestType<CreateGapModel>()
                                 description("Данные для добавления гэпов")
