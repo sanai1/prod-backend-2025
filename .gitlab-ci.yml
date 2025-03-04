@@ -19,7 +19,7 @@ test:
   stage: test
   extends:
     - .test
-    - .rules-merge
+    - .rules-merge-or-master
 
 
 build:

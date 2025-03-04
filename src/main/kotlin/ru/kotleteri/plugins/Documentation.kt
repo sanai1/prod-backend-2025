@@ -14,7 +14,7 @@ fun Application.configureDocumentation() {
                 info = Info(
                     title = "Offeria",
                     version = "1.0.0",
-                    description = "Tipa opisanie"
+                    description = "OpenAPI документация для Offeria"
                 ),
                 components = Components(
                     securitySchemes = mutableMapOf(
