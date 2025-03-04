@@ -30,7 +30,7 @@ class PublicPictureController(val call: ApplicationCall) {
             )
 
         } catch (e: Exception) {
-            call.respond(HttpStatusCode.BadRequest, ErrorResponse("Something went wrong"))
+            call.respond(HttpStatusCode.BadRequest, ErrorResponse(e.message.toString()))
             return
         }
     }
