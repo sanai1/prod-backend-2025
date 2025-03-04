@@ -471,6 +471,11 @@ fun Application.configureRouting() =
                                             name = "offerId",
                                             `in` = Parameter.Location.query,
                                             schema = TypeDefinition.STRING
+                                        ),
+                                        Parameter(
+                                            name = "spendBonus",
+                                            `in` = Parameter.Location.query,
+                                            schema = TypeDefinition.BOOLEAN
                                         )
                                     )
                                     response {
