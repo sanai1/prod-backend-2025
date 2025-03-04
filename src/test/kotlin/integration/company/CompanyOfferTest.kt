@@ -20,15 +20,15 @@ class CompanyOfferTest : ApplicationTest() {
             bearerAuth(token)
             setBody(
                 jsonString(
-                object : JsonSerializable {
-                    val title = "Test Offer"
-                    val description = "Test Description"
-                    val discount = 5.0
-                    val type = "DISCOUNT"
-                    val start_date = "2025-02-20T00:00:00"
-                    val end_date = "2030-10-31T23:59:59"
-                }
-            ))
+                    object : JsonSerializable {
+                        val title = "Test Offer"
+                        val description = "Test Description"
+                        val discount = 5.0
+                        val type = "DISCOUNT"
+                        val start_date = "2025-02-20T00:00:00"
+                        val end_date = "2030-10-31T23:59:59"
+                    }
+                ))
 
         }
         Assertions.assertEquals(HttpStatusCode.Created, response.status)
@@ -51,15 +51,15 @@ class CompanyOfferTest : ApplicationTest() {
             bearerAuth(token)
             setBody(
                 jsonString(
-                object : JsonSerializable {
-                    val title = "Test Offer"
-                    val description = "Test Description"
-                    val discount = 5.0
-                    val type = "DISCOUNT"
-                    val start_date = "2025-02-20T00:00:00"
-                    val end_date = "2030-10-31T23:59:59"
-                }
-            ))
+                    object : JsonSerializable {
+                        val title = "Test Offer"
+                        val description = "Test Description"
+                        val discount = 5.0
+                        val type = "DISCOUNT"
+                        val start_date = "2025-02-20T00:00:00"
+                        val end_date = "2030-10-31T23:59:59"
+                    }
+                ))
         }
         val response = client.get("/api/offers/company?limit=100&offset=0") {
             contentType(ContentType.Application.Json)

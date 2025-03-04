@@ -9,6 +9,6 @@ class CategoryController(val call: ApplicationCall) {
     suspend fun getAll() {
         val categories = CategoryCRUD.getAllCategories()
 
-        call.respond(HttpStatusCode.OK, categories.map { it.toResponseModel()})
+        call.respond(HttpStatusCode.OK, categories.map { it.toResponseModel() })
     }
 }

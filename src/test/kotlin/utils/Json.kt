@@ -23,31 +23,31 @@ fun jsonObject(obj: Any): JsonObject {
 fun JsonObjectBuilder.putJsonValue(builder: JsonObjectBuilder, key: String, value: Any?) {
     builder.put(
         key, when (value) {
-        null -> JsonNull
-        is String -> JsonPrimitive(value)
-        is Number -> JsonPrimitive(value)
-        is Boolean -> JsonPrimitive(value)
-        is JsonElement -> value
-        is JsonSerializable -> jsonObject(value) // Handles nested anonymous objects
-        is Map<*, *> -> buildJsonObject { value.forEach { (k, v) -> putJsonValue(this, k.toString(), v) } }
-        is List<*> -> buildJsonArray { value.forEach { addJsonValue(it) } }
-        else -> throw IllegalArgumentException("Unsupported type: ${value::class.simpleName}")
-    })
+            null -> JsonNull
+            is String -> JsonPrimitive(value)
+            is Number -> JsonPrimitive(value)
+            is Boolean -> JsonPrimitive(value)
+            is JsonElement -> value
+            is JsonSerializable -> jsonObject(value) // Handles nested anonymous objects
+            is Map<*, *> -> buildJsonObject { value.forEach { (k, v) -> putJsonValue(this, k.toString(), v) } }
+            is List<*> -> buildJsonArray { value.forEach { addJsonValue(it) } }
+            else -> throw IllegalArgumentException("Unsupported type: ${value::class.simpleName}")
+        })
 }
 
 fun JsonArrayBuilder.addJsonValue(value: Any?) {
     add(
         when (value) {
-        null -> JsonNull
-        is String -> JsonPrimitive(value)
-        is Number -> JsonPrimitive(value)
-        is Boolean -> JsonPrimitive(value)
-        is JsonElement -> value
-        is JsonSerializable -> jsonObject(value) // Handles anonymous object lists
-        is Map<*, *> -> buildJsonObject { value.forEach { (k, v) -> putJsonValue(this, k.toString(), v) } }
-        is List<*> -> buildJsonArray { value.forEach { addJsonValue(it) } }
-        else -> throw IllegalArgumentException("Unsupported type: ${value::class.simpleName}")
-    })
+            null -> JsonNull
+            is String -> JsonPrimitive(value)
+            is Number -> JsonPrimitive(value)
+            is Boolean -> JsonPrimitive(value)
+            is JsonElement -> value
+            is JsonSerializable -> jsonObject(value) // Handles anonymous object lists
+            is Map<*, *> -> buildJsonObject { value.forEach { (k, v) -> putJsonValue(this, k.toString(), v) } }
+            is List<*> -> buildJsonArray { value.forEach { addJsonValue(it) } }
+            else -> throw IllegalArgumentException("Unsupported type: ${value::class.simpleName}")
+        })
 }
 
 class TestJson {

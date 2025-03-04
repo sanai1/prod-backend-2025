@@ -3,7 +3,6 @@ package ru.kotleteri.controllers.company
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.response.*
-import ru.kotleteri.controllers.AbstractAuthController
 import ru.kotleteri.data.models.inout.ErrorResponse
 import ru.kotleteri.integrations.objectstorage.ImageLoading
 import ru.kotleteri.utils.toUUIDOrNull

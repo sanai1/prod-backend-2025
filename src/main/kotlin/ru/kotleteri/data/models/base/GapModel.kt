@@ -1,7 +1,8 @@
 package ru.kotleteri.data.models.base
 
 import ru.kotleteri.data.models.inout.gap.GetGapModel
-import java.util.UUID
+import ru.kotleteri.data.models.inout.gap.GetUserGapModel
+import java.util.*
 
 data class GapModel(
     val clientId: UUID,
@@ -13,5 +14,12 @@ data class GapModel(
         GetGapModel(
             message,
             averageSpent
+        )
+
+    fun toGetUserGapResponse(categoryName: String, subCategoryName: String) =
+        GetUserGapModel(
+            message,
+            categoryName,
+            subCategoryName
         )
 }

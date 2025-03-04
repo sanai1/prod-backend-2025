@@ -104,12 +104,12 @@ class OfferCompanyController(call: ApplicationCall) : AbstractAuthController(cal
         )
 
         val creditedBonus =
-            if(offer.type == LoyaltyType.ACCUM && offer.bonusFromPurchases != null && !data.spendBonus)
+            if (offer.type == LoyaltyType.ACCUM && offer.bonusFromPurchases != null && !data.spendBonus)
                 offer.bonusFromPurchases * r.cost / 100.0
             else null
 
-        if (offer.type == LoyaltyType.ACCUM){
-            var finalBonus = if (data.spendBonus){
+        if (offer.type == LoyaltyType.ACCUM) {
+            var finalBonus = if (data.spendBonus) {
                 client.bonus - r.cost * offer.bonusPaymentPercent!!
             } else {
                 client.bonus + creditedBonus!!

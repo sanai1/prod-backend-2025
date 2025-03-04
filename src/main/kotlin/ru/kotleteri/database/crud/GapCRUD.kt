@@ -21,7 +21,7 @@ object GapCRUD {
     suspend fun getGaps(limit: Int, categoryId: Int) = suspendTransaction {
         GapTable.selectAll()
             .where { GapTable.categoryId eq categoryId }
-            .orderBy( GapTable.id to SortOrder.DESC )
+            .orderBy(GapTable.id to SortOrder.DESC)
             .limit(limit)
             .map(::resultRowToGap)
     }
@@ -29,7 +29,7 @@ object GapCRUD {
     suspend fun getGapsForClient(limit: Int, clientId: UUID) = suspendTransaction {
         GapTable.selectAll()
             .where { GapTable.clientId eq clientId }
-            .orderBy( GapTable.id to SortOrder.DESC )
+            .orderBy(GapTable.id to SortOrder.DESC)
             .limit(limit)
             .map(::resultRowToGap)
     }

@@ -61,6 +61,7 @@ open class ApplicationTest {
                             val name = "Test Company"
                             val email = "testcompany@test.com"
                             val password = "pA88W0rd%"
+                            val category_id = 1
                         }
                     )
                 )
